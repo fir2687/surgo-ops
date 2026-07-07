@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Surgo Ops Dashboard</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f4f4;min-height:100vh;display:flex;flex-direction:column}
+  header{background:#000;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .header-left{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .header-left img{height:30px;width:auto}
+  .header-left span{color:#fff;font-size:14px;font-weight:700;letter-spacing:0.01em}
+  .header-right{display:flex;align-items:center;gap:12px}
+  .site-filter{background:#222;color:#888;font-size:10px;padding:4px 10px;border-radius:20px;letter-spacing:0.08em;cursor:pointer;border:none;font-family:inherit}
+  .site-filter.active{background:#fff;color:#000}
+  .logout-btn{font-size:11px;color:#555;background:none;border:none;cursor:pointer;letter-spacing:0.04em}
+
+  /* PIN screen */
+  #pinScreen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
+  .pin-title{font-size:18px;font-weight:600;color:#111;margin-bottom:6px}
+  .pin-sub{font-size:13px;color:#999;margin-bottom:32px}
+  .pin-dots{display:flex;gap:12px;margin-bottom:24px}
+  .pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #ddd;background:#fff;transition:all 0.15s}
+  .pin-dot.filled{background:#000;border-color:#000}
+  .pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:10px}
+  .pin-key{width:72px;height:72px;border:1px solid #e5e5e5;border-radius:50%;background:#fff;font-size:20px;font-weight:500;color:#111;cursor:pointer;font-family:inherit;transition:all 0.15s}
+  .pin-key:hover{background:#f0f0f0;border-color:#ccc}
+  .pin-key:active{transform:scale(0.95)}
+  .pin-key.del{font-size:14px;color:#999}
+  .pin-error{font-size:12px;color:#e74c3c;margin-top:16px;min-height:20px}
+
+  /* Dashboard */
+  #dashScreen{display:none;flex:1;flex-direction:column}
+  .dash-body{max-width:800px;width:100%;margin:0 auto;padding:20px 16px 40px}
+  .dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .dash-title{font-size:16px;font-weight:600;color:#111}
+  .dash-date{font-size:12px;color:#999}
+  .compliance-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+  .compliance-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px 16px}
+  .comp-site{font-size:11px;font-weight:700;color:#999;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  .comp-status{display:flex;align-items:center;gap:8px}
+  .comp-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .comp-dot.green{background:#22c55e}
+  .comp-dot.red{background:#ef4444}
+  .comp-dot.grey{background:#d1d5db}
+  .comp-text{font-size:13px;color:#111;font-weight:500}
+  .comp-sub{font-size:11px;color:#999;margin-top:4px}
+  .section-label{font-size:10px;font-weight:700;color:#bbb;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #e5e5e5}
+  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:12px;overflow:hidden}
+  .report-card-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+  .report-card-header:hover{background:#fafafa}
+  .report-meta{display:flex;align-items:center;gap:10px}
+  .report-site-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.06em}
+  .badge-tsc{background:#111;color:#fff}
+  .badge-sas{background:#444;color:#fff}
+  .report-staff{font-size:13px;font-weight:600;color:#111}
+  .report-time{font-size:11px;color:#999}
+  .report-flags{display:flex;gap:6px;align-items:center}
+  .flag-dot{width:7px;height:7px;border-radius:50%}
+  .flag-recurring{background:#f59e0b}
+  .flag-test{background:#93c5fd}
+  .flag-label{font-size:10px;color:#999}
+  .chevron{font-size:16px;color:#ccc;transition:transform 0.2s}
+  .chevron.open{transform:rotate(90deg)}
+  .report-card-body{display:none;border-top:1px solid #f0f0f0;padding:16px}
+  .report-card-body.open{display:block}
+  .summary-block{margin-bottom:14px}
+  .summary-section-lbl{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:5px}
+  .summary-text{font-size:13px;color:#111;line-height:1.7;white-space:pre-wrap}
+  .ai-loading{font-size:12px;color:#999;padding:12px 0}
+  .raw-toggle{font-size:11px;color:#999;cursor:pointer;margin-top:8px;display:inline-block}
+  .raw-fields{display:none;margin-top:10px;background:#f9f9f9;border-radius:6px;padding:12px;font-size:11px;color:#666;line-height:1.8}
+  .raw-fields.open{display:block}
+  .mgr-response{margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0}
+  .mgr-label{font-size:10px;font-weight:700;color:#bbb;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
+  .mgr-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .mgr-btn{padding:6px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
+  .mgr-btn:hover{border-color:#000;color:#000}
+  .mgr-btn.selected-noted{background:#f0fdf4;border-color:#86efac;color:#166534}
+  .mgr-btn.selected-followup{background:#fffbeb;border-color:#fcd34d;color:#92400e}
+  .mgr-btn.selected-resolved{background:#eff6ff;border-color:#93c5fd;color:#1e40af}
+  .empty-state{text-align:center;padding:48px 24px;color:#bbb;font-size:13px}
+  .filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .filter-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
+  .filter-btn.active{background:#000;border-color:#000;color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="header-left">
+    <img src="surgo-logo.jpg" alt="Surgo Asset Partners"/>
+    <span>Surgo Asset Partners</span>
+  </a>
+  <div class="header-right">
+    <span style="font-size:10px;color:#555;letter-spacing:0.1em">MANAGER DASHBOARD</span>
+    <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display:none">Sign out</button>
+  </div>
+</header>
+
+<div id="pinScreen">
+  <div class="pin-title">Manager access</div>
+  <p class="pin-sub">Enter your PIN to continue</p>
+  <div class="pin-dots" id="pinDots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-pad">
+    <button class="pin-key" onclick="pinPress('1')">1</button>
+    <button class="pin-key" onclick="pinPress('2')">2</button>
+    <button class="pin-key" onclick="pinPress('3')">3</button>
+    <button class="pin-key" onclick="pinPress('4')">4</button>
+    <button class="pin-key" onclick="pinPress('5')">5</button>
+    <button class="pin-key" onclick="pinPress('6')">6</button>
+    <button class="pin-key" onclick="pinPress('7')">7</button>
+    <button class="pin-key" onclick="pinPress('8')">8</button>
+    <button class="pin-key" onclick="pinPress('9')">9</button>
+    <button class="pin-key del" onclick="pinDel()">⌫</button>
+    <button class="pin-key" onclick="pinPress('0')">0</button>
+    <button class="pin-key" onclick="pinClear()" style="font-size:12px;color:#ccc">C</button>
+  </div>
+  <div class="pin-error" id="pinError"></div>
+</div>
+
+<div id="dashScreen">
+  <div class="dash-body">
+    <div class="dash-header">
+      <div class="dash-title">Daily reports</div>
+      <div class="dash-date" id="dashDate"></div>
+    </div>
+
+    <div class="compliance-row" id="complianceRow">
+      <div class="compliance-card">
+        <div class="comp-site">TSC</div>
+        <div class="comp-status"><div class="comp-dot grey" id="tscDot"></div><span class="comp-text" id="tscStatus">Checking...</span></div>
+        <div class="comp-sub" id="tscSub"></div>
+      </div>
+      <div class="compliance-card">
+        <div class="comp-site">SAS</div>
+        <div class="comp-status"><div class="comp-dot grey" id="sasDot"></div><span class="comp-text" id="sasStatus">Checking...</span></div>
+        <div class="comp-sub" id="sasSub"></div>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('TSC',this)">TSC only</button>
+      <button class="filter-btn" onclick="setFilter('SAS',this)">SAS only</button>
+      <button class="filter-btn" onclick="setFilter('test',this)">Test entries</button>
+    </div>
+
+    <div class="section-label">Submissions</div>
+    <div id="reportsList"><div class="empty-state">Loading reports...</div></div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, getDocs, doc, updateDoc, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
+    authDomain: "surgo-ops.firebaseapp.com",
+    projectId: "surgo-ops",
+    storageBucket: "surgo-ops.firebasestorage.app",
+    messagingSenderId: "351122263344",
+    appId: "1:351122263344:web:0354a5f0f31db078788cf5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const CORRECT_PIN = '9999';
+  let pinInput = '';
+  let allReports = [];
+  let currentFilter = 'all';
+
+  window.pinPress = function(digit) {
+    if(pinInput.length >= 4) return;
+    pinInput += digit;
+    updateDots();
+    if(pinInput.length === 4) setTimeout(checkPin, 150);
+  };
+
+  window.pinDel = function() {
+    pinInput = pinInput.slice(0,-1);
+    updateDots();
+    document.getElementById('pinError').textContent = '';
+  };
+
+  window.pinClear = function() {
+    pinInput = '';
+    updateDots();
+    document.getElementById('pinError').textContent = '';
+  };
+
+  function updateDots() {
+    for(let i=0;i<4;i++){
+      document.getElementById('d'+i).className = 'pin-dot' + (i < pinInput.length ? ' filled' : '');
+    }
+  }
+
+  function checkPin() {
+    if(pinInput === CORRECT_PIN) {
+      document.getElementById('pinScreen').style.display = 'none';
+      document.getElementById('dashScreen').style.display = 'flex';
+      document.getElementById('logoutBtn').style.display = 'block';
+      loadReports();
+    } else {
+      document.getElementById('pinError').textContent = 'Incorrect PIN. Try again.';
+      pinInput = '';
+      updateDots();
+    }
+  }
+
+  window.logout = function() {
+    document.getElementById('pinScreen').style.display = 'flex';
+    document.getElementById('dashScreen').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+    pinInput = '';
+    updateDots();
+  };
+
+  window.setFilter = function(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderReports();
+  };
+
+  async function loadReports() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+    try {
+      const snap = await getDocs(collection(db, 'reports'));
+      allReports = [];
+      snap.forEach(d => allReports.push({ id: d.id, ...d.data() }));
+      allReports.sort((a,b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+
+      const todayTSC = allReports.find(r => r.site==='TSC' && r.date===today && !r.is_test);
+      const todaySAS = allReports.find(r => r.site==='SAS' && r.date===today && !r.is_test);
+
+      setCompliance('tsc', todayTSC);
+      setCompliance('sas', todaySAS);
+
+      renderReports();
+    } catch(e) {
+      document.getElementById('reportsList').innerHTML = '<div class="empty-state">Failed to load reports. Check connection.</div>';
+    }
+  }
+
+  function setCompliance(site, report) {
+    const dot = document.getElementById(site+'Dot');
+    const status = document.getElementById(site+'Status');
+    const sub = document.getElementById(site+'Sub');
+    if(report) {
+      dot.className = 'comp-dot green';
+      status.textContent = 'Submitted';
+      const t = new Date(report.submitted_at);
+      sub.textContent = `${report.staff_name} · ${t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'})}`;
+    } else {
+      dot.className = 'comp-dot red';
+      status.textContent = 'Not submitted';
+      sub.textContent = 'No report yet today';
+    }
+  }
+
+  function renderReports() {
+    let filtered = allReports;
+    if(currentFilter === 'TSC') filtered = allReports.filter(r => r.site==='TSC');
+    else if(currentFilter === 'SAS') filtered = allReports.filter(r => r.site==='SAS');
+    else if(currentFilter === 'test') filtered = allReports.filter(r => r.is_test);
+    else filtered = allReports.filter(r => !r.is_test);
+
+    if(filtered.length === 0) {
+      document.getElementById('reportsList').innerHTML = '<div class="empty-state">No reports found.</div>';
+      return;
+    }
+
+    document.getElementById('reportsList').innerHTML = filtered.map(r => buildCard(r)).join('');
+  }
+
+  function buildCard(r) {
+    const t = new Date(r.submitted_at);
+    const timeStr = t.toLocaleDateString('en-SG',{day:'numeric',month:'short'}) + ' · ' + t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+    const hasRecurring = r.incidents && r.incidents.some(i => i.recurring==='Yes');
+    const isTest = r.is_test;
+    const response = r.manager_response || '';
+
+    const incidentLines = r.incidents && r.incidents.length > 0
+      ? r.incidents.filter(i=>i.category).map(i=>`- ${i.category} at ${i.location}: ${i.details||'No details'} [${i.severity}${i.recurring==='Yes'?' · Recurring':''}]`).join('\n')
+      : 'No incidents this shift.';
+
+    const rawFields = `
+      Site: ${r.site} | Staff: ${r.staff_name} | Date: ${r.date}
+      ${r.site==='TSC' ? `Units occupied: ${r.units_occupied} | Check-ins: ${r.check_ins} | Check-outs: ${r.check_outs}` : `Areas: ${r.areas_covered}`}
+      Positive observations: ${r.positive_observations||'None'}
+      7-day risk: ${r.seven_day_risk||'None'}
+      ${r.site==='TSC' ? `Cost/opportunity: ${r.cost_opportunity||'None'}` : `Getz: ${r.getz_present} (${r.getz_rating}/5)`}
+      Handover: ${r.handover_notes||'None'}
+      Welfare: ${r.welfare_concern||'None'}
+    `.trim();
+
+    const summaryHtml = r.ai_summary
+      ? Object.entries(r.ai_summary).map(([sec,val])=>`
+          <div class="summary-block">
+            <div class="summary-section-lbl">${sec}</div>
+            <div class="summary-text">${val}</div>
+          </div>`).join('')
+      : `<div class="ai-loading" id="aiload_${r.id}">
+           <button onclick="generateSummary('${r.id}')" style="padding:7px 16px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit">Generate AI summary</button>
+         </div>`;
+
+    const responseClass = response === 'Noted' ? 'selected-noted' : response === 'Follow up required' ? 'selected-followup' : response === 'Resolved' ? 'selected-resolved' : '';
+
+    return `
+      <div class="report-card" id="card_${r.id}">
+        <div class="report-card-header" onclick="toggleCard('${r.id}')">
+          <div class="report-meta">
+            <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
+            <span class="report-staff">${r.staff_name}</span>
+            <span class="report-time">${timeStr}</span>
+          </div>
+          <div class="report-flags">
+            ${hasRecurring ? '<div class="flag-dot flag-recurring" title="Recurring issues"></div>' : ''}
+            ${isTest ? '<span class="flag-label">TEST</span>' : ''}
+            ${response ? `<span class="flag-label" style="color:#22c55e">${response}</span>` : ''}
+            <span class="chevron" id="chev_${r.id}">›</span>
+          </div>
+        </div>
+        <div class="report-card-body" id="body_${r.id}">
+          ${summaryHtml}
+          <span class="raw-toggle" onclick="toggleRaw('${r.id}')">▸ View raw fields</span>
+          <div class="raw-fields" id="raw_${r.id}">${rawFields}</div>
+          <div class="mgr-response">
+            <div class="mgr-label">Manager response</div>
+            <div class="mgr-btns">
+              ${['Noted','Follow up required','Resolved'].map(a=>`
+                <button class="mgr-btn ${response===a?responseClass:''}" onclick="setResponse('${r.id}','${a}')">${a}</button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  window.toggleCard = function(id) {
+    const body = document.getElementById('body_'+id);
+    const chev = document.getElementById('chev_'+id);
+    body.classList.toggle('open');
+    chev.classList.toggle('open');
+  };
+
+  window.toggleRaw = function(id) {
+    document.getElementById('raw_'+id).classList.toggle('open');
+  };
+
+  window.setResponse = async function(id, response) {
+    try {
+      await updateDoc(doc(db,'reports',id), { manager_response: response });
+      const report = allReports.find(r=>r.id===id);
+      if(report) report.manager_response = response;
+      renderReports();
+    } catch(e) {
+      alert('Failed to save response.');
+    }
+  };
+
+  window.generateSummary = async function(id) {
+    const report = allReports.find(r=>r.id===id);
+    if(!report) return;
+
+    document.getElementById('aiload_'+id).innerHTML = '<span style="font-size:12px;color:#999">Generating summary...</span>';
+
+    const isSAS = report.site === 'SAS';
+    const incidents = report.incidents && report.incidents.filter(i=>i.category).map((inc,idx)=>
+      `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
+    ).join('\n\n') || 'No incidents reported this shift.';
+
+    const prompt = `You are an operations analyst for Surgo Asset Partners, Singapore.
+
+Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
+
+--- SHIFT DATA ---
+Site: ${isSAS ? 'SAS Healthcare Dormitory (SAS)' : 'Tee Side Chalet (TSC)'}
+Date: ${report.date}
+Staff: ${report.staff_name}
+${!isSAS ? `Units occupied: ${report.units_occupied}\nCheck-ins: ${report.check_ins} / Check-outs: ${report.check_outs}` :
+`Areas covered: ${report.areas_covered}\nActivities completed: ${report.activities_completed}\nGetz present: ${report.getz_present} | Rating: ${report.getz_rating}/5`}
+Positive observations: ${report.positive_observations||'None'}
+
+${incidents}
+
+7-day risk: ${report.seven_day_risk||'None flagged'}
+${!isSAS ? `Cost / opportunity spotted: ${report.cost_opportunity||'None'}` : ''}
+Handover notes: ${report.handover_notes||'None'}
+Welfare / staff concerns: ${report.welfare_concern||'None'}
+--- END ---
+
+Return exactly this structure. No markdown. No asterisks. Plain text only.
+
+SHIFT SNAPSHOT
+[One sentence: site, who submitted, key operational number]
+
+INCIDENTS
+[Each incident on its own separate line, preceded by a dash. If none: "No incidents this shift."]
+
+FORWARD FLAG
+[From 7-day risk field. If empty: "None flagged."]
+
+PATTERN ALERT
+[Each recurring issue on its own line: "- [Category] at [Location] — recurring. Needs review." One line per unique category-location. If none: "No recurring issues."]
+
+RECOMMENDED ACTION
+[One specific action tied to actual report content. If nothing: "No action required."]`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await res.json();
+      const text = data.content?.[0]?.text || '';
+
+      const sections = ['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
+      const summary = {};
+      sections.forEach((sec,i) => {
+        const next = sections[i+1];
+        const start = text.indexOf(sec);
+        if(start === -1) return;
+        const end = next ? text.indexOf(next) : text.length;
+        summary[sec] = text.slice(start + sec.length, end).trim();
+      });
+
+      await updateDoc(doc(db,'reports',id), { ai_summary: summary });
+      report.ai_summary = summary;
+      renderReports();
+    } catch(e) {
+      document.getElementById('aiload_'+id).innerHTML = '<span style="font-size:12px;color:#e74c3c">Summary failed. Try again.</span>';
+    }
+  };
+</script>
+
+</body>
+</html>
