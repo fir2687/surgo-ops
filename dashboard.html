@@ -173,7 +173,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const CORRECT_PIN = '0526';
+  const CORRECT_PIN = '9999';
   let pinInput = '';
   let allReports = [];
   let currentFilter = 'all';
@@ -419,13 +419,13 @@ RECOMMENDED ACTION
 [One specific action tied to actual report content. If nothing: "No action required."]`;
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+        body: JSON.stringify({ prompt })
       });
       const data = await res.json();
-      const text = data.content?.[0]?.text || '';
+      const text = data.text || '';
 
       const sections = ['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
       const summary = {};
