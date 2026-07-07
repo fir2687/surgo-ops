@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SAS Daily Report</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f4f4;min-height:100vh;display:flex;flex-direction:column}
+  header{background:#000;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .header-left{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .header-left img{height:30px;width:auto}
+  .header-left span{color:#fff;font-size:14px;font-weight:700;letter-spacing:0.01em}
+  .site-tag{background:#222;color:#888;font-size:10px;padding:4px 10px;border-radius:20px;letter-spacing:0.08em}
+  main{flex:1;max-width:560px;width:100%;margin:0 auto;padding:24px 16px 40px}
+  .page-title{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
+  .page-sub{font-size:12px;color:#999;margin-bottom:28px}
+  section{margin-bottom:24px}
+  .section-label{font-size:10px;font-weight:700;color:#bbb;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #e5e5e5}
+  .field{margin-bottom:14px}
+  label{display:block;font-size:11px;color:#777;letter-spacing:0.04em;margin-bottom:5px;font-weight:500}
+  input[type=text],input[type=date],select,textarea{width:100%;padding:10px 12px;font-size:14px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111;outline:none;font-family:inherit;transition:border-color 0.15s}
+  input:focus,select:focus,textarea:focus{border-color:#000}
+  textarea{resize:vertical;min-height:72px;line-height:1.5}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .incident-block{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px;margin-bottom:12px}
+  .incident-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .incident-num{font-size:10px;font-weight:700;color:#999;letter-spacing:0.08em;text-transform:uppercase}
+  .remove-btn{font-size:11px;color:#ccc;background:none;border:none;cursor:pointer;padding:2px 6px}
+  .remove-btn:hover{color:#e74c3c}
+  .severity-row{display:flex;gap:8px;flex-wrap:wrap}
+  .sev-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
+  .sev-btn.active-low{background:#f0fdf4;border-color:#86efac;color:#166534}
+  .sev-btn.active-medium{background:#fffbeb;border-color:#fcd34d;color:#92400e}
+  .sev-btn.active-high{background:#fff7ed;border-color:#fdba74;color:#9a3412}
+  .sev-btn.active-urgent{background:#fef2f2;border-color:#fca5a5;color:#991b1b}
+  .recurring-row{display:flex;gap:8px}
+  .rec-btn{flex:1;padding:8px;font-size:12px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
+  .rec-btn.active{background:#111;border-color:#111;color:#fff}
+  .add-incident-btn{width:100%;padding:12px;background:#fff;border:1px dashed #ddd;border-radius:10px;font-size:13px;color:#999;cursor:pointer;font-family:inherit;transition:all 0.15s;margin-bottom:4px}
+  .add-incident-btn:hover{border-color:#000;color:#000}
+  .getz-row{display:flex;gap:8px}
+  .getz-btn{flex:1;padding:8px;font-size:12px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s;text-align:center}
+  .getz-btn.active{background:#111;border-color:#111;color:#fff}
+  .star-row{display:flex;gap:6px}
+  .star-btn{width:36px;height:36px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+  .star-btn.active{background:#111;border-color:#111}
+  .submit-btn{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;margin-top:8px}
+  .submit-btn:hover{background:#222}
+  .submit-btn:disabled{background:#ccc;cursor:not-allowed}
+  .success-screen{display:none;text-align:center;padding:48px 24px}
+  .success-icon{font-size:48px;margin-bottom:16px}
+  .success-title{font-size:20px;font-weight:600;color:#111;margin-bottom:8px}
+  .success-sub{font-size:14px;color:#888;margin-bottom:32px}
+  .back-btn{display:inline-block;padding:12px 28px;background:#000;color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:500}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="header-left">
+    <img src="surgo-logo.jpg" alt="Surgo Asset Partners"/>
+    <span>Surgo Asset Partners</span>
+  </a>
+  <span class="site-tag">SAS · Healthcare Dorm</span>
+</header>
+
+<main>
+  <div id="formView">
+    <div class="page-title">Daily Shift Report</div>
+    <p class="page-sub" id="dateDisplay"></p>
+
+    <section>
+      <div class="section-label">Header</div>
+      <div class="field">
+        <label>Staff name</label>
+        <select id="staff_name">
+          <option value="">— select —</option>
+          <option>Farrah</option>
+          <option>Zhihong</option>
+          <option>Jianhao</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="date"/>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">Operational</div>
+      <div class="field">
+        <label>Areas covered this shift</label>
+        <textarea id="areas_covered" placeholder="e.g. Annex 1–4 (Male), Tower 7 (Female), M4 Big (Female)"></textarea>
+      </div>
+      <div class="field">
+        <label>Activities completed</label>
+        <textarea id="activities_completed" placeholder="e.g. Room Inspection, Housekeeping Check, Resident Engagement"></textarea>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">Observations</div>
+      <div class="field">
+        <label>Positive observations</label>
+        <textarea id="positive_observations" placeholder="What went well this shift?"></textarea>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">Incidents</div>
+      <div id="incidentContainer"></div>
+      <button class="add-incident-btn" onclick="addIncident()">+ Add another incident</button>
+    </section>
+
+    <section>
+      <div class="section-label">Vendor — Getz Cleaning</div>
+      <div class="field">
+        <label>Getz present today?</label>
+        <div class="getz-row">
+          <button type="button" class="getz-btn active" onclick="setGetz('Yes')" id="getz_Yes">Yes — observed</button>
+          <button type="button" class="getz-btn" onclick="setGetz('No')" id="getz_No">No — not seen</button>
+          <button type="button" class="getz-btn" onclick="setGetz('Not scheduled')" id="getz_Not scheduled">Not scheduled</button>
+        </div>
+      </div>
+      <div class="field" id="getzRatingField">
+        <label>Rate Getz cleaning today</label>
+        <div class="star-row" id="starRow">
+          <button type="button" class="star-btn" onclick="setRating(1)" id="star_1">★</button>
+          <button type="button" class="star-btn" onclick="setRating(2)" id="star_2">★</button>
+          <button type="button" class="star-btn" onclick="setRating(3)" id="star_3">★</button>
+          <button type="button" class="star-btn" onclick="setRating(4)" id="star_4">★</button>
+          <button type="button" class="star-btn" onclick="setRating(5)" id="star_5">★</button>
+        </div>
+      </div>
+      <div class="field" id="getzCommentsField">
+        <label>Getz comments</label>
+        <input type="text" id="getz_comments" placeholder="Any feedback on cleaning quality?"/>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">End of Shift</div>
+      <div class="field">
+        <label>What could become a problem in the next 7 days?</label>
+        <textarea id="seven_day_risk" placeholder="Flag anything that needs attention before it escalates"></textarea>
+      </div>
+      <div class="field">
+        <label>Handover notes</label>
+        <textarea id="handover_notes" placeholder="What does the next person on shift need to know?"></textarea>
+      </div>
+      <div class="field">
+        <label>Welfare / staff concern</label>
+        <input type="text" id="welfare_concern" placeholder="Any staff or resident wellbeing issues to flag?"/>
+      </div>
+    </section>
+
+    <button class="submit-btn" onclick="submitReport()" id="submitBtn">Submit report</button>
+  </div>
+
+  <div class="success-screen" id="successView">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Report submitted</div>
+    <p class="success-sub">Your shift report has been recorded.<br/>Thank you, <span id="successName"></span>.</p>
+    <a href="index.html" class="back-btn">Back to home</a>
+  </div>
+</main>
+
+<script>
+  const today = new Date();
+  document.getElementById('date').value = today.toISOString().split('T')[0];
+  document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const SAS_CATEGORIES = ['Housekeeping','Electrical Safety','Maintenance','Safety / Fire Hazard','Welfare / Behaviour','Pest','Other'];
+  let incidentCount = 0;
+  let getzPresent = 'Yes';
+  let getzRating = 0;
+
+  function setGetz(val) {
+    getzPresent = val;
+    ['Yes','No','Not scheduled'].forEach(v => {
+      const btn = document.getElementById('getz_'+v);
+      if(btn) btn.className = 'getz-btn' + (v===val?' active':'');
+    });
+    const showRating = val === 'Yes';
+    document.getElementById('getzRatingField').style.display = showRating ? 'block' : 'none';
+    document.getElementById('getzCommentsField').style.display = showRating ? 'block' : 'none';
+  }
+
+  function setRating(val) {
+    getzRating = val;
+    for(let i=1;i<=5;i++){
+      const btn = document.getElementById('star_'+i);
+      if(btn) btn.className = 'star-btn' + (i<=val?' active':'');
+    }
+  }
+
+  function addIncident(prefill={}) {
+    incidentCount++;
+    const id = incidentCount;
+    const div = document.createElement('div');
+    div.className = 'incident-block';
+    div.id = 'incident_'+id;
+    div.innerHTML = `
+      <div class="incident-header">
+        <span class="incident-num">Incident ${id}</span>
+        ${id > 1 ? `<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>` : ''}
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="inc_cat_${id}">
+          <option value="">— select category —</option>
+          ${SAS_CATEGORIES.map(c=>`<option ${prefill.category===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Location / room</label>
+        <input type="text" id="inc_loc_${id}" placeholder="e.g. Annex 3 (Male), Level 3" value="${prefill.location||''}"/>
+      </div>
+      <div class="field">
+        <label>Severity</label>
+        <div class="severity-row">
+          ${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${!prefill.severity&&s==='Low'?'active-low':prefill.severity===s?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>What happened</label>
+        <textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea>
+      </div>
+      <div class="field">
+        <label>Action taken</label>
+        <textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea>
+      </div>
+      <div class="field">
+        <label>Recurring issue?</label>
+        <div class="recurring-row">
+          <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
+          <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('incidentContainer').appendChild(div);
+  }
+
+  function removeIncident(id){ document.getElementById('incident_'+id)?.remove(); }
+
+  function setSeverity(id,val){
+    ['Low','Medium','High','Urgent'].forEach(s=>{
+      const btn=document.getElementById(`sev_${id}_${s}`);
+      if(btn) btn.className='sev-btn'+(s===val?' active-'+s.toLowerCase():'');
+    });
+  }
+
+  function setRecurring(id,val){
+    ['No','Yes'].forEach(v=>{
+      const btn=document.getElementById(`rec_${id}_${v}`);
+      if(btn) btn.className='rec-btn'+(v===val?' active':'');
+    });
+  }
+
+  function getActiveSeverity(id){
+    for(const s of ['Low','Medium','High','Urgent']){
+      const btn=document.getElementById(`sev_${id}_${s}`);
+      if(btn&&btn.className.includes('active')) return s;
+    }
+    return 'Low';
+  }
+
+  function getActiveRecurring(id){
+    const btn=document.getElementById(`rec_${id}_Yes`);
+    return btn&&btn.className.includes('active')?'Yes':'No';
+  }
+
+  function collectIncidents(){
+    const incidents=[];
+    for(let i=1;i<=incidentCount;i++){
+      if(!document.getElementById('incident_'+i)) continue;
+      const cat=document.getElementById(`inc_cat_${i}`)?.value;
+      if(!cat) continue;
+      incidents.push({
+        category:cat,
+        location:document.getElementById(`inc_loc_${i}`)?.value||'',
+        severity:getActiveSeverity(i),
+        details:document.getElementById(`inc_details_${i}`)?.value||'',
+        action:document.getElementById(`inc_action_${i}`)?.value||'',
+        recurring:getActiveRecurring(i)
+      });
+    }
+    return incidents;
+  }
+
+  function val(id){ return document.getElementById(id)?.value||''; }
+
+  async function submitReport(){
+    const staff=val('staff_name');
+    if(!staff){ alert('Please select your name.'); return; }
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true;
+    btn.textContent='Submitting...';
+
+    const report={
+      site:'SAS',
+      staff_name:staff,
+      date:val('date'),
+      areas_covered:val('areas_covered'),
+      activities_completed:val('activities_completed'),
+      positive_observations:val('positive_observations'),
+      incidents:collectIncidents(),
+      getz_present:getzPresent,
+      getz_rating:getzRating,
+      getz_comments:val('getz_comments'),
+      seven_day_risk:val('seven_day_risk'),
+      handover_notes:val('handover_notes'),
+      welfare_concern:val('welfare_concern'),
+      submitted_at:new Date().toISOString()
+    };
+
+    console.log('SAS Report:', JSON.stringify(report, null, 2));
+    await new Promise(r=>setTimeout(r,800));
+    document.getElementById('formView').style.display='none';
+    document.getElementById('successView').style.display='block';
+    document.getElementById('successName').textContent=staff;
+  }
+
+  addIncident();
+</script>
+
+</body>
+</html>
