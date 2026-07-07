@@ -272,15 +272,45 @@
       submitted_at: new Date().toISOString()
     };
 
-    console.log('TSC Report:', JSON.stringify(report, null, 2));
+    try {
+      await window.__saveReport(report);
+    } catch(e) {
+      console.error('Firestore write failed:', e);
+      alert('Submission failed. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Submit report';
+      return;
+    }
 
-    await new Promise(r=>setTimeout(r,800));
     document.getElementById('formView').style.display='none';
     document.getElementById('successView').style.display='block';
     document.getElementById('successName').textContent = staff;
   }
 
   addIncident();
+</script>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
+    authDomain: "surgo-ops.firebaseapp.com",
+    projectId: "surgo-ops",
+    storageBucket: "surgo-ops.firebasestorage.app",
+    messagingSenderId: "351122263344",
+    appId: "1:351122263344:web:0354a5f0f31db078788cf5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.__saveReport = async function(report) {
+    const docId = `TSC_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
+    await setDoc(doc(db, 'reports', docId), report);
+    return docId;
+  };
 </script>
 
 </body>
