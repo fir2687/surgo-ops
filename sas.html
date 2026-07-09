@@ -57,7 +57,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <a href="index.html" class="header-left">
     <img src="surgo-logo.jpg" alt="Surgo Asset Partners"/>
@@ -65,12 +64,10 @@
   </a>
   <span class="site-tag">SAS · Healthcare Dorm</span>
 </header>
-
 <main>
   <div id="formView">
     <div class="page-title">(SAS) Daily Shift Report</div>
     <p class="page-sub" id="dateDisplay"></p>
-
     <section>
       <div class="section-label">Header</div>
       <div class="field">
@@ -87,7 +84,6 @@
         <input type="date" id="date"/>
       </div>
     </section>
-
     <section>
       <div class="section-label">Operational</div>
       <div class="field">
@@ -99,7 +95,6 @@
         <textarea id="activities_completed" placeholder="e.g. Room Inspection, Housekeeping Check, Resident Engagement"></textarea>
       </div>
     </section>
-
     <section>
       <div class="section-label">Observations</div>
       <div class="field">
@@ -107,13 +102,11 @@
         <textarea id="positive_observations" placeholder="What went well this shift?"></textarea>
       </div>
     </section>
-
     <section>
       <div class="section-label">Incidents</div>
       <div id="incidentContainer"></div>
       <button class="add-incident-btn" onclick="addIncident()">+ Add another incident</button>
     </section>
-
     <section>
       <div class="section-label">Vendor — Getz Cleaning</div>
       <div class="field">
@@ -139,7 +132,6 @@
         <input type="text" id="getz_comments" placeholder="Any feedback on cleaning quality?"/>
       </div>
     </section>
-
     <section>
       <div class="section-label">End of Shift</div>
       <div class="field">
@@ -155,10 +147,8 @@
         <input type="text" id="welfare_concern" placeholder="Any staff or resident wellbeing issues to flag?"/>
       </div>
     </section>
-
     <button class="submit-btn" onclick="submitReport()" id="submitBtn">Submit report</button>
   </div>
-
   <div class="success-screen" id="successView">
     <div class="success-icon">✓</div>
     <div class="success-title">Report submitted</div>
@@ -166,46 +156,45 @@
     <a href="index.html" class="back-btn">Back to home</a>
   </div>
 </main>
-
 <script>
-  const today = new Date();
-  document.getElementById('date').value = today.toISOString().split('T')[0];
-  document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const today=new Date();
+  document.getElementById('date').value=today.toISOString().split('T')[0];
+  document.getElementById('dateDisplay').textContent=today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
-  const SAS_CATEGORIES = ['Housekeeping','Electrical Safety','Maintenance','Safety / Fire Hazard','Welfare / Behaviour','Pest','Other'];
-  let incidentCount = 0;
-  let getzPresent = 'Yes';
-  let getzRating = 0;
+  const SAS_CATEGORIES=['Housekeeping','Electrical Safety','Maintenance','Safety / Fire Hazard','Welfare / Behaviour','Pest','Other'];
+  let incidentCount=0;
+  let getzPresent='Yes';
+  let getzRating=0;
 
-  function setGetz(val) {
-    getzPresent = val;
-    ['Yes','No','Not scheduled'].forEach(v => {
-      const btn = document.getElementById('getz_'+v);
-      if(btn) btn.className = 'getz-btn' + (v===val?' active':'');
+  function setGetz(val){
+    getzPresent=val;
+    ['Yes','No','Not scheduled'].forEach(v=>{
+      const btn=document.getElementById('getz_'+v);
+      if(btn) btn.className='getz-btn'+(v===val?' active':'');
     });
-    const showRating = val === 'Yes';
-    document.getElementById('getzRatingField').style.display = showRating ? 'block' : 'none';
-    document.getElementById('getzCommentsField').style.display = showRating ? 'block' : 'none';
+    const show=val==='Yes';
+    document.getElementById('getzRatingField').style.display=show?'block':'none';
+    document.getElementById('getzCommentsField').style.display=show?'block':'none';
   }
 
-  function setRating(val) {
-    getzRating = val;
+  function setRating(val){
+    getzRating=val;
     for(let i=1;i<=5;i++){
-      const btn = document.getElementById('star_'+i);
-      if(btn) btn.className = 'star-btn' + (i<=val?' active':'');
+      const btn=document.getElementById('star_'+i);
+      if(btn) btn.className='star-btn'+(i<=val?' active':'');
     }
   }
 
-  function addIncident(prefill={}) {
+  function addIncident(prefill={}){
     incidentCount++;
-    const id = incidentCount;
-    const div = document.createElement('div');
-    div.className = 'incident-block';
-    div.id = 'incident_'+id;
-    div.innerHTML = `
+    const id=incidentCount;
+    const div=document.createElement('div');
+    div.className='incident-block';
+    div.id='incident_'+id;
+    div.innerHTML=`
       <div class="incident-header">
         <span class="incident-num">Incident ${id}</span>
-        ${id > 1 ? `<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>` : ''}
+        ${id>1?`<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>`:''}
       </div>
       <div class="field">
         <label>Category</label>
@@ -238,8 +227,7 @@
           <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
           <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button>
         </div>
-      </div>
-    `;
+      </div>`;
     document.getElementById('incidentContainer').appendChild(div);
   }
 
@@ -316,46 +304,116 @@
       submitted_at:new Date().toISOString()
     };
 
+    let docId;
     try {
-      await window.__saveReport(report);
-    } catch(e) {
-      console.error('Firestore write failed:', e);
+      docId=await window.__saveReport(report);
+    } catch(e){
+      console.error('Firestore write failed:',e);
       alert('Submission failed. Please try again.');
-      btn.disabled = false;
-      btn.textContent = 'Submit report';
+      btn.disabled=false;
+      btn.textContent='Submit report';
       return;
     }
 
     document.getElementById('formView').style.display='none';
     document.getElementById('successView').style.display='block';
     document.getElementById('successName').textContent=staff;
+
+    generateAISummaryBackground(report, docId);
+  }
+
+  async function generateAISummaryBackground(report, docId){
+    const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
+      `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
+    ).join('\n\n')||'No incidents reported this shift.';
+
+    const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
+
+Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
+
+--- SHIFT DATA ---
+Site: SAS Healthcare Dormitory (SAS)
+Date: ${report.date}
+Staff: ${report.staff_name}
+Areas covered: ${report.areas_covered}
+Activities completed: ${report.activities_completed}
+Getz present: ${report.getz_present} | Rating: ${report.getz_rating}/5
+Positive observations: ${report.positive_observations||'None'}
+
+${incidents}
+
+7-day risk: ${report.seven_day_risk||'None flagged'}
+Handover notes: ${report.handover_notes||'None'}
+Welfare / staff concerns: ${report.welfare_concern||'None'}
+--- END ---
+
+Return exactly this structure. No markdown. No asterisks. Plain text only.
+
+SHIFT SNAPSHOT
+[One sentence: site, who submitted, key operational detail]
+
+INCIDENTS
+[Each incident on its own line, preceded by a dash. If none: "No incidents this shift."]
+
+FORWARD FLAG
+[From 7-day risk field. If empty: "None flagged."]
+
+PATTERN ALERT
+[Each recurring issue: "- [Category] at [Location] — recurring. Needs review." If none: "No recurring issues."]
+
+RECOMMENDED ACTION
+[One specific action tied to actual report content. If nothing: "No action required."]`;
+
+    try {
+      const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prompt})
+      });
+      const data=await res.json();
+      const text=data.text||'';
+      const sections=['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
+      const summary={};
+      sections.forEach((sec,i)=>{
+        const next=sections[i+1];
+        const start=text.indexOf(sec);
+        if(start===-1) return;
+        const end=next?text.indexOf(next):text.length;
+        summary[sec]=text.slice(start+sec.length,end).trim();
+      });
+      await window.__updateSummary(docId,summary);
+    } catch(e){
+      console.log('Background AI generation failed silently:',e);
+    }
   }
 
   addIncident();
 </script>
-
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getFirestore, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain: "surgo-ops.firebaseapp.com",
-    projectId: "surgo-ops",
-    storageBucket: "surgo-ops.firebasestorage.app",
-    messagingSenderId: "351122263344",
-    appId: "1:351122263344:web:0354a5f0f31db078788cf5"
+  const firebaseConfig={
+    apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
+    authDomain:"surgo-ops.firebaseapp.com",
+    projectId:"surgo-ops",
+    storageBucket:"surgo-ops.firebasestorage.app",
+    messagingSenderId:"351122263344",
+    appId:"1:351122263344:web:0354a5f0f31db078788cf5"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const app=initializeApp(firebaseConfig);
+  const db=getFirestore(app);
 
-  window.__saveReport = async function(report) {
-    const docId = `SAS_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
-    await setDoc(doc(db, 'reports', docId), report);
+  window.__saveReport=async function(report){
+    const docId=`SAS_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
+    await setDoc(doc(db,'reports',docId),report);
     return docId;
   };
-</script>
 
+  window.__updateSummary=async function(docId,summary){
+    await updateDoc(doc(db,'reports',docId),{ai_summary:summary});
+  };
+</script>
 </body>
 </html>

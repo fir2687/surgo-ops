@@ -50,7 +50,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
     <img src="surgo-logo.jpg" alt="Surgo" style="height:30px;width:auto"/>
@@ -58,12 +57,10 @@
   </a>
   <span class="site-tag">TSC · Tee Side Chalet</span>
 </header>
-
 <main>
   <div id="formView">
     <div class="page-title">(TSC) Daily Shift Report</div>
     <p class="page-sub" id="dateDisplay"></p>
-
     <section>
       <div class="section-label">Header</div>
       <div class="field">
@@ -80,7 +77,6 @@
         <input type="date" id="date"/>
       </div>
     </section>
-
     <section>
       <div class="section-label">Operational</div>
       <div class="row2">
@@ -98,7 +94,6 @@
         <input type="text" id="check_outs" placeholder="0"/>
       </div>
     </section>
-
     <section>
       <div class="section-label">Observations</div>
       <div class="field">
@@ -106,13 +101,11 @@
         <textarea id="positive_observations" placeholder="What went well this shift?"></textarea>
       </div>
     </section>
-
     <section>
       <div class="section-label">Incidents</div>
       <div id="incidentContainer"></div>
       <button class="add-incident-btn" onclick="addIncident()">+ Add another incident</button>
     </section>
-
     <section>
       <div class="section-label">End of Shift</div>
       <div class="field">
@@ -132,10 +125,8 @@
         <input type="text" id="welfare_concern" placeholder="Any staff wellbeing issues to flag?"/>
       </div>
     </section>
-
     <button class="submit-btn" onclick="submitReport()" id="submitBtn">Submit report</button>
   </div>
-
   <div class="success-screen" id="successView">
     <div class="success-icon">✓</div>
     <div class="success-title">Report submitted</div>
@@ -143,7 +134,6 @@
     <a href="index.html" class="back-btn">Back to home</a>
   </div>
 </main>
-
 <script>
   const today = new Date();
   document.getElementById('date').value = today.toISOString().split('T')[0];
@@ -194,53 +184,52 @@
           <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
           <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button>
         </div>
-      </div>
-    `;
+      </div>`;
     document.getElementById('incidentContainer').appendChild(div);
   }
 
   function removeIncident(id) { document.getElementById('incident_'+id)?.remove(); }
 
-  function setSeverity(id, val) {
+  function setSeverity(id,val) {
     ['Low','Medium','High','Urgent'].forEach(s=>{
-      const btn = document.getElementById(`sev_${id}_${s}`);
-      if(btn) btn.className = 'sev-btn' + (s===val?' active-'+s.toLowerCase():'');
+      const btn=document.getElementById(`sev_${id}_${s}`);
+      if(btn) btn.className='sev-btn'+(s===val?' active-'+s.toLowerCase():'');
     });
   }
 
-  function setRecurring(id, val) {
+  function setRecurring(id,val) {
     ['No','Yes'].forEach(v=>{
-      const btn = document.getElementById(`rec_${id}_${v}`);
-      if(btn) btn.className = 'rec-btn' + (v===val?' active':'');
+      const btn=document.getElementById(`rec_${id}_${v}`);
+      if(btn) btn.className='rec-btn'+(v===val?' active':'');
     });
   }
 
   function getActiveSeverity(id) {
     for(const s of ['Low','Medium','High','Urgent']){
-      const btn = document.getElementById(`sev_${id}_${s}`);
-      if(btn && btn.className.includes('active')) return s;
+      const btn=document.getElementById(`sev_${id}_${s}`);
+      if(btn&&btn.className.includes('active')) return s;
     }
     return 'Low';
   }
 
   function getActiveRecurring(id) {
-    const btn = document.getElementById(`rec_${id}_Yes`);
-    return btn && btn.className.includes('active') ? 'Yes' : 'No';
+    const btn=document.getElementById(`rec_${id}_Yes`);
+    return btn&&btn.className.includes('active')?'Yes':'No';
   }
 
   function collectIncidents() {
-    const incidents = [];
+    const incidents=[];
     for(let i=1;i<=incidentCount;i++){
       if(!document.getElementById('incident_'+i)) continue;
-      const cat = document.getElementById(`inc_cat_${i}`)?.value;
+      const cat=document.getElementById(`inc_cat_${i}`)?.value;
       if(!cat) continue;
       incidents.push({
-        category: cat,
-        location: document.getElementById(`inc_loc_${i}`)?.value||'',
-        severity: getActiveSeverity(i),
-        details: document.getElementById(`inc_details_${i}`)?.value||'',
-        action: document.getElementById(`inc_action_${i}`)?.value||'',
-        recurring: getActiveRecurring(i)
+        category:cat,
+        location:document.getElementById(`inc_loc_${i}`)?.value||'',
+        severity:getActiveSeverity(i),
+        details:document.getElementById(`inc_details_${i}`)?.value||'',
+        action:document.getElementById(`inc_action_${i}`)?.value||'',
+        recurring:getActiveRecurring(i)
       });
     }
     return incidents;
@@ -249,68 +238,138 @@
   function val(id){ return document.getElementById(id)?.value||''; }
 
   async function submitReport() {
-    const staff = val('staff_name');
+    const staff=val('staff_name');
     if(!staff){ alert('Please select your name.'); return; }
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Submitting...';
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true;
+    btn.textContent='Submitting...';
 
-    const report = {
-      site: 'TSC',
-      staff_name: staff,
-      date: val('date'),
-      units_occupied: val('units_occupied'),
-      check_ins: val('check_ins'),
-      check_outs: val('check_outs'),
-      positive_observations: val('positive_observations'),
-      incidents: collectIncidents(),
-      seven_day_risk: val('seven_day_risk'),
-      cost_opportunity: val('cost_opportunity'),
-      handover_notes: val('handover_notes'),
-      welfare_concern: val('welfare_concern'),
-      submitted_at: new Date().toISOString()
+    const report={
+      site:'TSC',
+      staff_name:staff,
+      date:val('date'),
+      units_occupied:val('units_occupied'),
+      check_ins:val('check_ins'),
+      check_outs:val('check_outs'),
+      positive_observations:val('positive_observations'),
+      incidents:collectIncidents(),
+      seven_day_risk:val('seven_day_risk'),
+      cost_opportunity:val('cost_opportunity'),
+      handover_notes:val('handover_notes'),
+      welfare_concern:val('welfare_concern'),
+      submitted_at:new Date().toISOString()
     };
 
+    let docId;
     try {
-      await window.__saveReport(report);
+      docId=await window.__saveReport(report);
     } catch(e) {
-      console.error('Firestore write failed:', e);
+      console.error('Firestore write failed:',e);
       alert('Submission failed. Please try again.');
-      btn.disabled = false;
-      btn.textContent = 'Submit report';
+      btn.disabled=false;
+      btn.textContent='Submit report';
       return;
     }
 
     document.getElementById('formView').style.display='none';
     document.getElementById('successView').style.display='block';
-    document.getElementById('successName').textContent = staff;
+    document.getElementById('successName').textContent=staff;
+
+    generateAISummaryBackground(report, docId);
+  }
+
+  async function generateAISummaryBackground(report, docId) {
+    const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
+      `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
+    ).join('\n\n')||'No incidents reported this shift.';
+
+    const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
+
+Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
+
+--- SHIFT DATA ---
+Site: Tee Side Chalet (TSC)
+Date: ${report.date}
+Staff: ${report.staff_name}
+Units occupied: ${report.units_occupied}
+Check-ins: ${report.check_ins} / Check-outs: ${report.check_outs}
+Positive observations: ${report.positive_observations||'None'}
+
+${incidents}
+
+7-day risk: ${report.seven_day_risk||'None flagged'}
+Cost / opportunity spotted: ${report.cost_opportunity||'None'}
+Handover notes: ${report.handover_notes||'None'}
+Welfare / staff concerns: ${report.welfare_concern||'None'}
+--- END ---
+
+Return exactly this structure. No markdown. No asterisks. Plain text only.
+
+SHIFT SNAPSHOT
+[One sentence: site, who submitted, key operational number]
+
+INCIDENTS
+[Each incident on its own line, preceded by a dash. If none: "No incidents this shift."]
+
+FORWARD FLAG
+[From 7-day risk field. If empty: "None flagged."]
+
+PATTERN ALERT
+[Each recurring issue: "- [Category] at [Location] — recurring. Needs review." If none: "No recurring issues."]
+
+RECOMMENDED ACTION
+[One specific action tied to actual report content. If nothing: "No action required."]`;
+
+    try {
+      const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prompt})
+      });
+      const data=await res.json();
+      const text=data.text||'';
+      const sections=['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
+      const summary={};
+      sections.forEach((sec,i)=>{
+        const next=sections[i+1];
+        const start=text.indexOf(sec);
+        if(start===-1) return;
+        const end=next?text.indexOf(next):text.length;
+        summary[sec]=text.slice(start+sec.length,end).trim();
+      });
+      await window.__updateSummary(docId,summary);
+    } catch(e) {
+      console.log('Background AI generation failed silently:',e);
+    }
   }
 
   addIncident();
 </script>
-
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getFirestore, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain: "surgo-ops.firebaseapp.com",
-    projectId: "surgo-ops",
-    storageBucket: "surgo-ops.firebasestorage.app",
-    messagingSenderId: "351122263344",
-    appId: "1:351122263344:web:0354a5f0f31db078788cf5"
+  const firebaseConfig={
+    apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
+    authDomain:"surgo-ops.firebaseapp.com",
+    projectId:"surgo-ops",
+    storageBucket:"surgo-ops.firebasestorage.app",
+    messagingSenderId:"351122263344",
+    appId:"1:351122263344:web:0354a5f0f31db078788cf5"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const app=initializeApp(firebaseConfig);
+  const db=getFirestore(app);
 
-  window.__saveReport = async function(report) {
-    const docId = `TSC_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
-    await setDoc(doc(db, 'reports', docId), report);
+  window.__saveReport=async function(report){
+    const docId=`TSC_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
+    await setDoc(doc(db,'reports',docId),report);
     return docId;
   };
-</script>
 
+  window.__updateSummary=async function(docId,summary){
+    await updateDoc(doc(db,'reports',docId),{ai_summary:summary});
+  };
+</script>
 </body>
 </html>
