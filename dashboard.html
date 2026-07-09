@@ -47,22 +47,18 @@
   .filter-btn.active{background:#000;border-color:#000;color:#fff}
   .empty-state{text-align:center;padding:48px 24px;color:#bbb;font-size:13px}
 
-  /* Card */
-  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:12px;overflow:hidden;transition:opacity 0.2s}
-  .report-card.reviewed{opacity:0.55}
+  /* --- UNREVIEWED CARD --- */
+  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:10px;overflow:hidden}
   .report-card-header{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0}
-  .report-meta{display:flex;align-items:center;gap:10px}
-  .report-site-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.06em}
+  .report-meta{display:flex;align-items:center;gap:10px;min-width:0}
+  .report-site-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.06em;flex-shrink:0}
   .badge-tsc{background:#111;color:#fff}
   .badge-sas{background:#444;color:#fff}
-  .report-staff{font-size:13px;font-weight:600;color:#111}
-  .report-time{font-size:11px;color:#999}
-  .report-flags{display:flex;gap:6px;align-items:center}
-  .flag-dot{width:7px;height:7px;border-radius:50%}
+  .report-staff{font-size:13px;font-weight:600;color:#111;white-space:nowrap}
+  .report-time{font-size:11px;color:#999;white-space:nowrap}
+  .report-flags{display:flex;gap:6px;align-items:center;flex-shrink:0}
+  .flag-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
   .flag-recurring{background:#f59e0b}
-  .flag-label{font-size:10px;color:#999}
-
-  /* AI body */
   .ai-body{padding:14px 16px}
   .ai-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:10px;display:flex;align-items:center;gap:6px}
   .ai-dot{width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex-shrink:0}
@@ -71,24 +67,29 @@
   .summary-text{font-size:13px;color:#111;line-height:1.7;white-space:pre-wrap}
   .gen-summary-btn{padding:7px 16px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit}
   .ai-loading{font-size:12px;color:#999;padding:4px 0}
-
-  /* Card footer */
   .card-footer{padding:10px 16px;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
   .mgr-btns{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-  .mgr-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
+  .mgr-btn{padding:6px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
   .mgr-btn:hover{border-color:#000;color:#000}
   .mgr-btn.selected-noted{background:#f0fdf4;border-color:#86efac;color:#166534}
   .mgr-btn.selected-followup{background:#fffbeb;border-color:#fcd34d;color:#92400e}
   .mgr-btn.selected-resolved{background:#eff6ff;border-color:#93c5fd;color:#1e40af}
-  .mgr-btn.review-btn{border-color:#22c55e;color:#166534}
-  .mgr-btn.review-btn:hover{background:#f0fdf4}
-  .reviewed-stamp{font-size:11px;color:#22c55e;font-weight:600;display:flex;align-items:center;gap:4px}
-  .reviewed-time{font-weight:400;color:#86efac;font-size:10px}
   .expand-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:#888;background:#fff;border:1px solid #ddd;border-radius:6px;padding:5px 11px;cursor:pointer;font-family:inherit;transition:all 0.15s;white-space:nowrap}
   .expand-btn:hover{border-color:#000;color:#111}
-  .expand-icon{font-size:13px;font-weight:600}
 
-  /* Full report section */
+  /* --- REVIEWED CARD (compact) --- */
+  .report-card.reviewed{opacity:1;border-color:#eee}
+  .compact-row{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .compact-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .compact-badge{font-size:10px;padding:2px 8px;border-radius:4px;white-space:nowrap}
+  .compact-badge.noted{background:#f0fdf4;color:#166534}
+  .compact-badge.followup{background:#fffbeb;color:#92400e}
+  .compact-badge.resolved{background:#eff6ff;color:#1e40af}
+  .reviewed-mini{font-size:10px;color:#22c55e;white-space:nowrap}
+  .expand-sm{width:26px;height:26px;border:1px solid #e5e5e5;border-radius:5px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:#aaa;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;transition:all 0.15s}
+  .expand-sm:hover{border-color:#000;color:#111}
+
+  /* --- FULL SECTION (shared) --- */
   .full-section{display:none;border-top:1px solid #f0f0f0;background:#fafafa;padding:14px 16px}
   .full-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:10px}
   .field-row{display:grid;grid-template-columns:150px 1fr;gap:6px;margin-bottom:6px;font-size:12px;line-height:1.5}
@@ -100,6 +101,7 @@
   .delete-row{display:flex;justify-content:flex-end}
   .delete-btn{padding:5px 12px;font-size:11px;border:1px solid #fca5a5;border-radius:6px;background:#fff;cursor:pointer;color:#ef4444;font-family:inherit;transition:all 0.15s}
   .delete-btn:hover{background:#fef2f2;border-color:#ef4444}
+  .reviewed-ai-divider{border:none;border-top:1px solid #eee;margin:14px 0}
 </style>
 </head>
 <body>
@@ -191,18 +193,11 @@
   let allReports=[];
   let currentFilter='all';
 
-  window.pinPress=function(digit){
-    if(pinInput.length>=4) return;
-    pinInput+=digit;
-    updateDots();
-    if(pinInput.length===4) setTimeout(checkPin,150);
-  };
+  window.pinPress=function(digit){ if(pinInput.length>=4) return; pinInput+=digit; updateDots(); if(pinInput.length===4) setTimeout(checkPin,150); };
   window.pinDel=function(){ pinInput=pinInput.slice(0,-1); updateDots(); document.getElementById('pinError').textContent=''; };
   window.pinClear=function(){ pinInput=''; updateDots(); document.getElementById('pinError').textContent=''; };
 
-  function updateDots(){
-    for(let i=0;i<4;i++) document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':'');
-  }
+  function updateDots(){ for(let i=0;i<4;i++) document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':''); }
 
   function checkPin(){
     if(pinInput===CORRECT_PIN){
@@ -251,14 +246,11 @@
     const status=document.getElementById(site+'Status');
     const sub=document.getElementById(site+'Sub');
     if(report){
-      dot.className='comp-dot green';
-      status.textContent='Submitted';
+      dot.className='comp-dot green'; status.textContent='Submitted';
       const t=new Date(report.submitted_at);
       sub.textContent=`${report.staff_name} · ${t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'})}`;
     } else {
-      dot.className='comp-dot red';
-      status.textContent='Not submitted';
-      sub.textContent='No report yet today';
+      dot.className='comp-dot red'; status.textContent='Not submitted'; sub.textContent='No report yet today';
     }
   }
 
@@ -277,33 +269,22 @@
     document.getElementById('reportsList').innerHTML=filtered.map(r=>buildCard(r)).join('');
   }
 
-  function fmtReviewedAt(iso){
+  function fmtTime(iso){
     const t=new Date(iso);
     return t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' · '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
   }
 
-  function buildCard(r){
-    const t=new Date(r.submitted_at);
-    const timeStr=t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' · '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-    const hasRecurring=r.incidents&&r.incidents.some(i=>i.recurring==='Yes');
-    const response=r.manager_response||'';
-    const isReviewed=!!r.reviewed;
-    const responseClass=response==='Noted'?'selected-noted':response==='Follow up required'?'selected-followup':response==='Resolved'?'selected-resolved':'';
-
-    const aiContent=r.ai_summary
-      ? Object.entries(r.ai_summary).map(([sec,val])=>`
-          <div class="summary-block">
-            <div class="summary-section-lbl">${sec}</div>
-            <div class="summary-text">${val}</div>
-          </div>`).join('')
-      : `<div id="aiload_${r.id}"><button class="gen-summary-btn" onclick="generateSummary('${r.id}')">Generate AI summary</button></div>`;
-
-    const reviewBlock=isReviewed
-      ? `<div class="reviewed-stamp">✓ Reviewed <span class="reviewed-time">${fmtReviewedAt(r.reviewed_at)}</span></div>`
-      : `<button class="mgr-btn review-btn" onclick="markReviewed('${r.id}')">✓ Mark as reviewed</button>`;
+  function buildFullSection(r){
+    const operationalRows=r.site==='TSC'
+      ?`<div class="field-row"><span class="field-key">Units occupied</span><span class="field-val">${r.units_occupied||'—'}</span></div>
+        <div class="field-row"><span class="field-key">Check-ins</span><span class="field-val">${r.check_ins||'0'}</span></div>
+        <div class="field-row"><span class="field-key">Check-outs</span><span class="field-val">${r.check_outs||'0'}</span></div>`
+      :`<div class="field-row"><span class="field-key">Areas covered</span><span class="field-val">${r.areas_covered||'—'}</span></div>
+        <div class="field-row"><span class="field-key">Activities</span><span class="field-val">${r.activities_completed||'—'}</span></div>
+        <div class="field-row"><span class="field-key">Getz</span><span class="field-val">${r.getz_present||'—'} · ${r.getz_rating||0}/5${r.getz_comments?' · '+r.getz_comments:''}</span></div>`;
 
     const incidentRows=r.incidents&&r.incidents.filter(i=>i.category).length>0
-      ? r.incidents.filter(i=>i.category).map((inc,idx)=>`
+      ?r.incidents.filter(i=>i.category).map((inc,idx)=>`
           <div class="inc-block">
             <div class="inc-num">Incident ${idx+1}</div>
             <div class="field-row"><span class="field-key">Category</span><span class="field-val">${inc.category}</span></div>
@@ -313,18 +294,74 @@
             <div class="field-row"><span class="field-key">Action taken</span><span class="field-val">${inc.action||'—'}</span></div>
             <div class="field-row"><span class="field-key">Recurring</span><span class="field-val">${inc.recurring}</span></div>
           </div>`).join('')
-      : '<div class="field-row"><span class="field-key">Incidents</span><span class="field-val">None this shift.</span></div>';
-
-    const operationalRows=r.site==='TSC'
-      ? `<div class="field-row"><span class="field-key">Units occupied</span><span class="field-val">${r.units_occupied||'—'}</span></div>
-         <div class="field-row"><span class="field-key">Check-ins</span><span class="field-val">${r.check_ins||'0'}</span></div>
-         <div class="field-row"><span class="field-key">Check-outs</span><span class="field-val">${r.check_outs||'0'}</span></div>`
-      : `<div class="field-row"><span class="field-key">Areas covered</span><span class="field-val">${r.areas_covered||'—'}</span></div>
-         <div class="field-row"><span class="field-key">Activities</span><span class="field-val">${r.activities_completed||'—'}</span></div>
-         <div class="field-row"><span class="field-key">Getz</span><span class="field-val">${r.getz_present||'—'} · ${r.getz_rating||0}/5${r.getz_comments?' · '+r.getz_comments:''}</span></div>`;
+      :'<div class="field-row"><span class="field-key">Incidents</span><span class="field-val">None this shift.</span></div>';
 
     return `
-      <div class="report-card${isReviewed?' reviewed':''}" id="card_${r.id}">
+      <div class="full-label">Full report</div>
+      ${operationalRows}
+      <div class="field-row"><span class="field-key">Positive observations</span><span class="field-val">${r.positive_observations||'None'}</span></div>
+      <div style="margin:10px 0 6px"><div class="full-label">Incidents</div></div>
+      ${incidentRows}
+      <div class="field-row" style="margin-top:8px"><span class="field-key">7-day risk</span><span class="field-val">${r.seven_day_risk||'None'}</span></div>
+      ${r.site==='TSC'?`<div class="field-row"><span class="field-key">Cost / opportunity</span><span class="field-val">${r.cost_opportunity||'None'}</span></div>`:''}
+      <div class="field-row"><span class="field-key">Handover notes</span><span class="field-val">${r.handover_notes||'None'}</span></div>
+      <div class="field-row"><span class="field-key">Welfare concern</span><span class="field-val">${r.welfare_concern||'None'}</span></div>
+      <hr class="full-divider"/>
+      <div class="delete-row"><button class="delete-btn" onclick="deleteReport('${r.id}')">🗑 Delete report</button></div>`;
+  }
+
+  function buildCard(r){
+    const timeStr=fmtTime(r.submitted_at);
+    const hasRecurring=r.incidents&&r.incidents.some(i=>i.recurring==='Yes');
+    const response=r.manager_response||'';
+    const isReviewed=!!r.reviewed;
+
+    if(isReviewed){
+      const badgeClass=response==='Acknowledged'?'noted':response==='Follow up required'?'followup':'';
+      const aiSummaryBlock=r.ai_summary
+        ?`<div style="padding:12px 16px;border-top:1px solid #f0f0f0">
+            <div class="ai-label"><span class="ai-dot"></span> AI Summary</div>
+            ${Object.entries(r.ai_summary).map(([sec,val])=>`
+              <div class="summary-block">
+                <div class="summary-section-lbl">${sec}</div>
+                <div class="summary-text">${val}</div>
+              </div>`).join('')}
+          </div>`
+        :'';
+      return `
+        <div class="report-card reviewed" id="card_${r.id}">
+          <div class="compact-row">
+            <div class="report-meta">
+              <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
+              <span class="report-staff">${r.staff_name}</span>
+              <span class="report-time">${timeStr}</span>
+            </div>
+            <div class="compact-right">
+              ${hasRecurring?'<div class="flag-dot flag-recurring" title="Recurring issues"></div>':''}
+              ${response?`<span class="compact-badge ${badgeClass}">${response}</span>`:''}
+              <span class="reviewed-mini">✓ ${fmtTime(r.reviewed_at)}</span>
+              <button class="expand-sm" onclick="toggleFull('${r.id}')"><span id="expandIcon_${r.id}">+</span></button>
+            </div>
+          </div>
+          <div class="full-section" id="full_${r.id}">
+            ${aiSummaryBlock}
+            <div style="padding:14px 16px">${buildFullSection(r)}</div>
+          </div>
+        </div>`;
+    }
+
+    const aiContent=r.ai_summary
+      ?Object.entries(r.ai_summary).map(([sec,val])=>`
+          <div class="summary-block">
+            <div class="summary-section-lbl">${sec}</div>
+            <div class="summary-text">${val}</div>
+          </div>`).join('')
+      :`<div id="aiload_${r.id}"><button class="gen-summary-btn" onclick="generateSummary('${r.id}')">Generate AI summary</button></div>`;
+
+    const responseClass=response==='Acknowledged'?'selected-noted':response==='Follow up required'?'selected-followup':'';
+
+    return `
+      <div class="report-card" id="card_${r.id}">
         <div class="report-card-header">
           <div class="report-meta">
             <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
@@ -333,42 +370,24 @@
           </div>
           <div class="report-flags">
             ${hasRecurring?'<div class="flag-dot flag-recurring" title="Recurring issues"></div>':''}
-            ${isReviewed?'<span class="flag-label" style="color:#22c55e">✓ Reviewed</span>':''}
-            ${!isReviewed&&response?`<span class="flag-label" style="color:#22c55e">${response}</span>`:''}
           </div>
         </div>
-
         <div class="ai-body">
           <div class="ai-label"><span class="ai-dot"></span> AI Summary</div>
           ${aiContent}
         </div>
-
         <div class="card-footer">
           <div class="mgr-btns">
-            ${['Noted','Follow up required','Resolved'].map(a=>`
+            ${['Acknowledged','Follow up required'].map(a=>`
               <button class="mgr-btn ${response===a?responseClass:''}" onclick="setResponse('${r.id}','${a}')">${a}</button>
             `).join('')}
-            ${reviewBlock}
           </div>
-          <button class="expand-btn" onclick="toggleFull('${r.id}')" id="expandBtn_${r.id}">
-            <span class="expand-icon" id="expandIcon_${r.id}">+</span> Full report
+          <button class="expand-btn" onclick="toggleFull('${r.id}')">
+            <span id="expandIcon_${r.id}">+</span> Full report
           </button>
         </div>
-
         <div class="full-section" id="full_${r.id}">
-          <div class="full-label">Full report</div>
-          ${operationalRows}
-          <div class="field-row"><span class="field-key">Positive observations</span><span class="field-val">${r.positive_observations||'None'}</span></div>
-          <div style="margin:10px 0 6px"><div class="full-label">Incidents</div></div>
-          ${incidentRows}
-          <div class="field-row" style="margin-top:8px"><span class="field-key">7-day risk</span><span class="field-val">${r.seven_day_risk||'None'}</span></div>
-          ${r.site==='TSC'?`<div class="field-row"><span class="field-key">Cost / opportunity</span><span class="field-val">${r.cost_opportunity||'None'}</span></div>`:''}
-          <div class="field-row"><span class="field-key">Handover notes</span><span class="field-val">${r.handover_notes||'None'}</span></div>
-          <div class="field-row"><span class="field-key">Welfare concern</span><span class="field-val">${r.welfare_concern||'None'}</span></div>
-          <hr class="full-divider"/>
-          <div class="delete-row">
-            <button class="delete-btn" onclick="deleteReport('${r.id}')">🗑 Delete report</button>
-          </div>
+          <div style="padding:14px 16px">${buildFullSection(r)}</div>
         </div>
       </div>`;
   }
@@ -382,22 +401,13 @@
   };
 
   window.setResponse=async function(id,response){
-    try {
-      await updateDoc(doc(db,'reports',id),{manager_response:response});
-      const report=allReports.find(r=>r.id===id);
-      if(report) report.manager_response=response;
-      renderReports();
-    } catch(e){ alert('Failed to save response.'); }
-  };
-
-  window.markReviewed=async function(id){
     const reviewedAt=new Date().toISOString();
     try {
-      await updateDoc(doc(db,'reports',id),{reviewed:true,reviewed_at:reviewedAt});
+      await updateDoc(doc(db,'reports',id),{manager_response:response,reviewed:true,reviewed_at:reviewedAt});
       const report=allReports.find(r=>r.id===id);
-      if(report){ report.reviewed=true; report.reviewed_at=reviewedAt; }
+      if(report){ report.manager_response=response; report.reviewed=true; report.reviewed_at=reviewedAt; }
       renderReports();
-    } catch(e){ alert('Failed to mark as reviewed.'); }
+    } catch(e){ alert('Failed to save response.'); }
   };
 
   window.deleteReport=async function(id){
@@ -420,12 +430,10 @@
     const ailoadEl=document.getElementById('aiload_'+id);
     if(!ailoadEl) return;
     ailoadEl.innerHTML='<span class="ai-loading">Generating summary...</span>';
-
     const isSAS=report.site==='SAS';
     const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
       `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
     ).join('\n\n')||'No incidents reported this shift.';
-
     const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
 
 Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
@@ -461,13 +469,8 @@ PATTERN ALERT
 
 RECOMMENDED ACTION
 [One specific action tied to actual report content. If nothing: "No action required."]`;
-
     try {
-      const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({prompt})
-      });
+      const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
       const data=await res.json();
       const text=data.text||'';
       const sections=['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
