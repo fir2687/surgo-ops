@@ -47,7 +47,8 @@
   .comp-text{font-size:13px;color:#111;font-weight:500}
   .comp-sub{font-size:11px;color:#999;margin-top:4px}
   .section-label{font-size:10px;font-weight:700;color:#bbb;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #e5e5e5}
-  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:12px;overflow:hidden}
+  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:12px;overflow:hidden;transition:opacity 0.2s}
+  .report-card.reviewed{opacity:0.55}
   .report-card-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
   .report-card-header:hover{background:#fafafa}
   .report-meta{display:flex;align-items:center;gap:10px}
@@ -74,12 +75,18 @@
   .raw-fields.open{display:block}
   .mgr-response{margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0}
   .mgr-label{font-size:10px;font-weight:700;color:#bbb;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
-  .mgr-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .mgr-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .mgr-btn{padding:6px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
   .mgr-btn:hover{border-color:#000;color:#000}
   .mgr-btn.selected-noted{background:#f0fdf4;border-color:#86efac;color:#166534}
   .mgr-btn.selected-followup{background:#fffbeb;border-color:#fcd34d;color:#92400e}
   .mgr-btn.selected-resolved{background:#eff6ff;border-color:#93c5fd;color:#1e40af}
+  .mgr-btn.review-btn{border-color:#22c55e;color:#166534}
+  .mgr-btn.review-btn:hover{background:#f0fdf4}
+  .reviewed-stamp{font-size:11px;color:#22c55e;font-weight:600;display:flex;align-items:center;gap:4px}
+  .mgr-actions-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #f5f5f5}
+  .delete-btn{padding:5px 12px;font-size:11px;border:1px solid #fca5a5;border-radius:6px;background:#fff;cursor:pointer;color:#ef4444;font-family:inherit;transition:all 0.15s}
+  .delete-btn:hover{background:#fef2f2;border-color:#ef4444}
   .empty-state{text-align:center;padding:48px 24px;color:#bbb;font-size:13px}
   .filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
   .filter-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
@@ -146,9 +153,10 @@
     </div>
 
     <div class="filter-row">
-      <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn active" id="filterAll" onclick="setFilter('all',this)">All</button>
       <button class="filter-btn" onclick="setFilter('TSC',this)">TSC only</button>
       <button class="filter-btn" onclick="setFilter('SAS',this)">SAS only</button>
+      <button class="filter-btn" onclick="setFilter('unreviewed',this)">Unreviewed</button>
       <button class="filter-btn" onclick="setFilter('test',this)">Test entries</button>
     </div>
 
@@ -159,7 +167,7 @@
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, collection, getDocs, doc, updateDoc, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
@@ -271,17 +279,26 @@
 
   function renderReports() {
     let filtered = allReports;
-    if(currentFilter === 'TSC') filtered = allReports.filter(r => r.site==='TSC');
-    else if(currentFilter === 'SAS') filtered = allReports.filter(r => r.site==='SAS');
+    if(currentFilter === 'TSC') filtered = allReports.filter(r => r.site==='TSC' && !r.is_test);
+    else if(currentFilter === 'SAS') filtered = allReports.filter(r => r.site==='SAS' && !r.is_test);
     else if(currentFilter === 'test') filtered = allReports.filter(r => r.is_test);
+    else if(currentFilter === 'unreviewed') filtered = allReports.filter(r => !r.is_test && !r.reviewed);
     else filtered = allReports.filter(r => !r.is_test);
 
     if(filtered.length === 0) {
-      document.getElementById('reportsList').innerHTML = '<div class="empty-state">No reports found.</div>';
+      const msg = currentFilter === 'unreviewed'
+        ? 'All caught up — no unreviewed reports.'
+        : 'No reports found.';
+      document.getElementById('reportsList').innerHTML = `<div class="empty-state">${msg}</div>`;
       return;
     }
 
     document.getElementById('reportsList').innerHTML = filtered.map(r => buildCard(r)).join('');
+  }
+
+  function fmtReviewedAt(iso) {
+    const t = new Date(iso);
+    return t.toLocaleDateString('en-SG',{day:'numeric',month:'short'}) + ' · ' + t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
   }
 
   function buildCard(r) {
@@ -290,10 +307,7 @@
     const hasRecurring = r.incidents && r.incidents.some(i => i.recurring==='Yes');
     const isTest = r.is_test;
     const response = r.manager_response || '';
-
-    const incidentLines = r.incidents && r.incidents.length > 0
-      ? r.incidents.filter(i=>i.category).map(i=>`- ${i.category} at ${i.location}: ${i.details||'No details'} [${i.severity}${i.recurring==='Yes'?' · Recurring':''}]`).join('\n')
-      : 'No incidents this shift.';
+    const isReviewed = !!r.reviewed;
 
     const rawFields = `
       Site: ${r.site} | Staff: ${r.staff_name} | Date: ${r.date}
@@ -317,8 +331,12 @@
 
     const responseClass = response === 'Noted' ? 'selected-noted' : response === 'Follow up required' ? 'selected-followup' : response === 'Resolved' ? 'selected-resolved' : '';
 
+    const reviewBlock = isReviewed
+      ? `<div class="reviewed-stamp">✓ Reviewed &nbsp;<span style="font-weight:400;color:#6ee7b7;font-size:10px">${fmtReviewedAt(r.reviewed_at)}</span></div>`
+      : `<button class="mgr-btn review-btn" onclick="markReviewed('${r.id}')">✓ Mark as reviewed</button>`;
+
     return `
-      <div class="report-card" id="card_${r.id}">
+      <div class="report-card${isReviewed ? ' reviewed' : ''}" id="card_${r.id}">
         <div class="report-card-header" onclick="toggleCard('${r.id}')">
           <div class="report-meta">
             <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
@@ -328,7 +346,8 @@
           <div class="report-flags">
             ${hasRecurring ? '<div class="flag-dot flag-recurring" title="Recurring issues"></div>' : ''}
             ${isTest ? '<span class="flag-label">TEST</span>' : ''}
-            ${response ? `<span class="flag-label" style="color:#22c55e">${response}</span>` : ''}
+            ${isReviewed ? '<span class="flag-label" style="color:#22c55e">✓ Reviewed</span>' : ''}
+            ${!isReviewed && response ? `<span class="flag-label" style="color:#22c55e">${response}</span>` : ''}
             <span class="chevron" id="chev_${r.id}">›</span>
           </div>
         </div>
@@ -342,6 +361,10 @@
               ${['Noted','Follow up required','Resolved'].map(a=>`
                 <button class="mgr-btn ${response===a?responseClass:''}" onclick="setResponse('${r.id}','${a}')">${a}</button>
               `).join('')}
+            </div>
+            <div class="mgr-actions-row">
+              ${reviewBlock}
+              <button class="delete-btn" onclick="deleteReport('${r.id}')">🗑 Delete report</button>
             </div>
           </div>
         </div>
@@ -367,6 +390,35 @@
       renderReports();
     } catch(e) {
       alert('Failed to save response.');
+    }
+  };
+
+  window.markReviewed = async function(id) {
+    const reviewedAt = new Date().toISOString();
+    try {
+      await updateDoc(doc(db,'reports',id), { reviewed: true, reviewed_at: reviewedAt });
+      const report = allReports.find(r=>r.id===id);
+      if(report) { report.reviewed = true; report.reviewed_at = reviewedAt; }
+      renderReports();
+    } catch(e) {
+      alert('Failed to mark as reviewed.');
+    }
+  };
+
+  window.deleteReport = async function(id) {
+    const report = allReports.find(r=>r.id===id);
+    const label = report ? `${report.site} report by ${report.staff_name} on ${report.date}` : 'this report';
+    if(!confirm(`Delete ${label}?\n\nThis cannot be undone.`)) return;
+    try {
+      await deleteDoc(doc(db,'reports',id));
+      allReports = allReports.filter(r=>r.id!==id);
+      // Refresh compliance row
+      const today = new Date().toISOString().split('T')[0];
+      setCompliance('tsc', allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test));
+      setCompliance('sas', allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test));
+      renderReports();
+    } catch(e) {
+      alert('Failed to delete report.');
     }
   };
 
