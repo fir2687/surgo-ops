@@ -23,7 +23,6 @@
   input:focus,select:focus,textarea:focus{border-color:#000}
   textarea{resize:vertical;min-height:72px;line-height:1.5}
   select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .incident-block{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px;margin-bottom:12px}
   .incident-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
   .incident-num{font-size:10px;font-weight:700;color:#999;letter-spacing:0.08em;text-transform:uppercase}
@@ -31,7 +30,7 @@
   .remove-btn:hover{color:#e74c3c}
   .severity-row{display:flex;gap:8px;flex-wrap:wrap}
   .sev-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;color:#888;transition:all 0.15s;font-family:inherit}
-  .sev-btn.active-low{background:#f0fdf4;border-color:#86efac;color:#166534}
+  .sev-btn.active-low{background:#f0fdf4;border-color:#86efac;color:#166634}
   .sev-btn.active-medium{background:#fffbeb;border-color:#fcd34d;color:#92400e}
   .sev-btn.active-high{background:#fff7ed;border-color:#fdba74;color:#9a3412}
   .sev-btn.active-urgent{background:#fef2f2;border-color:#fca5a5;color:#991b1b}
@@ -46,14 +45,46 @@
   .star-row{display:flex;gap:6px}
   .star-btn{width:36px;height:36px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
   .star-btn.active{background:#111;border-color:#111}
-  .submit-btn{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;margin-top:8px}
-  .submit-btn:hover{background:#222}
+  .submit-btn{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
   .submit-btn:disabled{background:#ccc;cursor:not-allowed}
   .success-screen{display:none;text-align:center;padding:48px 24px}
   .success-icon{font-size:48px;margin-bottom:16px}
   .success-title{font-size:20px;font-weight:600;color:#111;margin-bottom:8px}
   .success-sub{font-size:14px;color:#888;margin-bottom:32px}
-  .back-btn{display:inline-block;padding:12px 28px;background:#000;color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:500}
+  .back-btn{display:inline-block;padding:12px 28px;background:#000;color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:inherit}
+  .home-title{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
+  .home-sub{font-size:12px;color:#999;margin-bottom:32px}
+  .home-btn{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:12px;border:none}
+  .home-btn-primary{background:#000;color:#fff}
+  .home-btn-secondary{background:#fff;color:#111;border:1px solid #ddd !important}
+  .back-link{display:flex;align-items:center;gap:6px;font-size:12px;color:#999;background:none;border:none;cursor:pointer;padding:0;margin-bottom:16px;font-family:inherit}
+  .back-link:hover{color:#111}
+  .edit-banner{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#92400e;display:none}
+  .past-title{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
+  .past-sub{font-size:12px;color:#999;margin-bottom:20px}
+  .week-group{margin-bottom:4px;background:#fff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden}
+  .week-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff}
+  .week-header:hover{background:#fafafa}
+  .week-title{font-size:13px;font-weight:600;color:#111}
+  .week-meta{font-size:11px;color:#999;display:flex;align-items:center;gap:6px}
+  .week-pill{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+  .week-pill.all{background:#f0fdf4;color:#166534}
+  .week-pill.partial{background:#fffbeb;color:#92400e}
+  .week-pill.none{background:#fef2f2;color:#991b1b}
+  .week-body{border-top:1px solid #f0f0f0}
+  .past-entry{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f8f8f8}
+  .past-entry:last-child{border-bottom:none}
+  .entry-left{display:flex;align-items:center;gap:10px}
+  .status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .dot-green{background:#22c55e}
+  .dot-grey{background:#d1d5db}
+  .entry-date{font-size:12px;font-weight:500;color:#111}
+  .entry-sub{font-size:11px;color:#999}
+  .entry-missing{font-size:11px;color:#e74c3c}
+  .edit-link-btn{font-size:12px;color:#111;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;font-family:inherit;font-weight:500}
+  .edit-link-btn:hover{background:#f0f0f0}
+  .past-loading{text-align:center;padding:32px;color:#bbb;font-size:13px}
+  .week-collapsed-note{padding:10px 16px;font-size:11px;color:#999;font-style:italic}
 </style>
 </head>
 <body>
@@ -64,10 +95,24 @@
   </a>
   <span class="site-tag">SAS · Healthcare Dorm</span>
 </header>
+
 <main>
-  <div id="formView">
+
+  <!-- HOME VIEW -->
+  <div id="homeView">
+    <div class="home-title">(SAS) Daily Shift Report</div>
+    <p class="home-sub" id="homeDateDisplay"></p>
+    <button class="home-btn home-btn-primary" onclick="showView('formView')">+ New report</button>
+    <button class="home-btn home-btn-secondary" onclick="loadPastSubmissions()">Past submissions</button>
+  </div>
+
+  <!-- FORM VIEW -->
+  <div id="formView" style="display:none">
+    <button class="back-link" onclick="goBackFromForm()">← Back</button>
+    <div class="edit-banner" id="editBanner">✎ Editing submission — changes will overwrite the original</div>
     <div class="page-title">(SAS) Daily Shift Report</div>
     <p class="page-sub" id="dateDisplay"></p>
+
     <section>
       <div class="section-label">Header</div>
       <div class="field">
@@ -84,6 +129,7 @@
         <input type="date" id="date"/>
       </div>
     </section>
+
     <section>
       <div class="section-label">Operational</div>
       <div class="field">
@@ -95,6 +141,7 @@
         <textarea id="activities_completed" placeholder="e.g. Room Inspection, Housekeeping Check, Resident Engagement"></textarea>
       </div>
     </section>
+
     <section>
       <div class="section-label">Observations</div>
       <div class="field">
@@ -102,11 +149,13 @@
         <textarea id="positive_observations" placeholder="What went well this shift?"></textarea>
       </div>
     </section>
+
     <section>
       <div class="section-label">Incidents</div>
       <div id="incidentContainer"></div>
       <button class="add-incident-btn" onclick="addIncident()">+ Add another incident</button>
     </section>
+
     <section>
       <div class="section-label">Vendor — Getz Cleaning</div>
       <div class="field">
@@ -119,7 +168,7 @@
       </div>
       <div class="field" id="getzRatingField">
         <label>Rate Getz cleaning today</label>
-        <div class="star-row" id="starRow">
+        <div class="star-row">
           <button type="button" class="star-btn" onclick="setRating(1)" id="star_1">★</button>
           <button type="button" class="star-btn" onclick="setRating(2)" id="star_2">★</button>
           <button type="button" class="star-btn" onclick="setRating(3)" id="star_3">★</button>
@@ -132,6 +181,7 @@
         <input type="text" id="getz_comments" placeholder="Any feedback on cleaning quality?"/>
       </div>
     </section>
+
     <section>
       <div class="section-label">End of Shift</div>
       <div class="field">
@@ -147,24 +197,203 @@
         <input type="text" id="welfare_concern" placeholder="Any staff or resident wellbeing issues to flag?"/>
       </div>
     </section>
+
     <button class="submit-btn" onclick="submitReport()" id="submitBtn">Submit report</button>
   </div>
+
+  <!-- PAST SUBMISSIONS VIEW -->
+  <div id="pastView" style="display:none">
+    <button class="back-link" onclick="showView('homeView')">← Back</button>
+    <div class="past-title">Past submissions</div>
+    <p class="past-sub">SAS · tap any entry to view or edit</p>
+    <div id="pastList"><div class="past-loading">Loading submissions...</div></div>
+  </div>
+
+  <!-- SUCCESS VIEW -->
   <div class="success-screen" id="successView">
     <div class="success-icon">✓</div>
-    <div class="success-title">Report submitted</div>
-    <p class="success-sub">Your shift report has been recorded.<br/>Thank you, <span id="successName"></span>.</p>
-    <a href="index.html" class="back-btn">Back to home</a>
+    <div class="success-title" id="successTitle">Report submitted</div>
+    <p class="success-sub" id="successSub">Your shift report has been recorded.<br/>Thank you, <span id="successName"></span>.</p>
+    <button class="back-btn" onclick="returnHome()">Back to SAS home</button>
   </div>
-</main>
-<script>
-  const today=new Date();
-  document.getElementById('date').value=today.toISOString().split('T')[0];
-  document.getElementById('dateDisplay').textContent=today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
+</main>
+
+<script>
   const SAS_CATEGORIES=['Housekeeping','Electrical Safety','Maintenance','Safety / Fire Hazard','Welfare / Behaviour','Pest','Other'];
   let incidentCount=0;
+  let editMode=false;
+  let editDocId=null;
+  let editOriginalSubmittedAt=null;
+  let cachedReports=[];
   let getzPresent='Yes';
   let getzRating=0;
+
+  const today=new Date();
+  const todayStr=today.toISOString().split('T')[0];
+  const todayLabel=today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  document.getElementById('homeDateDisplay').textContent=todayLabel;
+  document.getElementById('date').value=todayStr;
+  document.getElementById('dateDisplay').textContent=todayLabel;
+
+  function showView(id){
+    ['homeView','formView','pastView','successView'].forEach(v=>{
+      const el=document.getElementById(v);
+      if(el) el.style.display=v===id?'block':'none';
+    });
+  }
+
+  function goBackFromForm(){ showView(editMode?'pastView':'homeView'); }
+
+  function returnHome(){
+    editMode=false; editDocId=null; editOriginalSubmittedAt=null;
+    document.getElementById('editBanner').style.display='none';
+    document.getElementById('submitBtn').textContent='Submit report';
+    resetForm();
+    showView('homeView');
+  }
+
+  function resetForm(){
+    document.getElementById('staff_name').value='';
+    document.getElementById('date').value=todayStr;
+    document.getElementById('areas_covered').value='';
+    document.getElementById('activities_completed').value='';
+    document.getElementById('positive_observations').value='';
+    document.getElementById('seven_day_risk').value='';
+    document.getElementById('handover_notes').value='';
+    document.getElementById('welfare_concern').value='';
+    document.getElementById('getz_comments').value='';
+    setGetz('Yes'); getzRating=0;
+    for(let i=1;i<=5;i++){ const b=document.getElementById('star_'+i); if(b) b.className='star-btn'; }
+    document.getElementById('incidentContainer').innerHTML='';
+    incidentCount=0; addIncident();
+  }
+
+  function prefillForm(report){
+    document.getElementById('staff_name').value=report.staff_name||'';
+    document.getElementById('date').value=report.date||'';
+    document.getElementById('areas_covered').value=report.areas_covered||'';
+    document.getElementById('activities_completed').value=report.activities_completed||'';
+    document.getElementById('positive_observations').value=report.positive_observations||'';
+    document.getElementById('seven_day_risk').value=report.seven_day_risk||'';
+    document.getElementById('handover_notes').value=report.handover_notes||'';
+    document.getElementById('welfare_concern').value=report.welfare_concern||'';
+    document.getElementById('getz_comments').value=report.getz_comments||'';
+    setGetz(report.getz_present||'Yes');
+    if(report.getz_rating) setRating(report.getz_rating);
+    document.getElementById('incidentContainer').innerHTML='';
+    incidentCount=0;
+    if(report.incidents&&report.incidents.length>0){ report.incidents.forEach(inc=>addIncident(inc)); }
+    else { addIncident(); }
+  }
+
+  function editReport(id){
+    const report=cachedReports.find(r=>r.id===id);
+    if(!report) return;
+    editMode=true; editDocId=id; editOriginalSubmittedAt=report.submitted_at;
+    document.getElementById('editBanner').style.display='block';
+    document.getElementById('submitBtn').textContent='Save changes';
+    prefillForm(report);
+    showView('formView');
+  }
+
+  async function loadPastSubmissions(){
+    showView('pastView');
+    document.getElementById('pastList').innerHTML='<div class="past-loading">Loading submissions...</div>';
+    try {
+      cachedReports=await window.__loadReports('SAS');
+      renderPastView(cachedReports);
+    } catch(e){
+      document.getElementById('pastList').innerHTML='<div class="past-loading">Failed to load. Check connection.</div>';
+    }
+  }
+
+  function getWeekGroups(reports){
+    const byDate={};
+    reports.forEach(r=>{ if(!byDate[r.date]) byDate[r.date]=[]; byDate[r.date].push(r); });
+    const groups=[];
+    const now=new Date(); now.setHours(0,0,0,0);
+    let weekStart=new Date(now);
+    const dow=weekStart.getDay();
+    weekStart.setDate(weekStart.getDate()-(dow===0?6:dow-1));
+    for(let w=0;w<12;w++){
+      const weekEnd=new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+6);
+      const dates=[];
+      for(let d=new Date(weekEnd);d>=weekStart;d.setDate(d.getDate()-1)){
+        if(d>now) continue;
+        const dateStr=d.toISOString().split('T')[0];
+        const dayLabel=new Date(dateStr+'T12:00:00').toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});
+        dates.push({date:dateStr,dayLabel,reports:byDate[dateStr]||[]});
+      }
+      if(dates.length>0){
+        const submitted=dates.filter(d=>d.reports.length>0).length;
+        let label;
+        if(w===0) label='This week';
+        else if(w===1) label='Last week';
+        else label=new Date(weekStart).toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' – '+new Date(weekEnd).toLocaleDateString('en-SG',{day:'numeric',month:'short'});
+        groups.push({label,dates,submitted,total:dates.length,index:w});
+      }
+      weekStart.setDate(weekStart.getDate()-7);
+    }
+    return groups;
+  }
+
+  function renderPastView(reports){
+    const groups=getWeekGroups(reports);
+    if(groups.length===0){ document.getElementById('pastList').innerHTML='<div class="past-loading">No submissions yet.</div>'; return; }
+    let html='';
+    groups.forEach((week,wi)=>{
+      const allSubmitted=week.submitted===week.total;
+      const noneSubmitted=week.submitted===0;
+      const pillClass=allSubmitted?'all':noneSubmitted?'none':'partial';
+      const pillText=allSubmitted?`All ${week.total} submitted`:`${week.submitted} / ${week.total} submitted`;
+      const collapsed=allSubmitted&&wi>0;
+      html+=`<div class="week-group">
+        <div class="week-header" onclick="toggleWeek(${wi})">
+          <span class="week-title">${week.label}</span>
+          <span class="week-meta"><span class="week-pill ${pillClass}">${pillText}</span><span id="wchev_${wi}">${collapsed?'›':'⌄'}</span></span>
+        </div>
+        <div class="week-body" id="wbody_${wi}" style="display:${collapsed?'none':'block'}">`;
+      if(collapsed){
+        html+=`<div class="week-collapsed-note">All days submitted — tap header to expand</div>`;
+      } else {
+        week.dates.forEach(d=>{
+          if(d.reports.length>0){
+            d.reports.forEach(r=>{
+              const t=new Date(r.submitted_at);
+              const timeStr=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+              html+=`<div class="past-entry">
+                <div class="entry-left">
+                  <div class="status-dot dot-green"></div>
+                  <div><div class="entry-date">${d.dayLabel}</div><div class="entry-sub">${r.staff_name} · ${timeStr}${r.updated_at?' · edited':''}</div></div>
+                </div>
+                <button class="edit-link-btn" onclick="editReport('${r.id}')">Edit ›</button>
+              </div>`;
+            });
+          } else {
+            html+=`<div class="past-entry">
+              <div class="entry-left">
+                <div class="status-dot dot-grey"></div>
+                <div><div class="entry-date" style="color:#999">${d.dayLabel}</div><div class="entry-missing">Not submitted</div></div>
+              </div>
+              <span style="font-size:11px;color:#ddd">—</span>
+            </div>`;
+          }
+        });
+      }
+      html+=`</div></div>`;
+    });
+    document.getElementById('pastList').innerHTML=html;
+  }
+
+  window.toggleWeek=function(wi){
+    const body=document.getElementById('wbody_'+wi);
+    const chev=document.getElementById('wchev_'+wi);
+    const open=body.style.display!=='none';
+    body.style.display=open?'none':'block';
+    chev.textContent=open?'›':'⌄';
+  };
 
   function setGetz(val){
     getzPresent=val;
@@ -189,40 +418,33 @@
     incidentCount++;
     const id=incidentCount;
     const div=document.createElement('div');
-    div.className='incident-block';
-    div.id='incident_'+id;
+    div.className='incident-block'; div.id='incident_'+id;
     div.innerHTML=`
       <div class="incident-header">
         <span class="incident-num">Incident ${id}</span>
         ${id>1?`<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>`:''}
       </div>
-      <div class="field">
-        <label>Category</label>
+      <div class="field"><label>Category</label>
         <select id="inc_cat_${id}">
           <option value="">— select category —</option>
           ${SAS_CATEGORIES.map(c=>`<option ${prefill.category===c?'selected':''}>${c}</option>`).join('')}
         </select>
       </div>
-      <div class="field">
-        <label>Location / room</label>
+      <div class="field"><label>Location / room</label>
         <input type="text" id="inc_loc_${id}" placeholder="e.g. Annex 3 (Male), Level 3" value="${prefill.location||''}"/>
       </div>
-      <div class="field">
-        <label>Severity</label>
+      <div class="field"><label>Severity</label>
         <div class="severity-row">
           ${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${!prefill.severity&&s==='Low'?'active-low':prefill.severity===s?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}
         </div>
       </div>
-      <div class="field">
-        <label>What happened</label>
+      <div class="field"><label>What happened</label>
         <textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea>
       </div>
-      <div class="field">
-        <label>Action taken</label>
+      <div class="field"><label>Action taken</label>
         <textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea>
       </div>
-      <div class="field">
-        <label>Recurring issue?</label>
+      <div class="field"><label>Recurring issue?</label>
         <div class="recurring-row">
           <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
           <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button>
@@ -267,12 +489,9 @@
       const cat=document.getElementById(`inc_cat_${i}`)?.value;
       if(!cat) continue;
       incidents.push({
-        category:cat,
-        location:document.getElementById(`inc_loc_${i}`)?.value||'',
-        severity:getActiveSeverity(i),
-        details:document.getElementById(`inc_details_${i}`)?.value||'',
-        action:document.getElementById(`inc_action_${i}`)?.value||'',
-        recurring:getActiveRecurring(i)
+        category:cat,location:document.getElementById(`inc_loc_${i}`)?.value||'',
+        severity:getActiveSeverity(i),details:document.getElementById(`inc_details_${i}`)?.value||'',
+        action:document.getElementById(`inc_action_${i}`)?.value||'',recurring:getActiveRecurring(i)
       });
     }
     return incidents;
@@ -284,49 +503,38 @@
     const staff=val('staff_name');
     if(!staff){ alert('Please select your name.'); return; }
     const btn=document.getElementById('submitBtn');
-    btn.disabled=true;
-    btn.textContent='Submitting...';
-
+    btn.disabled=true; btn.textContent=editMode?'Saving...':'Submitting...';
+    const now=new Date().toISOString();
     const report={
-      site:'SAS',
-      staff_name:staff,
-      date:val('date'),
-      areas_covered:val('areas_covered'),
-      activities_completed:val('activities_completed'),
-      positive_observations:val('positive_observations'),
-      incidents:collectIncidents(),
-      getz_present:getzPresent,
-      getz_rating:getzRating,
-      getz_comments:val('getz_comments'),
-      seven_day_risk:val('seven_day_risk'),
-      handover_notes:val('handover_notes'),
+      site:'SAS',staff_name:staff,date:val('date'),
+      areas_covered:val('areas_covered'),activities_completed:val('activities_completed'),
+      positive_observations:val('positive_observations'),incidents:collectIncidents(),
+      getz_present:getzPresent,getz_rating:getzRating,getz_comments:val('getz_comments'),
+      seven_day_risk:val('seven_day_risk'),handover_notes:val('handover_notes'),
       welfare_concern:val('welfare_concern'),
-      submitted_at:new Date().toISOString()
+      submitted_at:editMode&&editOriginalSubmittedAt?editOriginalSubmittedAt:now,
+      ...(editMode?{updated_at:now}:{})
     };
-
     let docId;
     try {
-      docId=await window.__saveReport(report);
+      docId=await window.__saveReport(report,editMode?editDocId:null);
     } catch(e){
-      console.error('Firestore write failed:',e);
       alert('Submission failed. Please try again.');
-      btn.disabled=false;
-      btn.textContent='Submit report';
+      btn.disabled=false; btn.textContent=editMode?'Save changes':'Submit report';
       return;
     }
-
-    document.getElementById('formView').style.display='none';
-    document.getElementById('successView').style.display='block';
-    document.getElementById('successName').textContent=staff;
-
-    generateAISummaryBackground(report, docId);
+    document.getElementById('successTitle').textContent=editMode?'Report updated':'Report submitted';
+    document.getElementById('successSub').innerHTML=editMode
+      ?`Your changes have been saved.<br/>Thank you, <span id="successName">${staff}</span>.`
+      :`Your shift report has been recorded.<br/>Thank you, <span id="successName">${staff}</span>.`;
+    showView('successView');
+    generateAISummaryBackground(report,docId);
   }
 
-  async function generateAISummaryBackground(report, docId){
+  async function generateAISummaryBackground(report,docId){
     const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
       `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
     ).join('\n\n')||'No incidents reported this shift.';
-
     const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
 
 Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
@@ -363,12 +571,9 @@ PATTERN ALERT
 
 RECOMMENDED ACTION
 [One specific action tied to actual report content. If nothing: "No action required."]`;
-
     try {
       const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({prompt})
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})
       });
       const data=await res.json();
       const text=data.text||'';
@@ -382,37 +587,37 @@ RECOMMENDED ACTION
         summary[sec]=text.slice(start+sec.length,end).trim();
       });
       await window.__updateSummary(docId,summary);
-    } catch(e){
-      console.log('Background AI generation failed silently:',e);
-    }
+    } catch(e){ console.log('Background AI failed:',e); }
   }
 
   addIncident();
 </script>
+
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
+  import { getFirestore, doc, setDoc, updateDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
   const firebaseConfig={
     apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain:"surgo-ops.firebaseapp.com",
-    projectId:"surgo-ops",
+    authDomain:"surgo-ops.firebaseapp.com",projectId:"surgo-ops",
     storageBucket:"surgo-ops.firebasestorage.app",
     messagingSenderId:"351122263344",
     appId:"1:351122263344:web:0354a5f0f31db078788cf5"
   };
-
   const app=initializeApp(firebaseConfig);
   const db=getFirestore(app);
-
-  window.__saveReport=async function(report){
-    const docId=`SAS_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
+  window.__saveReport=async function(report,existingDocId){
+    const docId=existingDocId||`SAS_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
     await setDoc(doc(db,'reports',docId),report);
     return docId;
   };
-
   window.__updateSummary=async function(docId,summary){
     await updateDoc(doc(db,'reports',docId),{ai_summary:summary});
+  };
+  window.__loadReports=async function(site){
+    const snap=await getDocs(collection(db,'reports'));
+    const reports=[];
+    snap.forEach(d=>{ const data=d.data(); if(data.site===site) reports.push({id:d.id,...data}); });
+    return reports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
   };
 </script>
 </body>
