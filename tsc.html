@@ -213,8 +213,11 @@
   let editOriginalSubmittedAt = null;
   let cachedReports = [];
 
+  function localDateStr(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
   const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = localDateStr(today);
   const todayLabel = today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
   document.getElementById('homeDateDisplay').textContent = todayLabel;
@@ -305,53 +308,38 @@
     }
   }
 
-  function getWeekGroups(reports) {
+  function getMonthGroups(reports) {
     const byDate = {};
     reports.forEach(r => {
       if(!byDate[r.date]) byDate[r.date] = [];
       byDate[r.date].push(r);
     });
 
-    const groups = [];
     const now = new Date();
-    now.setHours(0,0,0,0);
+    const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    const monthsSet = new Set([currentMonthKey]);
+    reports.forEach(r => { if(r.date) monthsSet.add(r.date.slice(0,7)); });
+    const months = Array.from(monthsSet).sort((a,b) => b.localeCompare(a));
 
-    let weekStart = new Date(now);
-    const dow = weekStart.getDay();
-    weekStart.setDate(weekStart.getDate() - (dow === 0 ? 6 : dow - 1));
-
-    for(let w = 0; w < 12; w++) {
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekEnd.getDate() + 6);
-
+    return months.map(monthKey => {
+      const [yr, mo] = monthKey.split('-').map(Number);
+      const monthStart = new Date(yr, mo-1, 1);
+      const monthEnd = new Date(yr, mo, 0);
+      const endDate = new Date(Math.min(monthEnd.getTime(), now.getTime()));
       const dates = [];
-      for(let d = new Date(weekEnd); d >= weekStart; d.setDate(d.getDate() - 1)) {
-        if(d > now) continue;
-        const dateStr = d.toISOString().split('T')[0];
-        const dayLabel = new Date(dateStr+'T12:00:00').toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});
-        dates.push({ date: dateStr, dayLabel, reports: byDate[dateStr] || [] });
+      for(let d = new Date(endDate); d >= monthStart; d.setDate(d.getDate()-1)) {
+        const dateStr = localDateStr(d);
+        const dayLabel = new Date(yr, mo-1, d.getDate()).toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});
+        dates.push({date:dateStr, dayLabel, reports:byDate[dateStr]||[]});
       }
-
-      if(dates.length > 0) {
-        const submitted = dates.filter(d => d.reports.length > 0).length;
-        let label;
-        if(w === 0) label = 'This week';
-        else if(w === 1) label = 'Last week';
-        else {
-          const wStart = new Date(weekStart);
-          const wEnd = new Date(weekEnd);
-          label = wStart.toLocaleDateString('en-SG',{day:'numeric',month:'short'}) + ' – ' + wEnd.toLocaleDateString('en-SG',{day:'numeric',month:'short'});
-        }
-        groups.push({ label, dates, submitted, total: dates.length, index: w });
-      }
-
-      weekStart.setDate(weekStart.getDate() - 7);
-    }
-    return groups;
+      const submitted = dates.filter(d => d.reports.length > 0).length;
+      const label = new Date(yr, mo-1, 1).toLocaleDateString('en-SG',{month:'long',year:'numeric'});
+      return {label, dates, submitted, total:dates.length};
+    });
   }
 
   function renderPastView(reports) {
-    const groups = getWeekGroups(reports);
+    const groups = getMonthGroups(reports);
     if(groups.length === 0) {
       document.getElementById('pastList').innerHTML = '<div class="past-loading">No submissions yet.</div>';
       return;
