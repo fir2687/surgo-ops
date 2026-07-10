@@ -115,6 +115,7 @@
     <span>Surgo Asset Partners</span>
   </a>
   <div style="display:flex;align-items:center;gap:12px">
+    <a href="analytics.html" style="font-size:11px;color:#555;text-decoration:none;letter-spacing:0.04em">Analytics ›</a>
     <span style="font-size:10px;color:#555;letter-spacing:0.1em">MANAGER DASHBOARD</span>
     <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display:none">Sign out</button>
   </div>
@@ -232,19 +233,21 @@
     const today=new Date().toISOString().split('T')[0];
     document.getElementById('dashDate').textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
     try {
-      const snap=await getDocs(collection(db,'reports'));
+      const [snap,noOpsSnap]=await Promise.all([getDocs(collection(db,'reports')),getDocs(collection(db,'no_ops'))]);
       allReports=[];
       snap.forEach(d=>allReports.push({id:d.id,...d.data()}));
       allReports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
-      setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test));
-      setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test));
+      const noOpsToday={};
+      noOpsSnap.forEach(d=>{ const nd=d.data(); if(nd.date===today) noOpsToday[nd.site]={id:d.id,...nd}; });
+      setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test),noOpsToday['TSC']);
+      setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test),noOpsToday['SAS']);
       renderReports();
     } catch(e){
       document.getElementById('reportsList').innerHTML='<div class="empty-state">Failed to load reports. Check connection.</div>';
     }
   }
 
-  function setCompliance(site,report){
+  function setCompliance(site,report,noOps){
     const dot=document.getElementById(site+'Dot');
     const status=document.getElementById(site+'Status');
     const sub=document.getElementById(site+'Sub');
@@ -252,10 +255,21 @@
       dot.className='comp-dot green'; status.textContent='Submitted';
       const t=new Date(report.submitted_at);
       sub.textContent=`${report.staff_name} · ${t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'})}`;
+    } else if(noOps){
+      dot.className='comp-dot grey'; status.textContent='No operations today';
+      sub.innerHTML=`Marked by ${noOps.marked_by} · <button onclick="reverseNoOps('${noOps.id}')" style="font-size:10px;color:#e74c3c;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline">Reverse</button>`;
     } else {
       dot.className='comp-dot red'; status.textContent='Not submitted'; sub.textContent='No report yet today';
     }
   }
+
+  window.reverseNoOps=async function(docId){
+    if(!confirm('Remove the no-operations mark for today?')) return;
+    try {
+      await deleteDoc(doc(db,'no_ops',docId));
+      loadReports();
+    } catch(e){ alert('Failed to reverse.'); }
+  };
 
   function renderReports(){
     let filtered=allReports;

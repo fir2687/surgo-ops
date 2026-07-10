@@ -53,6 +53,7 @@
   .home-btn{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:12px;border:none}
   .home-btn-primary{background:#000;color:#fff}
   .home-btn-secondary{background:#fff;color:#111;border:1px solid #ddd !important}
+  .home-btn-noops{background:#f5f5f5;color:#666;border:1px solid #e5e5e5 !important;font-size:13px}
 
   /* Back link */
   .back-link{display:flex;align-items:center;gap:6px;font-size:12px;color:#999;background:none;border:none;cursor:pointer;padding:0;margin-bottom:16px;font-family:inherit}
@@ -106,6 +107,7 @@
     <p class="home-sub" id="homeDateDisplay"></p>
     <button class="home-btn home-btn-primary" onclick="showView('formView')">+ New report</button>
     <button class="home-btn home-btn-secondary" onclick="loadPastSubmissions()">Past submissions</button>
+  <button class="home-btn home-btn-noops" onclick="showView('noOpsView')">No operations today</button>
   </div>
 
   <!-- FORM VIEW -->
@@ -195,6 +197,23 @@
     <div id="pastList"><div class="past-loading">Loading submissions...</div></div>
   </div>
 
+  <!-- NO OPS VIEW -->
+  <div id="noOpsView" style="display:none">
+    <button class="back-link" onclick="showView('homeView')">← Back</button>
+    <div class="page-title">No operations today</div>
+    <p class="page-sub">Confirm there are no TSC operations on <strong id="noOpsDateLabel"></strong></p>
+    <div class="field" style="margin-top:20px">
+      <label>Your name</label>
+      <select id="noOpsStaff">
+        <option value="">— select —</option>
+        <option>Zhihong</option>
+        <option>Farrah</option>
+        <option>Jianhao</option>
+      </select>
+    </div>
+    <button class="submit-btn" onclick="confirmNoOps()" id="noOpsBtn" style="margin-top:16px">Confirm — no operations today</button>
+  </div>
+
   <!-- SUCCESS VIEW -->
   <div class="success-screen" id="successView">
     <div class="success-icon">✓</div>
@@ -221,6 +240,7 @@
   const todayLabel = today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
   document.getElementById('homeDateDisplay').textContent = todayLabel;
+  document.getElementById('noOpsDateLabel').textContent = new Date(todayStr+'T12:00:00').toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   document.getElementById('date').value = todayStr;
   document.getElementById('dateDisplay').textContent = todayLabel;
 
@@ -606,6 +626,23 @@ RECOMMENDED ACTION
     } catch(e){ console.log('Background AI failed:',e); }
   }
 
+  async function confirmNoOps(){
+    const staff=document.getElementById('noOpsStaff').value;
+    if(!staff){ alert('Please select your name.'); return; }
+    const btn=document.getElementById('noOpsBtn');
+    btn.disabled=true; btn.textContent='Saving...';
+    try {
+      await window.__saveNoOps({site:'TSC',date:todayStr,marked_by:staff,marked_at:new Date().toISOString()});
+    } catch(e){
+      alert('Failed. Please try again.');
+      btn.disabled=false; btn.textContent='Confirm — no operations today';
+      return;
+    }
+    document.getElementById('successTitle').textContent='Recorded';
+    document.getElementById('successSub').innerHTML=`No TSC operations on ${todayLabel} has been recorded.<br/>Thank you, ${staff}.`;
+    showView('successView');
+  }
+
   addIncident();
 </script>
 
@@ -632,6 +669,10 @@ RECOMMENDED ACTION
 
   window.__updateSummary=async function(docId,summary){
     await updateDoc(doc(db,'reports',docId),{ai_summary:summary});
+  };
+  window.__saveNoOps=async function(record){
+    const docId=`${record.site}_${record.date}`;
+    await setDoc(doc(db,'no_ops',docId),record);
   };
 
   window.__loadReports=async function(site){
