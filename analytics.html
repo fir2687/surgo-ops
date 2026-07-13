@@ -170,6 +170,21 @@
         <button class="regen-btn" onclick="regenerate('SAS')">↺ Regenerate</button>
       </div>
     </div>
+  <div class="sec-label" style="margin-top:10px">Data backup & restore</div>
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:12px;color:#666;margin-bottom:14px;line-height:1.6">
+        Use these tools when migrating to a new Firebase account. Download a full backup before migration, then restore it into the new project.
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="export-btn" onclick="downloadBackup()" id="backupBtn" style="background:#000;color:#fff;border-color:#000;font-weight:500">↓ Download full backup (JSON)</button>
+        <label style="padding:7px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#111;font-family:inherit">
+          ↑ Restore from backup
+          <input type="file" accept=".json" onchange="restoreBackup(this)" style="display:none"/>
+        </label>
+        <span id="backupStatus" style="font-size:11px;color:#999"></span>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -472,6 +487,62 @@ Write the narrative now. Cover compliance health, incident patterns, and any ope
     URL.revokeObjectURL(url);
   };
 
+  window.downloadBackup=async function(){
+    const btn=document.getElementById('backupBtn');
+    const status=document.getElementById('backupStatus');
+    btn.textContent='Preparing...'; btn.disabled=true;
+    try {
+      const backup={
+        exported_at: new Date().toISOString(),
+        version: '1.0',
+        reports: allReports,
+        no_ops: allNoOps
+      };
+      const json=JSON.stringify(backup,null,2);
+      const blob=new Blob([json],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      const dateStr=new Date().toISOString().split('T')[0];
+      a.href=url; a.download=`surgo-ops-backup-${dateStr}.json`; a.click();
+      URL.revokeObjectURL(url);
+      status.textContent=`✓ Backup downloaded — ${allReports.length} reports, ${allNoOps.length} no-ops records`;
+      status.style.color='#166534';
+    } catch(e){
+      status.textContent='Backup failed. Try again.';
+      status.style.color='#991b1b';
+    }
+    btn.textContent='↓ Download full backup (JSON)'; btn.disabled=false;
+  };
+
+  window.restoreBackup=async function(input){
+    const status=document.getElementById('backupStatus');
+    const file=input.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=async function(e){
+      try {
+        const backup=JSON.parse(e.target.result);
+        if(!backup.reports||!Array.isArray(backup.reports)){
+          status.textContent='Invalid backup file.'; status.style.color='#991b1b'; return;
+        }
+        const reportCount=backup.reports.length;
+        const noOpsCount=(backup.no_ops||[]).length;
+        if(!confirm(`Restore ${reportCount} reports and ${noOpsCount} no-ops records into this Firebase project?\n\nThis will overwrite any existing documents with the same IDs.`)) return;
+        status.textContent='Restoring...'; status.style.color='#92400e';
+        await window.__restoreData(backup);
+        status.textContent=`✓ Restored ${reportCount} reports and ${noOpsCount} no-ops records successfully`;
+        status.style.color='#166534';
+        window.__loadData();
+      } catch(err){
+        status.textContent='Restore failed — check file format.';
+        status.style.color='#991b1b';
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+    input.value='';
+  };
+
   window.initAnalytics=function(reports,noOps){
     allReports=reports; allNoOps=noOps;
     renderAll();
@@ -493,6 +564,26 @@ Write the narrative now. Cover compliance health, incident patterns, and any ope
   };
   const app=initializeApp(firebaseConfig);
   const db=getFirestore(app);
+
+  import { doc, setDoc as fsSetDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  window.__restoreData=async function(backup){
+    const reports=backup.reports||[];
+    const noOps=backup.no_ops||[];
+    const batchSize=10;
+    for(let i=0;i<reports.length;i+=batchSize){
+      await Promise.all(reports.slice(i,i+batchSize).map(r=>{
+        const {id,...data}=r;
+        return fsSetDoc(doc(db,'reports',id),data);
+      }));
+    }
+    for(let i=0;i<noOps.length;i+=batchSize){
+      await Promise.all(noOps.slice(i,i+batchSize).map(n=>{
+        const {id,...data}=n;
+        return fsSetDoc(doc(db,'no_ops',id),data);
+      }));
+    }
+  };
 
   window.__loadData=async function(){
     try {
