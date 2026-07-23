@@ -187,10 +187,78 @@
   function viewReport(id){const report=cachedReports.find(r=>r.id===id);if(!report)return;viewMode=true;editMode=false;editDocId=null;editOriginalData=null;document.getElementById('viewBanner').style.display='block';document.getElementById('editBanner').style.display='none';document.getElementById('submitBtn').style.display='none';prefillForm(report);showView('formView');}
   async function loadPastSubmissions(){showView('pastView');document.getElementById('pastList').innerHTML='<div class="past-loading">Loading submissions...</div>';try{cachedReports=await window.__loadReports('TSC');renderPastView(cachedReports);}catch(e){document.getElementById('pastList').innerHTML='<div class="past-loading">Failed to load. Check connection.</div>';}}
   function getMonthGroups(reports){const byDate={};reports.forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(r);});Object.keys(byDate).forEach(date=>{byDate[date].sort((a,b)=>((b.version||1)-(a.version||1)));});const now=new Date(),cm=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');const ms=new Set([cm]);reports.forEach(r=>{if(r.date)ms.add(r.date.slice(0,7));});return Array.from(ms).sort((a,b)=>b.localeCompare(a)).map(mk=>{const[yr,mo]=mk.split('-').map(Number);const s=new Date(yr,mo-1,1),e=new Date(yr,mo,0),ed=new Date(Math.min(e.getTime(),now.getTime()));const dates=[];for(let d=new Date(ed);d>=s;d.setDate(d.getDate()-1)){const ds=localDateStr(d),dl=new Date(yr,mo-1,d.getDate()).toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});dates.push({date:ds,dayLabel:dl,reports:byDate[ds]||[]});}const submitted=dates.filter(d=>d.reports.some(r=>r.is_latest!==false)).length;return{label:new Date(yr,mo-1,1).toLocaleDateString('en-SG',{month:'long',year:'numeric'}),dates,submitted,total:dates.length};});}
-  function renderPastView(reports){const groups=getMonthGroups(reports);if(groups.length===0){document.getElementById('pastList').innerHTML='<div class="past-loading">No submissions yet.</div>';return;}let html='';groups.forEach((week,wi)=>{const as=week.submitted===week.total,ns=week.submitted===0;const pc=as?'all':ns?'none':'partial',pt=as?'All '+week.total+' submitted':week.submitted+' / '+week.total+' submitted';html+='<div class="week-group"><div class="week-header" onclick="toggleWeek('+wi+')"><span class="week-title">'+week.label+'</span><span class="week-meta"><span class="week-pill '+pc+'">'+pt+'</span><span id="wchev_'+wi+'">'+( wi>0?'&#8250;':'&#8964;')+'</span></span></div><div class="week-body" id="wbody_'+wi+'" style="display:'+( wi>0?'none':'block')+'">';week.dates.forEach(d=>{const lr=d.reports.filter(r=>r.is_latest!==false);const hm=d.reports.length>1;if(lr.length>0){const lat=lr[0];const t=new Date(lat.submitted_at),ts=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});if(hm){html+='<div class="past-entry-versioned"><div class="date-header-row"><div class="status-dot dot-green"></div><div class="entry-date">'+d.dayLabel+'</div><span class="badge-edited">Edited</span></div><div class="version-block">';d.reports.forEach(r=>{const rt=new Date(r.updated_at||r.submitted_at),rts=rt.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});const il=r.is_latest!==false;html+='<div class="version-row"><div class="version-left"><span class="version-tag '+( il?'vtag-latest':'vtag-original')+'">'+( il?'Latest edit':'Original')+'</span><span class="version-who">'+r.staff_name+' &middot; '+rts+'</span></div>'+( il?'<button class="edit-link-btn" onclick="editReport(\'''+r.id+'\')">Edit &#8250;</button>':'<button class="view-link-btn" onclick="viewReport(\'''+r.id+'\')">View &#8250;</button>')+'</div>';});html+='</div></div>';}else{html+='<div class="past-entry"><div class="entry-left"><div class="status-dot dot-green"></div><div><div class="entry-date">'+d.dayLabel+'</div><div class="entry-sub">'+lat.staff_name+' &middot; '+ts+'</div></div></div><button class="edit-link-btn" onclick="editReport(\'''+lat.id+'\')">Edit &#8250;</button></div>';}}else{html+='<div class="past-entry"><div class="entry-left"><div class="status-dot dot-grey"></div><div><div class="entry-date" style="color:#999">'+d.dayLabel+'</div><div class="entry-missing">Not submitted</div></div></div><span style="font-size:11px;color:#ddd">&#8212;</span></div>';}});html+='</div></div>';});document.getElementById('pastList').innerHTML=html;}
+  function renderPastView(reports){
+    const groups=getMonthGroups(reports);
+    if(groups.length===0){document.getElementById('pastList').innerHTML='<div class="past-loading">No submissions yet.</div>';return;}
+    let html='';
+    groups.forEach((week,wi)=>{
+      const as=week.submitted===week.total,ns=week.submitted===0;
+      const pc=as?'all':ns?'none':'partial';
+      const pt=as?`All ${week.total} submitted`:`${week.submitted} / ${week.total} submitted`;
+      html+=`<div class="week-group"><div class="week-header" onclick="toggleWeek(${wi})"><span class="week-title">${week.label}</span><span class="week-meta"><span class="week-pill ${pc}">${pt}</span><span id="wchev_${wi}">${wi>0?'&#8250;':'&#8964;'}</span></span></div><div class="week-body" id="wbody_${wi}" style="display:${wi>0?'none':'block'}">`;
+      week.dates.forEach(d=>{
+        const lr=d.reports.filter(r=>r.is_latest!==false);
+        const hm=d.reports.length>1;
+        if(lr.length>0){
+          const lat=lr[0];
+          const t=new Date(lat.submitted_at),ts=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+          if(hm){
+            html+=`<div class="past-entry-versioned"><div class="date-header-row"><div class="status-dot dot-green"></div><div class="entry-date">${d.dayLabel}</div><span class="badge-edited">Edited</span></div><div class="version-block">`;
+            d.reports.forEach(r=>{
+              const rt=new Date(r.updated_at||r.submitted_at),rts=rt.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+              const il=r.is_latest!==false;
+              html+=`<div class="version-row"><div class="version-left"><span class="version-tag ${il?'vtag-latest':'vtag-original'}">${il?'Latest edit':'Original'}</span><span class="version-who">${r.staff_name} &middot; ${rts}</span></div>${il?`<button class="edit-link-btn" onclick="editReport('${r.id}')">Edit &#8250;</button>`:`<button class="view-link-btn" onclick="viewReport('${r.id}')">View &#8250;</button>`}</div>`;
+            });
+            html+=`</div></div>`;
+          } else {
+            html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-green"></div><div><div class="entry-date">${d.dayLabel}</div><div class="entry-sub">${lat.staff_name} &middot; ${ts}</div></div></div><button class="edit-link-btn" onclick="editReport('${lat.id}')">Edit &#8250;</button></div>`;
+          }
+        } else {
+          html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-grey"></div><div><div class="entry-date" style="color:#999">${d.dayLabel}</div><div class="entry-missing">Not submitted</div></div></div><span style="font-size:11px;color:#ddd">&#8212;</span></div>`;
+        }
+      });
+      html+=`</div></div>`;
+    });
+    document.getElementById('pastList').innerHTML=html;
+  }
   window.toggleWeek=function(wi){const b=document.getElementById('wbody_'+wi),c=document.getElementById('wchev_'+wi),o=b.style.display!=='none';b.style.display=o?'none':'block';c.innerHTML=o?'&#8250;':'&#8964;';}
   async function confirmNoOps(){const staff=document.getElementById('noOpsStaff').value;if(!staff){alert('Please select your name.');return;}const btn=document.getElementById('noOpsBtn');btn.disabled=true;btn.textContent='Saving...';try{await window.__saveNoOps({site:'TSC',date:todayStr,marked_by:staff,marked_at:new Date().toISOString()});}catch(e){alert('Failed. Please try again.');btn.disabled=false;btn.textContent='Confirm \u2014 no operations today';return;}document.getElementById('successTitle').textContent='Recorded';document.getElementById('successSub').innerHTML='No TSC operations on '+todayLabel+' has been recorded.<br/>Thank you, '+staff+'.';showView('successView');}
-  function addIncident(prefill={}){incidentCount++;const id=incidentCount;const div=document.createElement('div');div.className='incident-block';div.id='incident_'+id;div.innerHTML='<div class="incident-header"><span class="incident-num">Incident '+id+'</span>'+(id>1?'<button class="remove-btn" onclick="removeIncident('+id+')">&#10005; Remove</button>':'')+'</div><div class="field"><label>Category</label><select id="inc_cat_'+id+'"><option value="">&#8212; select category &#8212;</option>'+TSC_CATEGORIES.map(c=>'<option '+(prefill.category===c?'selected':'')+'>'+c+'</option>').join('')+'</select></div><div class="field"><label>Location / area</label><input type="text" id="inc_loc_'+id+'" placeholder="e.g. Carpark, Block A" value="'+( prefill.location||'')+'"/></div><div class="field"><label>Severity</label><div class="severity-row">'+ ['Low','Medium','High','Urgent'].map(s=>'<button type="button" class="sev-btn '+(prefill.severity===s||(!prefill.severity&&s==='Low')?'active-'+s.toLowerCase():'')+'" onclick="setSeverity('+id+',\'''+s+'\')" id="sev_'+id+'_'+s+'">'+s+'</button>').join('')+'</div></div><div class="field"><label>What happened</label><textarea id="inc_details_'+id+'" placeholder="Describe the incident clearly">'+(prefill.details||'')+'</textarea></div><div class="field"><label>Action taken</label><textarea id="inc_action_'+id+'" placeholder="What did you do about it?">'+(prefill.action||'')+'</textarea></div><div class="field"><label>Recurring issue?</label><div class="recurring-row"><button type="button" class="rec-btn '+((!prefill.recurring||prefill.recurring==='No')?'active':'')+'" onclick="setRecurring('+id+',\'No\')" id="rec_'+id+'_No">No</button><button type="button" class="rec-btn '+(prefill.recurring==='Yes'?'active':'')+'" onclick="setRecurring('+id+',\'Yes\')" id="rec_'+id+'_Yes">Yes \u2014 seen before</button></div></div>';document.getElementById('incidentContainer').appendChild(div);}
+  function addIncident(prefill={}){
+    incidentCount++;const id=incidentCount;const div=document.createElement('div');
+    div.className='incident-block';div.id='incident_'+id;
+    div.innerHTML=`
+      <div class="incident-header">
+        <span class="incident-num">Incident ${id}</span>
+        ${id>1?`<button class="remove-btn" onclick="removeIncident(${id})">&#10005; Remove</button>`:''}
+      </div>
+      <div class="field"><label>Category</label>
+        <select id="inc_cat_${id}">
+          <option value="">&#8212; select category &#8212;</option>
+          ${TSC_CATEGORIES.map(c=>`<option ${prefill.category===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field"><label>Location / area</label>
+        <input type="text" id="inc_loc_${id}" placeholder="e.g. Carpark, Block A" value="${prefill.location||''}"/>
+      </div>
+      <div class="field"><label>Severity</label>
+        <div class="severity-row">
+          ${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${prefill.severity===s||(!prefill.severity&&s==='Low')?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>What happened</label>
+        <textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea>
+      </div>
+      <div class="field"><label>Action taken</label>
+        <textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea>
+      </div>
+      <div class="field"><label>Recurring issue?</label>
+        <div class="recurring-row">
+          <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
+          <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes &#8212; seen before</button>
+        </div>
+      </div>`;
+    document.getElementById('incidentContainer').appendChild(div);
+  }
   function removeIncident(id){document.getElementById('incident_'+id)?.remove();}
   function setSeverity(id,val){['Low','Medium','High','Urgent'].forEach(s=>{const btn=document.getElementById('sev_'+id+'_'+s);if(btn)btn.className='sev-btn'+(s===val?' active-'+s.toLowerCase():'');});}
   function setRecurring(id,val){['No','Yes'].forEach(v=>{const btn=document.getElementById('rec_'+id+'_'+v);if(btn)btn.className='rec-btn'+(v===val?' active':'');});}

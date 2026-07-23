@@ -284,36 +284,35 @@
     if(groups.length===0){document.getElementById('pastList').innerHTML='<div class="past-loading">No submissions yet.</div>';return;}
     let html='';
     groups.forEach((week,wi)=>{
-      const allSub=week.submitted===week.total,noneSub=week.submitted===0;
-      const pillClass=allSub?'all':noneSub?'none':'partial';
-      const pillText=allSub?`All ${week.total} submitted`:`${week.submitted} / ${week.total} submitted`;
-      html+=`<div class="week-group"><div class="week-header" onclick="toggleWeek(${wi})"><span class="week-title">${week.label}</span><span class="week-meta"><span class="week-pill ${pillClass}">${pillText}</span><span id="wchev_${wi}">${wi>0?'›':'⌄'}</span></span></div><div class="week-body" id="wbody_${wi}" style="display:${wi>0?'none':'block'}">`;
+      const as=week.submitted===week.total,ns=week.submitted===0;
+      const pc=as?'all':ns?'none':'partial';
+      const pt=as?`All ${week.total} submitted`:`${week.submitted} / ${week.total} submitted`;
+      html+=`<div class="week-group"><div class="week-header" onclick="toggleWeek(${wi})"><span class="week-title">${week.label}</span><span class="week-meta"><span class="week-pill ${pc}">${pt}</span><span id="wchev_${wi}">${wi>0?'&#8250;':'&#8964;'}</span></span></div><div class="week-body" id="wbody_${wi}" style="display:${wi>0?'none':'block'}">`;
       week.dates.forEach(d=>{
-        const latestReports=d.reports.filter(r=>r.is_latest!==false);
-        const hasMultiple=d.reports.length>1;
-        if(latestReports.length>0){
-          const latest=latestReports[0];
-          const t=new Date(latest.submitted_at),timeStr=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-          if(hasMultiple){
+        const lr=d.reports.filter(r=>r.is_latest!==false);
+        const hm=d.reports.length>1;
+        if(lr.length>0){
+          const lat=lr[0];
+          const t=new Date(lat.submitted_at),ts=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+          if(hm){
             html+=`<div class="past-entry-versioned"><div class="date-header-row"><div class="status-dot dot-green"></div><div class="entry-date">${d.dayLabel}</div><span class="badge-edited">Edited</span></div><div class="version-block">`;
             d.reports.forEach(r=>{
-              const rt=new Date(r.updated_at||r.submitted_at),rTime=rt.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-              const isLatest=r.is_latest!==false;
-              html+=`<div class="version-row"><div class="version-left"><span class="version-tag ${isLatest?'vtag-latest':'vtag-original'}">${isLatest?'Latest edit':'Original'}</span><span class="version-who">${r.staff_name} · ${rTime}</span></div>${isLatest?`<button class="edit-link-btn" onclick="editReport('${r.id}')">Edit ›</button>`:`<button class="view-link-btn" onclick="viewReport('${r.id}')">View ›</button>`}</div>`;
+              const rt=new Date(r.updated_at||r.submitted_at),rts=rt.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
+              const il=r.is_latest!==false;
+              html+=`<div class="version-row"><div class="version-left"><span class="version-tag ${il?'vtag-latest':'vtag-original'}">${il?'Latest edit':'Original'}</span><span class="version-who">${r.staff_name} &middot; ${rts}</span></div>${il?`<button class="edit-link-btn" onclick="editReport('${r.id}')">Edit &#8250;</button>`:`<button class="view-link-btn" onclick="viewReport('${r.id}')">View &#8250;</button>`}</div>`;
             });
             html+=`</div></div>`;
           } else {
-            html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-green"></div><div><div class="entry-date">${d.dayLabel}</div><div class="entry-sub">${latest.staff_name} · ${timeStr}</div></div></div><button class="edit-link-btn" onclick="editReport('${latest.id}')">Edit ›</button></div>`;
+            html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-green"></div><div><div class="entry-date">${d.dayLabel}</div><div class="entry-sub">${lat.staff_name} &middot; ${ts}</div></div></div><button class="edit-link-btn" onclick="editReport('${lat.id}')">Edit &#8250;</button></div>`;
           }
         } else {
-          html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-grey"></div><div><div class="entry-date" style="color:#999">${d.dayLabel}</div><div class="entry-missing">Not submitted</div></div></div><span style="font-size:11px;color:#ddd">—</span></div>`;
+          html+=`<div class="past-entry"><div class="entry-left"><div class="status-dot dot-grey"></div><div><div class="entry-date" style="color:#999">${d.dayLabel}</div><div class="entry-missing">Not submitted</div></div></div><span style="font-size:11px;color:#ddd">&#8212;</span></div>`;
         }
       });
       html+=`</div></div>`;
     });
     document.getElementById('pastList').innerHTML=html;
   }
-
   window.toggleWeek=function(wi){const body=document.getElementById('wbody_'+wi),chev=document.getElementById('wchev_'+wi),open=body.style.display!=='none';body.style.display=open?'none':'block';chev.textContent=open?'›':'⌄';};
 
   async function confirmNoOps(){
@@ -327,14 +326,39 @@
   }
 
   function addIncident(prefill={}){
-    incidentCount++;const id=incidentCount;const div=document.createElement('div');div.className='incident-block';div.id='incident_'+id;
-    div.innerHTML=`<div class="incident-header"><span class="incident-num">Incident ${id}</span>${id>1?`<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>`:''}</div>
-      <div class="field"><label>Category</label><select id="inc_cat_${id}"><option value="">— select category —</option>${SAS_CATEGORIES.map(c=>`<option ${prefill.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
-      <div class="field"><label>Location / room</label><input type="text" id="inc_loc_${id}" placeholder="e.g. Annex 3 (Male), Level 3" value="${prefill.location||''}"/></div>
-      <div class="field"><label>Severity</label><div class="severity-row">${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${!prefill.severity&&s==='Low'?'active-low':prefill.severity===s?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}</div></div>
-      <div class="field"><label>What happened</label><textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea></div>
-      <div class="field"><label>Action taken</label><textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea></div>
-      <div class="field"><label>Recurring issue?</label><div class="recurring-row"><button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button><button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button></div></div>`;
+    incidentCount++;const id=incidentCount;const div=document.createElement('div');
+    div.className='incident-block';div.id='incident_'+id;
+    div.innerHTML=`
+      <div class="incident-header">
+        <span class="incident-num">Incident ${id}</span>
+        ${id>1?`<button class="remove-btn" onclick="removeIncident(${id})">&#10005; Remove</button>`:''}
+      </div>
+      <div class="field"><label>Category</label>
+        <select id="inc_cat_${id}">
+          <option value="">&#8212; select category &#8212;</option>
+          ${SAS_CATEGORIES.map(cat=>`<option ${prefill.category===cat?'selected':''}>${cat}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field"><label>Location / room</label>
+        <input type="text" id="inc_loc_${id}" placeholder="e.g. Annex 3 (Male), Level 3" value="${prefill.location||''}"/>
+      </div>
+      <div class="field"><label>Severity</label>
+        <div class="severity-row">
+          ${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${!prefill.severity&&s==='Low'?'active-low':prefill.severity===s?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>What happened</label>
+        <textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea>
+      </div>
+      <div class="field"><label>Action taken</label>
+        <textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea>
+      </div>
+      <div class="field"><label>Recurring issue?</label>
+        <div class="recurring-row">
+          <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
+          <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes &#8212; seen before</button>
+        </div>
+      </div>`;
     document.getElementById('incidentContainer').appendChild(div);
   }
   function removeIncident(id){document.getElementById('incident_'+id)?.remove();}
