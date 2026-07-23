@@ -37,7 +37,7 @@
   .recurring-row{display:flex;gap:8px}
   .rec-btn{flex:1;padding:8px;font-size:12px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
   .rec-btn.active{background:#111;border-color:#111;color:#fff}
-  .add-incident-btn{width:100%;padding:12px;background:#fff;border:1px dashed #ddd;border-radius:10px;font-size:13px;color:#999;cursor:pointer;font-family:inherit;transition:all 0.15s;margin-bottom:4px}
+  .add-incident-btn{width:100%;padding:12px;background:#fff;border:1px dashed #ddd;border-radius:10px;font-size:13px;color:#999;cursor:pointer;font-family:inherit;margin-bottom:4px}
   .add-incident-btn:hover{border-color:#000;color:#000}
   .submit-btn{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px}
   .submit-btn:disabled{background:#ccc;cursor:not-allowed}
@@ -45,28 +45,21 @@
   .success-icon{font-size:48px;margin-bottom:16px}
   .success-title{font-size:20px;font-weight:600;color:#111;margin-bottom:8px}
   .success-sub{font-size:14px;color:#888;margin-bottom:32px}
-  .back-btn{display:inline-block;padding:12px 28px;background:#000;color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:inherit}
-
-  /* Home view */
+  .back-btn{display:inline-block;padding:12px 28px;background:#000;color:#fff;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:inherit}
   .home-title{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
   .home-sub{font-size:12px;color:#999;margin-bottom:32px}
   .home-btn{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:12px;border:none}
   .home-btn-primary{background:#000;color:#fff}
   .home-btn-secondary{background:#fff;color:#111;border:1px solid #ddd !important}
   .home-btn-noops{background:#f5f5f5;color:#666;border:1px solid #e5e5e5 !important;font-size:13px}
-
-  /* Back link */
   .back-link{display:flex;align-items:center;gap:6px;font-size:12px;color:#999;background:none;border:none;cursor:pointer;padding:0;margin-bottom:16px;font-family:inherit}
   .back-link:hover{color:#111}
-
-  /* Edit banner */
   .edit-banner{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#92400e;display:none}
-
-  /* Past view */
+  .view-banner{background:#f5f5f5;border:1px solid #e5e5e5;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#888;display:none}
   .past-title{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
   .past-sub{font-size:12px;color:#999;margin-bottom:20px}
   .week-group{margin-bottom:4px;background:#fff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden}
-  .week-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff}
+  .week-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
   .week-header:hover{background:#fafafa}
   .week-title{font-size:13px;font-weight:600;color:#111}
   .week-meta{font-size:11px;color:#999;display:flex;align-items:center;gap:6px}
@@ -77,6 +70,8 @@
   .week-body{border-top:1px solid #f0f0f0}
   .past-entry{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f8f8f8}
   .past-entry:last-child{border-bottom:none}
+  .past-entry-versioned{padding:10px 16px;border-bottom:1px solid #f8f8f8}
+  .past-entry-versioned:last-child{border-bottom:none}
   .entry-left{display:flex;align-items:center;gap:10px}
   .status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
   .dot-green{background:#22c55e}
@@ -86,8 +81,19 @@
   .entry-missing{font-size:11px;color:#e74c3c}
   .edit-link-btn{font-size:12px;color:#111;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;font-family:inherit;font-weight:500}
   .edit-link-btn:hover{background:#f0f0f0}
+  .view-link-btn{font-size:12px;color:#888;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;font-family:inherit}
+  .view-link-btn:hover{background:#f0f0f0;color:#111}
+  .version-block{background:#f9f9f9;border-radius:6px;overflow:hidden;margin-top:6px}
+  .version-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-bottom:1px solid #f0f0f0}
+  .version-row:last-child{border-bottom:none}
+  .version-left{display:flex;align-items:center;gap:8px}
+  .version-tag{font-size:10px;padding:1px 7px;border-radius:3px;font-weight:500}
+  .vtag-latest{background:#fffbeb;color:#92400e}
+  .vtag-original{background:#f5f5f5;color:#888;border:0.5px solid #e5e5e5}
+  .version-who{font-size:11px;color:#999}
+  .date-header-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .badge-edited{font-size:10px;background:#fffbeb;color:#92400e;padding:1px 7px;border-radius:3px;font-weight:500}
   .past-loading{text-align:center;padding:32px;color:#bbb;font-size:13px}
-  .week-collapsed-note{padding:10px 16px;font-size:11px;color:#999;font-style:italic}
 </style>
 </head>
 <body>
@@ -96,594 +102,115 @@
     <img src="surgo-logo.jpg" alt="Surgo" style="height:30px;width:auto"/>
     <span style="color:#fff;font-size:14px;font-weight:700;letter-spacing:0.01em">Surgo Asset Partners</span>
   </a>
-  <span class="site-tag">TSC · Tee Side Chalet</span>
+  <span class="site-tag">TSC &middot; Tee Side Chalet</span>
 </header>
-
 <main>
-
-  <!-- HOME VIEW -->
   <div id="homeView">
     <div class="home-title">(TSC) Daily Shift Report</div>
     <p class="home-sub" id="homeDateDisplay"></p>
     <button class="home-btn home-btn-primary" onclick="showView('formView')">+ New report</button>
     <button class="home-btn home-btn-secondary" onclick="loadPastSubmissions()">Past submissions</button>
-  <button class="home-btn home-btn-noops" onclick="showView('noOpsView')">No operations today</button>
+    <button class="home-btn home-btn-noops" onclick="showView('noOpsView')">No operations today</button>
   </div>
-
-  <!-- FORM VIEW -->
   <div id="formView" style="display:none">
-    <button class="back-link" onclick="goBackFromForm()">← Back</button>
-    <div class="edit-banner" id="editBanner">✎ Editing submission — changes will overwrite the original</div>
+    <button class="back-link" onclick="goBackFromForm()">&#8592; Back</button>
+    <div class="edit-banner" id="editBanner">&#9998; Editing submission &mdash; changes will save as a new version</div>
+    <div class="view-banner" id="viewBanner">&#128065; Viewing original submission &mdash; read only</div>
     <div class="page-title">(TSC) Daily Shift Report</div>
     <p class="page-sub" id="dateDisplay"></p>
-
     <section>
       <div class="section-label">Header</div>
-      <div class="field">
-        <label>Staff name</label>
-        <select id="staff_name">
-          <option value="">— select —</option>
-          <option>Zhihong</option>
-          <option>Farrah</option>
-          <option>Jianhao</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Date</label>
-        <input type="date" id="date"/>
-      </div>
+      <div class="field"><label>Staff name</label><select id="staff_name"><option value="">&#8212; select &#8212;</option><option>Zhihong</option><option>Farrah</option><option>Jianhao</option></select></div>
+      <div class="field"><label>Date</label><input type="date" id="date"/></div>
     </section>
-
     <section>
       <div class="section-label">Operational</div>
       <div class="row2">
-        <div class="field">
-          <label>Units occupied</label>
-          <input type="text" id="units_occupied" placeholder="e.g. 14"/>
-        </div>
-        <div class="field">
-          <label>Check-ins</label>
-          <input type="text" id="check_ins" placeholder="0"/>
-        </div>
+        <div class="field"><label>Units occupied</label><input type="text" id="units_occupied" placeholder="e.g. 14"/></div>
+        <div class="field"><label>Check-ins</label><input type="text" id="check_ins" placeholder="0"/></div>
       </div>
-      <div class="field" style="max-width:50%">
-        <label>Check-outs</label>
-        <input type="text" id="check_outs" placeholder="0"/>
-      </div>
+      <div class="field" style="max-width:50%"><label>Check-outs</label><input type="text" id="check_outs" placeholder="0"/></div>
     </section>
-
     <section>
       <div class="section-label">Observations</div>
-      <div class="field">
-        <label>Positive observations</label>
-        <textarea id="positive_observations" placeholder="What went well this shift?"></textarea>
-      </div>
+      <div class="field"><label>Positive observations</label><textarea id="positive_observations" placeholder="What went well this shift?"></textarea></div>
     </section>
-
     <section>
       <div class="section-label">Incidents</div>
       <div id="incidentContainer"></div>
       <button class="add-incident-btn" onclick="addIncident()">+ Add another incident</button>
     </section>
-
     <section>
       <div class="section-label">End of Shift</div>
-      <div class="field">
-        <label>What could become a problem in the next 7 days?</label>
-        <textarea id="seven_day_risk" placeholder="Flag anything that needs attention before it escalates"></textarea>
-      </div>
-      <div class="field">
-        <label>Cost / opportunity spotted</label>
-        <textarea id="cost_opportunity" placeholder="Any commercial observation worth flagging?"></textarea>
-      </div>
-      <div class="field">
-        <label>Handover notes</label>
-        <textarea id="handover_notes" placeholder="What does the next person on shift need to know?"></textarea>
-      </div>
-      <div class="field">
-        <label>Welfare / staff concern</label>
-        <input type="text" id="welfare_concern" placeholder="Any staff wellbeing issues to flag?"/>
-      </div>
+      <div class="field"><label>What could become a problem in the next 7 days?</label><textarea id="seven_day_risk" placeholder="Flag anything that needs attention before it escalates"></textarea></div>
+      <div class="field"><label>Cost / opportunity spotted</label><textarea id="cost_opportunity" placeholder="Any commercial observation worth flagging?"></textarea></div>
+      <div class="field"><label>Handover notes</label><textarea id="handover_notes" placeholder="What does the next person on shift need to know?"></textarea></div>
+      <div class="field"><label>Welfare / staff concern</label><input type="text" id="welfare_concern" placeholder="Any staff wellbeing issues to flag?"/></div>
     </section>
-
     <button class="submit-btn" onclick="submitReport()" id="submitBtn">Submit report</button>
   </div>
-
-  <!-- PAST SUBMISSIONS VIEW -->
   <div id="pastView" style="display:none">
-    <button class="back-link" onclick="showView('homeView')">← Back</button>
+    <button class="back-link" onclick="showView('homeView')">&#8592; Back</button>
     <div class="past-title">Past submissions</div>
-    <p class="past-sub">TSC · tap any entry to view or edit</p>
+    <p class="past-sub">TSC &middot; tap any entry to view or edit</p>
     <div id="pastList"><div class="past-loading">Loading submissions...</div></div>
   </div>
-
-  <!-- NO OPS VIEW -->
   <div id="noOpsView" style="display:none">
-    <button class="back-link" onclick="showView('homeView')">← Back</button>
+    <button class="back-link" onclick="showView('homeView')">&#8592; Back</button>
     <div class="page-title">No operations today</div>
     <p class="page-sub">Confirm there are no TSC operations on <strong id="noOpsDateLabel"></strong></p>
-    <div class="field" style="margin-top:20px">
-      <label>Your name</label>
-      <select id="noOpsStaff">
-        <option value="">— select —</option>
-        <option>Zhihong</option>
-        <option>Farrah</option>
-        <option>Jianhao</option>
-      </select>
-    </div>
-    <button class="submit-btn" onclick="confirmNoOps()" id="noOpsBtn" style="margin-top:16px">Confirm — no operations today</button>
+    <div class="field" style="margin-top:20px"><label>Your name</label><select id="noOpsStaff"><option value="">&#8212; select &#8212;</option><option>Zhihong</option><option>Farrah</option><option>Jianhao</option></select></div>
+    <button class="submit-btn" onclick="confirmNoOps()" id="noOpsBtn" style="margin-top:16px">Confirm &mdash; no operations today</button>
   </div>
-
-  <!-- SUCCESS VIEW -->
   <div class="success-screen" id="successView">
-    <div class="success-icon">✓</div>
+    <div class="success-icon">&#10003;</div>
     <div class="success-title" id="successTitle">Report submitted</div>
-    <p class="success-sub" id="successSub">Your shift report has been recorded.<br/>Thank you, <span id="successName"></span>.</p>
+    <p class="success-sub" id="successSub">Your shift report has been recorded.</p>
     <button class="back-btn" onclick="returnHome()">Back to TSC home</button>
   </div>
-
 </main>
-
 <script>
-  const TSC_CATEGORIES = ['Facilities & Maintenance','Cleanliness & Hygiene','House Rules & Guest Conduct','Security & Access','Safety Hazard','Other'];
-  let incidentCount = 0;
-  let editMode = false;
-  let editDocId = null;
-  let editOriginalSubmittedAt = null;
-  let cachedReports = [];
-
-  function localDateStr(d) {
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  }
-  const today = new Date();
-  const todayStr = localDateStr(today);
-  const todayLabel = today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-  document.getElementById('homeDateDisplay').textContent = todayLabel;
-  document.getElementById('noOpsDateLabel').textContent = new Date(todayStr+'T12:00:00').toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('date').value = todayStr;
-  document.getElementById('dateDisplay').textContent = todayLabel;
-
-  function showView(id) {
-    ['homeView','formView','pastView','successView'].forEach(v => {
-      const el = document.getElementById(v);
-      if(el) el.style.display = v === id ? 'block' : 'none';
-    });
-  }
-
-  function goBackFromForm() {
-    if(editMode) {
-      showView('pastView');
-    } else {
-      showView('homeView');
-    }
-  }
-
-  function returnHome() {
-    editMode = false;
-    editDocId = null;
-    editOriginalSubmittedAt = null;
-    document.getElementById('editBanner').style.display = 'none';
-    document.getElementById('submitBtn').textContent = 'Submit report';
-    resetForm();
-    showView('homeView');
-  }
-
-  function resetForm() {
-    document.getElementById('staff_name').value = '';
-    document.getElementById('date').value = todayStr;
-    document.getElementById('units_occupied').value = '';
-    document.getElementById('check_ins').value = '';
-    document.getElementById('check_outs').value = '';
-    document.getElementById('positive_observations').value = '';
-    document.getElementById('seven_day_risk').value = '';
-    document.getElementById('cost_opportunity').value = '';
-    document.getElementById('handover_notes').value = '';
-    document.getElementById('welfare_concern').value = '';
-    document.getElementById('incidentContainer').innerHTML = '';
-    incidentCount = 0;
-    addIncident();
-  }
-
-  function prefillForm(report) {
-    document.getElementById('staff_name').value = report.staff_name || '';
-    document.getElementById('date').value = report.date || '';
-    document.getElementById('units_occupied').value = report.units_occupied || '';
-    document.getElementById('check_ins').value = report.check_ins || '';
-    document.getElementById('check_outs').value = report.check_outs || '';
-    document.getElementById('positive_observations').value = report.positive_observations || '';
-    document.getElementById('seven_day_risk').value = report.seven_day_risk || '';
-    document.getElementById('cost_opportunity').value = report.cost_opportunity || '';
-    document.getElementById('handover_notes').value = report.handover_notes || '';
-    document.getElementById('welfare_concern').value = report.welfare_concern || '';
-    document.getElementById('incidentContainer').innerHTML = '';
-    incidentCount = 0;
-    if(report.incidents && report.incidents.length > 0) {
-      report.incidents.forEach(inc => addIncident(inc));
-    } else {
-      addIncident();
-    }
-  }
-
-  function editReport(id) {
-    const report = cachedReports.find(r => r.id === id);
-    if(!report) return;
-    editMode = true;
-    editDocId = id;
-    editOriginalSubmittedAt = report.submitted_at;
-    document.getElementById('editBanner').style.display = 'block';
-    document.getElementById('submitBtn').textContent = 'Save changes';
-    prefillForm(report);
-    showView('formView');
-  }
-
-  async function loadPastSubmissions() {
-    showView('pastView');
-    document.getElementById('pastList').innerHTML = '<div class="past-loading">Loading submissions...</div>';
-    try {
-      cachedReports = await window.__loadReports('TSC');
-      renderPastView(cachedReports);
-    } catch(e) {
-      document.getElementById('pastList').innerHTML = '<div class="past-loading">Failed to load. Check connection.</div>';
-    }
-  }
-
-  function getMonthGroups(reports) {
-    const byDate = {};
-    reports.forEach(r => {
-      if(!byDate[r.date]) byDate[r.date] = [];
-      byDate[r.date].push(r);
-    });
-
-    const now = new Date();
-    const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-    const monthsSet = new Set([currentMonthKey]);
-    reports.forEach(r => { if(r.date) monthsSet.add(r.date.slice(0,7)); });
-    const months = Array.from(monthsSet).sort((a,b) => b.localeCompare(a));
-
-    return months.map(monthKey => {
-      const [yr, mo] = monthKey.split('-').map(Number);
-      const monthStart = new Date(yr, mo-1, 1);
-      const monthEnd = new Date(yr, mo, 0);
-      const endDate = new Date(Math.min(monthEnd.getTime(), now.getTime()));
-      const dates = [];
-      for(let d = new Date(endDate); d >= monthStart; d.setDate(d.getDate()-1)) {
-        const dateStr = localDateStr(d);
-        const dayLabel = new Date(yr, mo-1, d.getDate()).toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});
-        dates.push({date:dateStr, dayLabel, reports:byDate[dateStr]||[]});
-      }
-      const submitted = dates.filter(d => d.reports.length > 0).length;
-      const label = new Date(yr, mo-1, 1).toLocaleDateString('en-SG',{month:'long',year:'numeric'});
-      return {label, dates, submitted, total:dates.length};
-    });
-  }
-
-  function renderPastView(reports) {
-    const groups = getMonthGroups(reports);
-    if(groups.length === 0) {
-      document.getElementById('pastList').innerHTML = '<div class="past-loading">No submissions yet.</div>';
-      return;
-    }
-
-    let html = '';
-    groups.forEach((week, wi) => {
-      const allSubmitted = week.submitted === week.total;
-      const noneSubmitted = week.submitted === 0;
-      const pillClass = allSubmitted ? 'all' : noneSubmitted ? 'none' : 'partial';
-      const pillText = allSubmitted ? `All ${week.total} submitted` : `${week.submitted} / ${week.total} submitted`;
-      const collapsed = allSubmitted && wi > 0;
-
-      html += `<div class="week-group">
-        <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-title">${week.label}</span>
-          <span class="week-meta"><span class="week-pill ${pillClass}">${pillText}</span><span id="wchev_${wi}">${collapsed?'›':'⌄'}</span></span>
-        </div>
-        <div class="week-body" id="wbody_${wi}" style="display:${collapsed?'none':'block'}">`;
-
-      if(collapsed) {
-        html += `<div class="week-collapsed-note">All days submitted — tap header to expand</div>`;
-      } else {
-        week.dates.forEach(d => {
-          if(d.reports.length > 0) {
-            d.reports.forEach(r => {
-              const t = new Date(r.submitted_at);
-              const timeStr = t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-              html += `<div class="past-entry">
-                <div class="entry-left">
-                  <div class="status-dot dot-green"></div>
-                  <div>
-                    <div class="entry-date">${d.dayLabel}</div>
-                    <div class="entry-sub">${r.staff_name} · ${timeStr}${r.updated_at?' · edited':''}</div>
-                  </div>
-                </div>
-                <button class="edit-link-btn" onclick="editReport('${r.id}')">Edit ›</button>
-              </div>`;
-            });
-          } else {
-            html += `<div class="past-entry">
-              <div class="entry-left">
-                <div class="status-dot dot-grey"></div>
-                <div>
-                  <div class="entry-date" style="color:#999">${d.dayLabel}</div>
-                  <div class="entry-missing">Not submitted</div>
-                </div>
-              </div>
-              <span style="font-size:11px;color:#ddd">—</span>
-            </div>`;
-          }
-        });
-      }
-      html += `</div></div>`;
-    });
-
-    document.getElementById('pastList').innerHTML = html;
-  }
-
-  window.toggleWeek = function(wi) {
-    const body = document.getElementById('wbody_'+wi);
-    const chev = document.getElementById('wchev_'+wi);
-    const open = body.style.display !== 'none';
-    body.style.display = open ? 'none' : 'block';
-    chev.textContent = open ? '›' : '⌄';
-  };
-
-  function addIncident(prefill={}) {
-    incidentCount++;
-    const id = incidentCount;
-    const div = document.createElement('div');
-    div.className = 'incident-block';
-    div.id = 'incident_'+id;
-    div.innerHTML = `
-      <div class="incident-header">
-        <span class="incident-num">Incident ${id}</span>
-        ${id > 1 ? `<button class="remove-btn" onclick="removeIncident(${id})">✕ Remove</button>` : ''}
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <select id="inc_cat_${id}">
-          <option value="">— select category —</option>
-          ${TSC_CATEGORIES.map(c=>`<option ${prefill.category===c?'selected':''}>${c}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label>Location / area</label>
-        <input type="text" id="inc_loc_${id}" placeholder="e.g. Carpark, Block A" value="${prefill.location||''}"/>
-      </div>
-      <div class="field">
-        <label>Severity</label>
-        <div class="severity-row">
-          ${['Low','Medium','High','Urgent'].map(s=>`<button type="button" class="sev-btn ${prefill.severity===s||(!prefill.severity&&s==='Low')?'active-'+s.toLowerCase():''}" onclick="setSeverity(${id},'${s}')" id="sev_${id}_${s}">${s}</button>`).join('')}
-        </div>
-      </div>
-      <div class="field">
-        <label>What happened</label>
-        <textarea id="inc_details_${id}" placeholder="Describe the incident clearly">${prefill.details||''}</textarea>
-      </div>
-      <div class="field">
-        <label>Action taken</label>
-        <textarea id="inc_action_${id}" placeholder="What did you do about it?">${prefill.action||''}</textarea>
-      </div>
-      <div class="field">
-        <label>Recurring issue?</label>
-        <div class="recurring-row">
-          <button type="button" class="rec-btn ${!prefill.recurring||prefill.recurring==='No'?'active':''}" onclick="setRecurring(${id},'No')" id="rec_${id}_No">No</button>
-          <button type="button" class="rec-btn ${prefill.recurring==='Yes'?'active':''}" onclick="setRecurring(${id},'Yes')" id="rec_${id}_Yes">Yes — seen before</button>
-        </div>
-      </div>`;
-    document.getElementById('incidentContainer').appendChild(div);
-  }
-
-  function removeIncident(id){ document.getElementById('incident_'+id)?.remove(); }
-
-  function setSeverity(id,val){
-    ['Low','Medium','High','Urgent'].forEach(s=>{
-      const btn=document.getElementById(`sev_${id}_${s}`);
-      if(btn) btn.className='sev-btn'+(s===val?' active-'+s.toLowerCase():'');
-    });
-  }
-
-  function setRecurring(id,val){
-    ['No','Yes'].forEach(v=>{
-      const btn=document.getElementById(`rec_${id}_${v}`);
-      if(btn) btn.className='rec-btn'+(v===val?' active':'');
-    });
-  }
-
-  function getActiveSeverity(id){
-    for(const s of ['Low','Medium','High','Urgent']){
-      const btn=document.getElementById(`sev_${id}_${s}`);
-      if(btn&&btn.className.includes('active')) return s;
-    }
-    return 'Low';
-  }
-
-  function getActiveRecurring(id){
-    const btn=document.getElementById(`rec_${id}_Yes`);
-    return btn&&btn.className.includes('active')?'Yes':'No';
-  }
-
-  function collectIncidents(){
-    const incidents=[];
-    for(let i=1;i<=incidentCount;i++){
-      if(!document.getElementById('incident_'+i)) continue;
-      const cat=document.getElementById(`inc_cat_${i}`)?.value;
-      if(!cat) continue;
-      incidents.push({
-        category:cat,
-        location:document.getElementById(`inc_loc_${i}`)?.value||'',
-        severity:getActiveSeverity(i),
-        details:document.getElementById(`inc_details_${i}`)?.value||'',
-        action:document.getElementById(`inc_action_${i}`)?.value||'',
-        recurring:getActiveRecurring(i)
-      });
-    }
-    return incidents;
-  }
-
-  function val(id){ return document.getElementById(id)?.value||''; }
-
-  async function submitReport(){
-    const staff=val('staff_name');
-    if(!staff){ alert('Please select your name.'); return; }
-    const btn=document.getElementById('submitBtn');
-    btn.disabled=true;
-    btn.textContent=editMode?'Saving...':'Submitting...';
-
-    const now=new Date().toISOString();
-    const report={
-      site:'TSC',
-      staff_name:staff,
-      date:val('date'),
-      units_occupied:val('units_occupied'),
-      check_ins:val('check_ins'),
-      check_outs:val('check_outs'),
-      positive_observations:val('positive_observations'),
-      incidents:collectIncidents(),
-      seven_day_risk:val('seven_day_risk'),
-      cost_opportunity:val('cost_opportunity'),
-      handover_notes:val('handover_notes'),
-      welfare_concern:val('welfare_concern'),
-      submitted_at:editMode&&editOriginalSubmittedAt?editOriginalSubmittedAt:now,
-      ...(editMode?{updated_at:now}:{})
-    };
-
-    let docId;
-    try {
-      docId=await window.__saveReport(report, editMode?editDocId:null);
-    } catch(e){
-      alert('Submission failed. Please try again.');
-      btn.disabled=false;
-      btn.textContent=editMode?'Save changes':'Submit report';
-      return;
-    }
-
-    document.getElementById('successTitle').textContent=editMode?'Report updated':'Report submitted';
-    document.getElementById('successSub').innerHTML=editMode
-      ?`Your changes have been saved.<br/>Thank you, <span id="successName">${staff}</span>.`
-      :`Your shift report has been recorded.<br/>Thank you, <span id="successName">${staff}</span>.`;
-    showView('successView');
-
-    generateAISummaryBackground(report, docId);
-  }
-
-  async function generateAISummaryBackground(report,docId){
-    const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
-      `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
-    ).join('\n\n')||'No incidents reported this shift.';
-    const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
-
-Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
-
---- SHIFT DATA ---
-Site: Tee Side Chalet (TSC)
-Date: ${report.date}
-Staff: ${report.staff_name}
-Units occupied: ${report.units_occupied}
-Check-ins: ${report.check_ins} / Check-outs: ${report.check_outs}
-Positive observations: ${report.positive_observations||'None'}
-
-${incidents}
-
-7-day risk: ${report.seven_day_risk||'None flagged'}
-Cost / opportunity spotted: ${report.cost_opportunity||'None'}
-Handover notes: ${report.handover_notes||'None'}
-Welfare / staff concerns: ${report.welfare_concern||'None'}
---- END ---
-
-Return exactly this structure. No markdown. No asterisks. Plain text only.
-
-SHIFT SNAPSHOT
-[One sentence: site, who submitted, key operational number]
-
-INCIDENTS
-[Each incident on its own line, preceded by a dash. If none: "No incidents this shift."]
-
-FORWARD FLAG
-[From 7-day risk field. If empty: "None flagged."]
-
-PATTERN ALERT
-[Each recurring issue: "- [Category] at [Location] — recurring. Needs review." If none: "No recurring issues."]
-
-RECOMMENDED ACTION
-[One specific action tied to actual report content. If nothing: "No action required."]`;
-
-    try {
-      const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{
-        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})
-      });
-      const data=await res.json();
-      const text=data.text||'';
-      const sections=['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
-      const summary={};
-      sections.forEach((sec,i)=>{
-        const next=sections[i+1];
-        const start=text.indexOf(sec);
-        if(start===-1) return;
-        const end=next?text.indexOf(next):text.length;
-        summary[sec]=text.slice(start+sec.length,end).trim();
-      });
-      await window.__updateSummary(docId,summary);
-    } catch(e){ console.log('Background AI failed:',e); }
-  }
-
-  async function confirmNoOps(){
-    const staff=document.getElementById('noOpsStaff').value;
-    if(!staff){ alert('Please select your name.'); return; }
-    const btn=document.getElementById('noOpsBtn');
-    btn.disabled=true; btn.textContent='Saving...';
-    try {
-      await window.__saveNoOps({site:'TSC',date:todayStr,marked_by:staff,marked_at:new Date().toISOString()});
-    } catch(e){
-      alert('Failed. Please try again.');
-      btn.disabled=false; btn.textContent='Confirm — no operations today';
-      return;
-    }
-    document.getElementById('successTitle').textContent='Recorded';
-    document.getElementById('successSub').innerHTML=`No TSC operations on ${todayLabel} has been recorded.<br/>Thank you, ${staff}.`;
-    showView('successView');
-  }
-
+  const TSC_CATEGORIES=['Facilities & Maintenance','Cleanliness & Hygiene','House Rules & Guest Conduct','Security & Access','Safety Hazard','Other'];
+  let incidentCount=0,editMode=false,viewMode=false,editDocId=null,editOriginalData=null,editOriginalSubmittedAt=null,cachedReports=[];
+  function localDateStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  const today=new Date(),todayStr=localDateStr(today),todayLabel=today.toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('homeDateDisplay').textContent=todayLabel;
+  document.getElementById('date').value=todayStr;
+  document.getElementById('dateDisplay').textContent=todayLabel;
+  document.getElementById('noOpsDateLabel').textContent=new Date(todayStr+'T12:00:00').toLocaleDateString('en-SG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  function showView(id){['homeView','formView','pastView','noOpsView','successView'].forEach(v=>{const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';});}
+  function goBackFromForm(){if(viewMode){viewMode=false;document.getElementById('submitBtn').style.display='';document.getElementById('viewBanner').style.display='none';showView('pastView');}else if(editMode){showView('pastView');}else{showView('homeView');}}
+  function returnHome(){editMode=false;viewMode=false;editDocId=null;editOriginalData=null;editOriginalSubmittedAt=null;document.getElementById('editBanner').style.display='none';document.getElementById('viewBanner').style.display='none';document.getElementById('submitBtn').style.display='';document.getElementById('submitBtn').textContent='Submit report';resetForm();showView('homeView');}
+  function resetForm(){['staff_name','units_occupied','check_ins','check_outs','positive_observations','seven_day_risk','cost_opportunity','handover_notes','welfare_concern'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('date').value=todayStr;document.getElementById('incidentContainer').innerHTML='';incidentCount=0;addIncident();}
+  function prefillForm(r){['staff_name','date','units_occupied','check_ins','check_outs','positive_observations','seven_day_risk','cost_opportunity','handover_notes','welfare_concern'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=r[id]||'';}); document.getElementById('incidentContainer').innerHTML='';incidentCount=0;if(r.incidents&&r.incidents.length>0)r.incidents.forEach(inc=>addIncident(inc));else addIncident();}
+  function editReport(id){const report=cachedReports.find(r=>r.id===id);if(!report)return;editOriginalData={...report};delete editOriginalData.ai_summary;delete editOriginalData.ai_summary_generated_at;editMode=true;viewMode=false;editDocId=id;editOriginalSubmittedAt=report.submitted_at;document.getElementById('editBanner').style.display='block';document.getElementById('viewBanner').style.display='none';document.getElementById('submitBtn').style.display='';document.getElementById('submitBtn').textContent='Save changes';prefillForm(report);showView('formView');}
+  function viewReport(id){const report=cachedReports.find(r=>r.id===id);if(!report)return;viewMode=true;editMode=false;editDocId=null;editOriginalData=null;document.getElementById('viewBanner').style.display='block';document.getElementById('editBanner').style.display='none';document.getElementById('submitBtn').style.display='none';prefillForm(report);showView('formView');}
+  async function loadPastSubmissions(){showView('pastView');document.getElementById('pastList').innerHTML='<div class="past-loading">Loading submissions...</div>';try{cachedReports=await window.__loadReports('TSC');renderPastView(cachedReports);}catch(e){document.getElementById('pastList').innerHTML='<div class="past-loading">Failed to load. Check connection.</div>';}}
+  function getMonthGroups(reports){const byDate={};reports.forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(r);});Object.keys(byDate).forEach(date=>{byDate[date].sort((a,b)=>((b.version||1)-(a.version||1)));});const now=new Date(),cm=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');const ms=new Set([cm]);reports.forEach(r=>{if(r.date)ms.add(r.date.slice(0,7));});return Array.from(ms).sort((a,b)=>b.localeCompare(a)).map(mk=>{const[yr,mo]=mk.split('-').map(Number);const s=new Date(yr,mo-1,1),e=new Date(yr,mo,0),ed=new Date(Math.min(e.getTime(),now.getTime()));const dates=[];for(let d=new Date(ed);d>=s;d.setDate(d.getDate()-1)){const ds=localDateStr(d),dl=new Date(yr,mo-1,d.getDate()).toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'});dates.push({date:ds,dayLabel:dl,reports:byDate[ds]||[]});}const submitted=dates.filter(d=>d.reports.some(r=>r.is_latest!==false)).length;return{label:new Date(yr,mo-1,1).toLocaleDateString('en-SG',{month:'long',year:'numeric'}),dates,submitted,total:dates.length};});}
+  function renderPastView(reports){const groups=getMonthGroups(reports);if(groups.length===0){document.getElementById('pastList').innerHTML='<div class="past-loading">No submissions yet.</div>';return;}let html='';groups.forEach((week,wi)=>{const as=week.submitted===week.total,ns=week.submitted===0;const pc=as?'all':ns?'none':'partial',pt=as?'All '+week.total+' submitted':week.submitted+' / '+week.total+' submitted';html+='<div class="week-group"><div class="week-header" onclick="toggleWeek('+wi+')"><span class="week-title">'+week.label+'</span><span class="week-meta"><span class="week-pill '+pc+'">'+pt+'</span><span id="wchev_'+wi+'">'+( wi>0?'&#8250;':'&#8964;')+'</span></span></div><div class="week-body" id="wbody_'+wi+'" style="display:'+( wi>0?'none':'block')+'">';week.dates.forEach(d=>{const lr=d.reports.filter(r=>r.is_latest!==false);const hm=d.reports.length>1;if(lr.length>0){const lat=lr[0];const t=new Date(lat.submitted_at),ts=t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});if(hm){html+='<div class="past-entry-versioned"><div class="date-header-row"><div class="status-dot dot-green"></div><div class="entry-date">'+d.dayLabel+'</div><span class="badge-edited">Edited</span></div><div class="version-block">';d.reports.forEach(r=>{const rt=new Date(r.updated_at||r.submitted_at),rts=rt.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});const il=r.is_latest!==false;html+='<div class="version-row"><div class="version-left"><span class="version-tag '+( il?'vtag-latest':'vtag-original')+'">'+( il?'Latest edit':'Original')+'</span><span class="version-who">'+r.staff_name+' &middot; '+rts+'</span></div>'+( il?'<button class="edit-link-btn" onclick="editReport(\'''+r.id+'\')">Edit &#8250;</button>':'<button class="view-link-btn" onclick="viewReport(\'''+r.id+'\')">View &#8250;</button>')+'</div>';});html+='</div></div>';}else{html+='<div class="past-entry"><div class="entry-left"><div class="status-dot dot-green"></div><div><div class="entry-date">'+d.dayLabel+'</div><div class="entry-sub">'+lat.staff_name+' &middot; '+ts+'</div></div></div><button class="edit-link-btn" onclick="editReport(\'''+lat.id+'\')">Edit &#8250;</button></div>';}}else{html+='<div class="past-entry"><div class="entry-left"><div class="status-dot dot-grey"></div><div><div class="entry-date" style="color:#999">'+d.dayLabel+'</div><div class="entry-missing">Not submitted</div></div></div><span style="font-size:11px;color:#ddd">&#8212;</span></div>';}});html+='</div></div>';});document.getElementById('pastList').innerHTML=html;}
+  window.toggleWeek=function(wi){const b=document.getElementById('wbody_'+wi),c=document.getElementById('wchev_'+wi),o=b.style.display!=='none';b.style.display=o?'none':'block';c.innerHTML=o?'&#8250;':'&#8964;';}
+  async function confirmNoOps(){const staff=document.getElementById('noOpsStaff').value;if(!staff){alert('Please select your name.');return;}const btn=document.getElementById('noOpsBtn');btn.disabled=true;btn.textContent='Saving...';try{await window.__saveNoOps({site:'TSC',date:todayStr,marked_by:staff,marked_at:new Date().toISOString()});}catch(e){alert('Failed. Please try again.');btn.disabled=false;btn.textContent='Confirm \u2014 no operations today';return;}document.getElementById('successTitle').textContent='Recorded';document.getElementById('successSub').innerHTML='No TSC operations on '+todayLabel+' has been recorded.<br/>Thank you, '+staff+'.';showView('successView');}
+  function addIncident(prefill={}){incidentCount++;const id=incidentCount;const div=document.createElement('div');div.className='incident-block';div.id='incident_'+id;div.innerHTML='<div class="incident-header"><span class="incident-num">Incident '+id+'</span>'+(id>1?'<button class="remove-btn" onclick="removeIncident('+id+')">&#10005; Remove</button>':'')+'</div><div class="field"><label>Category</label><select id="inc_cat_'+id+'"><option value="">&#8212; select category &#8212;</option>'+TSC_CATEGORIES.map(c=>'<option '+(prefill.category===c?'selected':'')+'>'+c+'</option>').join('')+'</select></div><div class="field"><label>Location / area</label><input type="text" id="inc_loc_'+id+'" placeholder="e.g. Carpark, Block A" value="'+( prefill.location||'')+'"/></div><div class="field"><label>Severity</label><div class="severity-row">'+ ['Low','Medium','High','Urgent'].map(s=>'<button type="button" class="sev-btn '+(prefill.severity===s||(!prefill.severity&&s==='Low')?'active-'+s.toLowerCase():'')+'" onclick="setSeverity('+id+',\'''+s+'\')" id="sev_'+id+'_'+s+'">'+s+'</button>').join('')+'</div></div><div class="field"><label>What happened</label><textarea id="inc_details_'+id+'" placeholder="Describe the incident clearly">'+(prefill.details||'')+'</textarea></div><div class="field"><label>Action taken</label><textarea id="inc_action_'+id+'" placeholder="What did you do about it?">'+(prefill.action||'')+'</textarea></div><div class="field"><label>Recurring issue?</label><div class="recurring-row"><button type="button" class="rec-btn '+((!prefill.recurring||prefill.recurring==='No')?'active':'')+'" onclick="setRecurring('+id+',\'No\')" id="rec_'+id+'_No">No</button><button type="button" class="rec-btn '+(prefill.recurring==='Yes'?'active':'')+'" onclick="setRecurring('+id+',\'Yes\')" id="rec_'+id+'_Yes">Yes \u2014 seen before</button></div></div>';document.getElementById('incidentContainer').appendChild(div);}
+  function removeIncident(id){document.getElementById('incident_'+id)?.remove();}
+  function setSeverity(id,val){['Low','Medium','High','Urgent'].forEach(s=>{const btn=document.getElementById('sev_'+id+'_'+s);if(btn)btn.className='sev-btn'+(s===val?' active-'+s.toLowerCase():'');});}
+  function setRecurring(id,val){['No','Yes'].forEach(v=>{const btn=document.getElementById('rec_'+id+'_'+v);if(btn)btn.className='rec-btn'+(v===val?' active':'');});}
+  function getActiveSeverity(id){for(const s of ['Low','Medium','High','Urgent']){const btn=document.getElementById('sev_'+id+'_'+s);if(btn&&btn.className.includes('active'))return s;}return 'Low';}
+  function getActiveRecurring(id){const btn=document.getElementById('rec_'+id+'_Yes');return btn&&btn.className.includes('active')?'Yes':'No';}
+  function collectIncidents(){const incidents=[];for(let i=1;i<=incidentCount;i++){if(!document.getElementById('incident_'+i))continue;const cat=document.getElementById('inc_cat_'+i)?.value;if(!cat)continue;incidents.push({category:cat,location:document.getElementById('inc_loc_'+i)?.value||'',severity:getActiveSeverity(i),details:document.getElementById('inc_details_'+i)?.value||'',action:document.getElementById('inc_action_'+i)?.value||'',recurring:getActiveRecurring(i)});}return incidents;}
+  function val(id){return document.getElementById(id)?.value||'';}
+  async function submitReport(){if(viewMode)return;const staff=val('staff_name');if(!staff){alert('Please select your name.');return;}const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent=editMode?'Saving...':'Submitting...';const now=new Date().toISOString();const report={site:'TSC',staff_name:staff,date:val('date'),units_occupied:val('units_occupied'),check_ins:val('check_ins'),check_outs:val('check_outs'),positive_observations:val('positive_observations'),incidents:collectIncidents(),seven_day_risk:val('seven_day_risk'),cost_opportunity:val('cost_opportunity'),handover_notes:val('handover_notes'),welfare_concern:val('welfare_concern'),submitted_at:editMode&&editOriginalSubmittedAt?editOriginalSubmittedAt:now,...(editMode?{updated_at:now}:{})};let docId;try{docId=await window.__saveReport(report,editMode?editDocId:null);}catch(e){alert('Submission failed. Please try again.');btn.disabled=false;btn.textContent=editMode?'Save changes':'Submit report';return;}document.getElementById('successTitle').textContent=editMode?'Report updated':'Report submitted';document.getElementById('successSub').innerHTML=editMode?'Your changes have been saved as a new version.<br/>Thank you, '+staff+'.':'Your shift report has been recorded.<br/>Thank you, '+staff+'.';showView('successView');generateAISummaryBackground(report,docId,editMode?editOriginalData:null);}
+  async function generateAISummaryBackground(report,docId,originalData){const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>'Incident '+(idx+1)+': '+inc.category+' at '+inc.location+'\n  Severity: '+inc.severity+'\n  Details: '+inc.details+'\n  Action taken: '+inc.action+'\n  Recurring: '+inc.recurring).join('\n\n')||'No incidents reported this shift.';const ic=!!originalData;let os='';if(originalData){const oi=(originalData.incidents||[]).filter(i=>i.category).map(i=>i.category+' at '+(i.location||'?')+' ['+i.severity+']').join(', ')||'None';os='\n\nThis is an EDITED report.\n--- ORIGINAL ---\nUnits: '+(originalData.units_occupied||'\u2014')+' | Check-ins: '+(originalData.check_ins||'\u2014')+' | Check-outs: '+(originalData.check_outs||'\u2014')+'\nObservations: '+(originalData.positive_observations||'None')+'\nIncidents: '+oi+'\n7-day risk: '+(originalData.seven_day_risk||'None')+'\nHandover: '+(originalData.handover_notes||'None')+'\nWelfare: '+(originalData.welfare_concern||'None')+'\n--- END ORIGINAL ---';}const sections=['SHIFT SNAPSHOT',...(ic?['WHAT CHANGED']:[]),'INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];const prompt='You are an operations analyst for Surgo Asset Partners, Singapore. Generate a structured briefing note. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.\n\n--- SHIFT DATA ---\nSite: Tee Side Chalet (TSC)\nDate: '+report.date+' | Staff: '+report.staff_name+'\nUnits occupied: '+report.units_occupied+' | Check-ins: '+report.check_ins+' / Check-outs: '+report.check_outs+'\nPositive observations: '+(report.positive_observations||'None')+'\n'+incidents+'\n7-day risk: '+(report.seven_day_risk||'None flagged')+'\nCost / opportunity: '+(report.cost_opportunity||'None')+'\nHandover notes: '+(report.handover_notes||'None')+'\nWelfare / staff concerns: '+(report.welfare_concern||'None')+'\n--- END ---'+os+'\n\nReturn exactly this structure. Plain text only.\n\nSHIFT SNAPSHOT\n[One sentence: site, who submitted, key operational number]\n'+(ic?'\nWHAT CHANGED\n[List specific fields or values that changed from the original. If nothing meaningful changed: "Minor corrections only."]\n':'')+'\nINCIDENTS\n[Each incident preceded by a dash. If none: "No incidents this shift."]\n\nFORWARD FLAG\n[From 7-day risk. If empty: "None flagged."]\n\nPATTERN ALERT\n[Recurring issues or "No recurring issues."]\n\nRECOMMENDED ACTION\n[One specific action or "No action required."]';try{const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});const data=await res.json();const text=data.text||'';const summary={};sections.forEach((sec,i)=>{const next=sections[i+1];const start=text.indexOf(sec);if(start===-1)return;const end=next?text.indexOf(next):text.length;summary[sec]=text.slice(start+sec.length,end).trim();});await window.__updateSummary(docId,summary,new Date().toISOString());}catch(e){console.log('Background AI failed:',e);}}
   addIncident();
 </script>
-
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc, updateDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-  const firebaseConfig={
-    apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain:"surgo-ops.firebaseapp.com",
-    projectId:"surgo-ops",
-    storageBucket:"surgo-ops.firebasestorage.app",
-    messagingSenderId:"351122263344",
-    appId:"1:351122263344:web:0354a5f0f31db078788cf5"
-  };
-  const app=initializeApp(firebaseConfig);
-  const db=getFirestore(app);
-
-  window.__saveReport=async function(report, existingDocId){
-    const docId=existingDocId||`TSC_${report.date}_${report.staff_name.replace(/\s+/g,'_')}`;
-    await setDoc(doc(db,'reports',docId),report);
-    return docId;
-  };
-
-  window.__updateSummary=async function(docId,summary){
-    await updateDoc(doc(db,'reports',docId),{ai_summary:summary});
-  };
-  window.__saveNoOps=async function(record){
-    const docId=`${record.site}_${record.date}`;
-    await setDoc(doc(db,'no_ops',docId),record);
-  };
-
-  window.__loadReports=async function(site){
-    const snap=await getDocs(collection(db,'reports'));
-    const reports=[];
-    snap.forEach(d=>{
-      const data=d.data();
-      if(data.site===site) reports.push({id:d.id,...data});
-    });
-    return reports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
-  };
+  import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import{getFirestore,doc,setDoc,updateDoc,getDoc,collection,getDocs}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  const fc={apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",authDomain:"surgo-ops.firebaseapp.com",projectId:"surgo-ops",storageBucket:"surgo-ops.firebasestorage.app",messagingSenderId:"351122263344",appId:"1:351122263344:web:0354a5f0f31db078788cf5"};
+  const app=initializeApp(fc),db=getFirestore(app);
+  window.__saveReport=async function(report,existingDocId){if(existingDocId){const cs=await getDoc(doc(db,'reports',existingDocId));const cd=cs.exists()?cs.data():{};const baseId=cd.base_id||existingDocId.replace(/_v\d+$/,'');const nv=(cd.version||1)+1;const nd=baseId+'_v'+nv;const cr={...report};delete cr.ai_summary;delete cr.ai_summary_generated_at;delete cr.manager_response;delete cr.reviewed;delete cr.reviewed_at;await setDoc(doc(db,'reports',nd),{...cr,version:nv,is_latest:true,base_id:baseId});await updateDoc(doc(db,'reports',existingDocId),{is_latest:false});return nd;}else{const baseId='TSC_'+report.date+'_'+report.staff_name.replace(/\s+/g,'_');const docId=baseId+'_v1';await setDoc(doc(db,'reports',docId),{...report,version:1,is_latest:true,base_id:baseId});return docId;}};
+  window.__updateSummary=async function(docId,summary,generatedAt){await updateDoc(doc(db,'reports',docId),{ai_summary:summary,ai_summary_generated_at:generatedAt||new Date().toISOString()});};
+  window.__loadReports=async function(site){const snap=await getDocs(collection(db,'reports'));const reports=[];snap.forEach(d=>{const data=d.data();if(data.site===site)reports.push({id:d.id,...data});});return reports.sort((a,b)=>{if(a.date!==b.date)return b.date.localeCompare(a.date);return((b.version||1)-(a.version||1));});};
+  window.__saveNoOps=async function(record){await setDoc(doc(db,'no_ops',record.site+'_'+record.date),record);};
 </script>
 </body>
 </html>

@@ -12,7 +12,6 @@
   .header-left img{height:30px;width:auto}
   .header-left span{color:#fff;font-size:14px;font-weight:700;letter-spacing:0.01em}
   .logout-btn{font-size:12px;color:#ccc;font-weight:500;background:none;border:none;cursor:pointer;letter-spacing:0.02em}
-
   #pinScreen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
   .pin-title{font-size:18px;font-weight:600;color:#111;margin-bottom:6px}
   .pin-sub{font-size:13px;color:#999;margin-bottom:32px}
@@ -23,9 +22,7 @@
   .pin-key{width:72px;height:72px;border:1px solid #e5e5e5;border-radius:50%;background:#fff;font-size:20px;font-weight:500;color:#111;cursor:pointer;font-family:inherit;transition:all 0.15s}
   .pin-key:hover{background:#f0f0f0;border-color:#ccc}
   .pin-key:active{transform:scale(0.95)}
-  .pin-key.del{font-size:14px;color:#999}
   .pin-error{font-size:12px;color:#e74c3c;margin-top:16px;min-height:20px}
-
   #dashScreen{display:none;flex:1;flex-direction:column}
   .dash-body{max-width:800px;width:100%;margin:0 auto;padding:20px 16px 40px}
   .dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
@@ -46,9 +43,7 @@
   .filter-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;color:#888;font-family:inherit;transition:all 0.15s}
   .filter-btn.active{background:#000;border-color:#000;color:#fff}
   .empty-state{text-align:center;padding:48px 24px;color:#bbb;font-size:13px}
-
-  /* --- UNREVIEWED CARD --- */
-  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:10px;overflow:hidden}
+  .report-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:10px;overflow:hidden;transition:opacity 0.2s}
   .report-card-header{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0}
   .report-meta{display:flex;align-items:center;gap:10px;min-width:0}
   .report-site-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.06em;flex-shrink:0}
@@ -59,26 +54,25 @@
   .report-flags{display:flex;gap:6px;align-items:center;flex-shrink:0}
   .flag-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
   .flag-recurring{background:#f59e0b}
+  .flag-label{font-size:10px;color:#999}
+  .badge-edited-sm{font-size:10px;background:#fffbeb;color:#92400e;padding:1px 6px;border-radius:3px;font-weight:500}
   .ai-body{padding:14px 16px}
   .ai-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:10px;display:flex;align-items:center;gap:6px}
   .ai-dot{width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex-shrink:0}
   .summary-block{margin-bottom:10px}
   .summary-section-lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bbb;margin-bottom:3px}
   .summary-text{font-size:13px;color:#111;line-height:1.7;white-space:pre-wrap}
+  .gen-stamp{font-size:10px;color:#bbb;margin-top:8px;display:flex;align-items:center;gap:4px}
   .gen-summary-btn{padding:7px 16px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit}
   .ai-loading{font-size:12px;color:#999;padding:4px 0}
   .card-footer{padding:10px 16px;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
   .mgr-btns{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-  .mgr-btn{padding:6px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
+  .mgr-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#666;font-family:inherit;transition:all 0.15s}
   .mgr-btn:hover{border-color:#000;color:#000}
   .mgr-btn.selected-noted{background:#f0fdf4;border-color:#86efac;color:#166534}
   .mgr-btn.selected-followup{background:#fffbeb;border-color:#fcd34d;color:#92400e}
-  .mgr-btn.selected-resolved{background:#eff6ff;border-color:#93c5fd;color:#1e40af}
-  .expand-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:#888;background:#fff;border:1px solid #ddd;border-radius:6px;padding:5px 11px;cursor:pointer;font-family:inherit;transition:all 0.15s;white-space:nowrap}
+  .expand-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:#888;background:#fff;border:1px solid #ddd;border-radius:6px;padding:5px 11px;cursor:pointer;font-family:inherit;white-space:nowrap}
   .expand-btn:hover{border-color:#000;color:#111}
-
-  /* --- REVIEWED CARD (compact) --- */
-  .report-card.reviewed{opacity:1;border-color:#eee}
   .compact-row{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
   .compact-left{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
   .compact-top{display:flex;align-items:center;gap:8px}
@@ -91,8 +85,6 @@
   .reviewed-mini{font-size:10px;color:#22c55e;white-space:nowrap}
   .expand-sm{width:28px;height:28px;border:1px solid #e5e5e5;border-radius:5px;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#aaa;display:flex;align-items:center;justify-content:center;font-family:inherit;flex-shrink:0;transition:all 0.15s}
   .expand-sm:hover{border-color:#000;color:#111}
-
-  /* --- FULL SECTION (shared) --- */
   .full-section{display:none;border-top:1px solid #f0f0f0;background:#fafafa;padding:14px 16px}
   .full-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:10px}
   .field-row{display:grid;grid-template-columns:150px 1fr;gap:6px;margin-bottom:6px;font-size:12px;line-height:1.5}
@@ -102,20 +94,18 @@
   .inc-num{font-size:9px;font-weight:700;color:#bbb;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
   .full-divider{border:none;border-top:1px solid #eee;margin:12px 0}
   .delete-row{display:flex;justify-content:flex-end}
-  .delete-btn{padding:5px 12px;font-size:11px;border:1px solid #fca5a5;border-radius:6px;background:#fff;cursor:pointer;color:#ef4444;font-family:inherit;transition:all 0.15s}
+  .delete-btn{padding:5px 12px;font-size:11px;border:1px solid #fca5a5;border-radius:6px;background:#fff;cursor:pointer;color:#ef4444;font-family:inherit}
   .delete-btn:hover{background:#fef2f2;border-color:#ef4444}
-  .reviewed-ai-divider{border:none;border-top:1px solid #eee;margin:14px 0}
 </style>
 </head>
 <body>
-
 <header>
   <a href="index.html" class="header-left">
     <img src="surgo-logo.jpg" alt="Surgo Asset Partners"/>
     <span>Surgo Asset Partners</span>
   </a>
   <div style="display:flex;align-items:center;gap:12px">
-    <a href="analytics.html" style="font-size:12px;color:#fff;text-decoration:none;font-weight:600;letter-spacing:0.02em">Analytics ›</a>
+    <a href="analytics.html" style="font-size:12px;color:#fff;text-decoration:none;font-weight:600;letter-spacing:0.02em">Analytics &#8250;</a>
     <span style="font-size:11px;color:#fff;font-weight:600;letter-spacing:0.06em">MANAGER DASHBOARD</span>
     <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display:none">Sign out</button>
   </div>
@@ -125,22 +115,14 @@
   <div class="pin-title">Manager access</div>
   <p class="pin-sub">Enter your PIN to continue</p>
   <div class="pin-dots" id="pinDots">
-    <div class="pin-dot" id="d0"></div>
-    <div class="pin-dot" id="d1"></div>
-    <div class="pin-dot" id="d2"></div>
-    <div class="pin-dot" id="d3"></div>
+    <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
   </div>
   <div class="pin-pad">
-    <button class="pin-key" onclick="pinPress('1')">1</button>
-    <button class="pin-key" onclick="pinPress('2')">2</button>
-    <button class="pin-key" onclick="pinPress('3')">3</button>
-    <button class="pin-key" onclick="pinPress('4')">4</button>
-    <button class="pin-key" onclick="pinPress('5')">5</button>
-    <button class="pin-key" onclick="pinPress('6')">6</button>
-    <button class="pin-key" onclick="pinPress('7')">7</button>
-    <button class="pin-key" onclick="pinPress('8')">8</button>
-    <button class="pin-key" onclick="pinPress('9')">9</button>
-    <button class="pin-key del" onclick="pinDel()">⌫</button>
+    <button class="pin-key" onclick="pinPress('1')">1</button><button class="pin-key" onclick="pinPress('2')">2</button><button class="pin-key" onclick="pinPress('3')">3</button>
+    <button class="pin-key" onclick="pinPress('4')">4</button><button class="pin-key" onclick="pinPress('5')">5</button><button class="pin-key" onclick="pinPress('6')">6</button>
+    <button class="pin-key" onclick="pinPress('7')">7</button><button class="pin-key" onclick="pinPress('8')">8</button><button class="pin-key" onclick="pinPress('9')">9</button>
+    <button class="pin-key" style="font-size:14px;color:#999" onclick="pinDel()">&#9003;</button>
     <button class="pin-key" onclick="pinPress('0')">0</button>
     <button class="pin-key" onclick="pinClear()" style="font-size:12px;color:#ccc">C</button>
   </div>
@@ -177,343 +159,108 @@
 </div>
 
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-  const firebaseConfig={
-    apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain:"surgo-ops.firebaseapp.com",
-    projectId:"surgo-ops",
-    storageBucket:"surgo-ops.firebasestorage.app",
-    messagingSenderId:"351122263344",
-    appId:"1:351122263344:web:0354a5f0f31db078788cf5"
-  };
-
-  const app=initializeApp(firebaseConfig);
-  const db=getFirestore(app);
-
+  import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import{getFirestore,collection,getDocs,doc,updateDoc,deleteDoc,getDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  const fc={apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",authDomain:"surgo-ops.firebaseapp.com",projectId:"surgo-ops",storageBucket:"surgo-ops.firebasestorage.app",messagingSenderId:"351122263344",appId:"1:351122263344:web:0354a5f0f31db078788cf5"};
+  const app=initializeApp(fc),db=getFirestore(app);
   const CORRECT_PIN='9999';
-  let pinInput='';
-  let allReports=[];
-  let currentFilter='all';
-
-  window.pinPress=function(digit){ if(pinInput.length>=4) return; pinInput+=digit; updateDots(); if(pinInput.length===4) setTimeout(checkPin,150); };
-  window.pinDel=function(){ pinInput=pinInput.slice(0,-1); updateDots(); document.getElementById('pinError').textContent=''; };
-  window.pinClear=function(){ pinInput=''; updateDots(); document.getElementById('pinError').textContent=''; };
-
-  function updateDots(){ for(let i=0;i<4;i++) document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':''); }
-
-  function checkPin(){
-    if(pinInput===CORRECT_PIN){
-      document.getElementById('pinScreen').style.display='none';
-      document.getElementById('dashScreen').style.display='flex';
-      document.getElementById('logoutBtn').style.display='block';
-      loadReports();
-    } else {
-      document.getElementById('pinError').textContent='Incorrect PIN. Try again.';
-      pinInput=''; updateDots();
-    }
-  }
-
-  window.logout=function(){
-    document.getElementById('pinScreen').style.display='flex';
-    document.getElementById('dashScreen').style.display='none';
-    document.getElementById('logoutBtn').style.display='none';
-    pinInput=''; updateDots();
-  };
-
-  window.setFilter=function(filter,btn){
-    currentFilter=filter;
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    renderReports();
-  };
-
+  let pinInput='',allReports=[],allNoOps={},currentFilter='all';
+  window.pinPress=function(d){if(pinInput.length>=4)return;pinInput+=d;updateDots();if(pinInput.length===4)setTimeout(checkPin,150);};
+  window.pinDel=function(){pinInput=pinInput.slice(0,-1);updateDots();document.getElementById('pinError').textContent='';};
+  window.pinClear=function(){pinInput='';updateDots();document.getElementById('pinError').textContent='';};
+  function updateDots(){for(let i=0;i<4;i++)document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':'');}
+  function checkPin(){if(pinInput===CORRECT_PIN){document.getElementById('pinScreen').style.display='none';document.getElementById('dashScreen').style.display='flex';document.getElementById('logoutBtn').style.display='block';loadReports();}else{document.getElementById('pinError').textContent='Incorrect PIN. Try again.';pinInput='';updateDots();}}
+  window.logout=function(){document.getElementById('pinScreen').style.display='flex';document.getElementById('dashScreen').style.display='none';document.getElementById('logoutBtn').style.display='none';pinInput='';updateDots();};
+  window.setFilter=function(filter,btn){currentFilter=filter;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderReports();};
   async function loadReports(){
     const today=new Date().toISOString().split('T')[0];
     document.getElementById('dashDate').textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-    try {
-      const [snap,noOpsSnap]=await Promise.all([getDocs(collection(db,'reports')),getDocs(collection(db,'no_ops'))]);
+    try{
+      const[snap,noOpsSnap]=await Promise.all([getDocs(collection(db,'reports')),getDocs(collection(db,'no_ops'))]);
       allReports=[];
-      snap.forEach(d=>allReports.push({id:d.id,...d.data()}));
+      snap.forEach(d=>{const data=d.data();if(data.is_latest!==false)allReports.push({id:d.id,...data});});
       allReports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
-      const noOpsToday={};
-      noOpsSnap.forEach(d=>{ const nd=d.data(); if(nd.date===today) noOpsToday[nd.site]={id:d.id,...nd}; });
-      setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test),noOpsToday['TSC']);
-      setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test),noOpsToday['SAS']);
+      allNoOps={};
+      noOpsSnap.forEach(d=>{const nd=d.data();if(nd.date===today)allNoOps[nd.site]={id:d.id,...nd};});
+      setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test),allNoOps['TSC']);
+      setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test),allNoOps['SAS']);
       renderReports();
-    } catch(e){
-      document.getElementById('reportsList').innerHTML='<div class="empty-state">Failed to load reports. Check connection.</div>';
-    }
+    }catch(e){document.getElementById('reportsList').innerHTML='<div class="empty-state">Failed to load reports. Check connection.</div>';}
   }
-
   function setCompliance(site,report,noOps){
-    const dot=document.getElementById(site+'Dot');
-    const status=document.getElementById(site+'Status');
-    const sub=document.getElementById(site+'Sub');
-    if(report){
-      dot.className='comp-dot green'; status.textContent='Submitted';
-      const t=new Date(report.submitted_at);
-      sub.textContent=`${report.staff_name} · ${t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'})}`;
-    } else if(noOps){
-      dot.className='comp-dot grey'; status.textContent='No operations today';
-      sub.innerHTML=`Marked by ${noOps.marked_by} · <button onclick="reverseNoOps('${noOps.id}')" style="font-size:10px;color:#e74c3c;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline">Reverse</button>`;
-    } else {
-      dot.className='comp-dot red'; status.textContent='Not submitted'; sub.textContent='No report yet today';
-    }
+    const dot=document.getElementById(site+'Dot'),status=document.getElementById(site+'Status'),sub=document.getElementById(site+'Sub');
+    if(report){dot.className='comp-dot green';status.textContent='Submitted';const t=new Date(report.submitted_at);sub.textContent=report.staff_name+' \u00b7 '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});}
+    else if(noOps){dot.className='comp-dot grey';status.textContent='No operations today';sub.innerHTML='Marked by '+noOps.marked_by+' \u00b7 <button onclick="reverseNoOps(\'''+noOps.id+'\')" style="font-size:10px;color:#e74c3c;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline">Reverse</button>';}
+    else{dot.className='comp-dot red';status.textContent='Not submitted';sub.textContent='No report yet today';}
   }
-
-  window.reverseNoOps=async function(docId){
-    if(!confirm('Remove the no-operations mark for today?')) return;
-    try {
-      await deleteDoc(doc(db,'no_ops',docId));
-      loadReports();
-    } catch(e){ alert('Failed to reverse.'); }
-  };
-
+  window.reverseNoOps=async function(docId){if(!confirm('Remove the no-operations mark for today?'))return;try{await deleteDoc(doc(db,'no_ops',docId));loadReports();}catch(e){alert('Failed to reverse.');}};
   function renderReports(){
     let filtered=allReports;
-    if(currentFilter==='TSC') filtered=allReports.filter(r=>r.site==='TSC'&&!r.is_test);
-    else if(currentFilter==='SAS') filtered=allReports.filter(r=>r.site==='SAS'&&!r.is_test);
-    else if(currentFilter==='unreviewed') filtered=allReports.filter(r=>!r.is_test&&!r.reviewed);
+    if(currentFilter==='TSC')filtered=allReports.filter(r=>r.site==='TSC'&&!r.is_test);
+    else if(currentFilter==='SAS')filtered=allReports.filter(r=>r.site==='SAS'&&!r.is_test);
+    else if(currentFilter==='unreviewed')filtered=allReports.filter(r=>!r.is_test&&!r.reviewed);
     else filtered=allReports.filter(r=>!r.is_test);
-
-    if(filtered.length===0){
-      const msg=currentFilter==='unreviewed'?'All caught up — no unreviewed reports.':'No reports found.';
-      document.getElementById('reportsList').innerHTML=`<div class="empty-state">${msg}</div>`;
-      return;
-    }
+    if(filtered.length===0){const msg=currentFilter==='unreviewed'?'All caught up \u2014 no unreviewed reports.':' No reports found.';document.getElementById('reportsList').innerHTML='<div class="empty-state">'+msg+'</div>';return;}
     document.getElementById('reportsList').innerHTML=filtered.map(r=>buildCard(r)).join('');
   }
-
-  function fmtTime(iso){
-    const t=new Date(iso);
-    return t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' · '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-  }
-
+  function fmtTime(iso){const t=new Date(iso);return t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' \u00b7 '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});}
   function buildFullSection(r){
-    const operationalRows=r.site==='TSC'
-      ?`<div class="field-row"><span class="field-key">Units occupied</span><span class="field-val">${r.units_occupied||'—'}</span></div>
-        <div class="field-row"><span class="field-key">Check-ins</span><span class="field-val">${r.check_ins||'0'}</span></div>
-        <div class="field-row"><span class="field-key">Check-outs</span><span class="field-val">${r.check_outs||'0'}</span></div>`
-      :`<div class="field-row"><span class="field-key">Areas covered</span><span class="field-val">${r.areas_covered||'—'}</span></div>
-        <div class="field-row"><span class="field-key">Activities</span><span class="field-val">${r.activities_completed||'—'}</span></div>
-        <div class="field-row"><span class="field-key">Getz</span><span class="field-val">${r.getz_present||'—'} · ${r.getz_rating||0}/5${r.getz_comments?' · '+r.getz_comments:''}</span></div>`;
-
-    const incidentRows=r.incidents&&r.incidents.filter(i=>i.category).length>0
-      ?r.incidents.filter(i=>i.category).map((inc,idx)=>`
-          <div class="inc-block">
-            <div class="inc-num">Incident ${idx+1}</div>
-            <div class="field-row"><span class="field-key">Category</span><span class="field-val">${inc.category}</span></div>
-            <div class="field-row"><span class="field-key">Location</span><span class="field-val">${inc.location||'—'}</span></div>
-            <div class="field-row"><span class="field-key">Severity</span><span class="field-val">${inc.severity}</span></div>
-            <div class="field-row"><span class="field-key">Details</span><span class="field-val">${inc.details||'—'}</span></div>
-            <div class="field-row"><span class="field-key">Action taken</span><span class="field-val">${inc.action||'—'}</span></div>
-            <div class="field-row"><span class="field-key">Recurring</span><span class="field-val">${inc.recurring}</span></div>
-          </div>`).join('')
-      :'<div class="field-row"><span class="field-key">Incidents</span><span class="field-val">None this shift.</span></div>';
-
-    return `
-      <div class="full-label">Full report</div>
-      ${operationalRows}
-      <div class="field-row"><span class="field-key">Positive observations</span><span class="field-val">${r.positive_observations||'None'}</span></div>
-      <div style="margin:10px 0 6px"><div class="full-label">Incidents</div></div>
-      ${incidentRows}
-      <div class="field-row" style="margin-top:8px"><span class="field-key">7-day risk</span><span class="field-val">${r.seven_day_risk||'None'}</span></div>
-      ${r.site==='TSC'?`<div class="field-row"><span class="field-key">Cost / opportunity</span><span class="field-val">${r.cost_opportunity||'None'}</span></div>`:''}
-      <div class="field-row"><span class="field-key">Handover notes</span><span class="field-val">${r.handover_notes||'None'}</span></div>
-      <div class="field-row"><span class="field-key">Welfare concern</span><span class="field-val">${r.welfare_concern||'None'}</span></div>
-      <hr class="full-divider"/>
-      <div class="delete-row"><button class="delete-btn" onclick="deleteReport('${r.id}')">🗑 Delete report</button></div>`;
+    const op=r.site==='TSC'
+      ?'<div class="field-row"><span class="field-key">Units occupied</span><span class="field-val">'+( r.units_occupied||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Check-ins</span><span class="field-val">'+( r.check_ins||'0')+'</span></div><div class="field-row"><span class="field-key">Check-outs</span><span class="field-val">'+( r.check_outs||'0')+'</span></div>'
+      :'<div class="field-row"><span class="field-key">Areas covered</span><span class="field-val">'+( r.areas_covered||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Activities</span><span class="field-val">'+( r.activities_completed||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Getz</span><span class="field-val">'+( r.getz_present||'\u2014')+' \u00b7 '+(r.getz_rating||0)+'/5'+(r.getz_comments?' \u00b7 '+r.getz_comments:'')+'</span></div>';
+    const incs=r.incidents&&r.incidents.filter(i=>i.category).length>0?r.incidents.filter(i=>i.category).map((inc,idx)=>'<div class="inc-block"><div class="inc-num">Incident '+(idx+1)+'</div><div class="field-row"><span class="field-key">Category</span><span class="field-val">'+inc.category+'</span></div><div class="field-row"><span class="field-key">Location</span><span class="field-val">'+( inc.location||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Severity</span><span class="field-val">'+inc.severity+'</span></div><div class="field-row"><span class="field-key">Details</span><span class="field-val">'+( inc.details||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Action taken</span><span class="field-val">'+( inc.action||'\u2014')+'</span></div><div class="field-row"><span class="field-key">Recurring</span><span class="field-val">'+inc.recurring+'</span></div></div>').join(''):'<div class="field-row"><span class="field-key">Incidents</span><span class="field-val">None this shift.</span></div>';
+    return '<div class="full-label">Full report</div>'+op+'<div class="field-row"><span class="field-key">Positive observations</span><span class="field-val">'+( r.positive_observations||'None')+'</span></div><div style="margin:10px 0 6px"><div class="full-label">Incidents</div></div>'+incs+'<div class="field-row" style="margin-top:8px"><span class="field-key">7-day risk</span><span class="field-val">'+( r.seven_day_risk||'None')+'</span></div>'+(r.site==='TSC'?'<div class="field-row"><span class="field-key">Cost / opportunity</span><span class="field-val">'+( r.cost_opportunity||'None')+'</span></div>':'')+ '<div class="field-row"><span class="field-key">Handover notes</span><span class="field-val">'+( r.handover_notes||'None')+'</span></div><div class="field-row"><span class="field-key">Welfare concern</span><span class="field-val">'+( r.welfare_concern||'None')+'</span></div><hr class="full-divider"/><div class="delete-row"><button class="delete-btn" onclick="deleteReport(\'''+r.id+'\')">&#128465; Delete report</button></div>';
   }
-
   function buildCard(r){
     const timeStr=fmtTime(r.submitted_at);
     const hasRecurring=r.incidents&&r.incidents.some(i=>i.recurring==='Yes');
     const response=r.manager_response||'';
     const isReviewed=!!r.reviewed;
-
+    const isEdited=(r.version||1)>1;
+    const displayResponse=(response==='Noted'||response==='Resolved'||response==='Acknowledged')?'Acknowledged':response==='Follow up required'?'Follow up required':'';
+    const badgeClass=displayResponse==='Acknowledged'?'noted':displayResponse==='Follow up required'?'followup':'';
     if(isReviewed){
-      const displayResponse=(response==='Noted'||response==='Resolved'||response==='Acknowledged')?'Acknowledged':response==='Follow up required'?'Follow up required':'';
-      const badgeClass=displayResponse==='Acknowledged'?'noted':displayResponse==='Follow up required'?'followup':'';
-      const aiSummaryBlock=r.ai_summary
-        ?`<div style="padding:12px 16px;border-top:1px solid #f0f0f0">
-            <div class="ai-label"><span class="ai-dot"></span> AI Summary</div>
-            ${Object.entries(r.ai_summary).map(([sec,val])=>`
-              <div class="summary-block">
-                <div class="summary-section-lbl">${sec}</div>
-                <div class="summary-text">${val}</div>
-              </div>`).join('')}
-          </div>`
-        :'';
-      return `
-        <div class="report-card reviewed" id="card_${r.id}">
-          <div class="compact-row">
-            <div class="compact-left">
-              <div class="compact-top">
-                <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
-                <span class="compact-name">${r.staff_name}</span>
-                ${hasRecurring?'<div class="flag-dot flag-recurring" title="Recurring"></div>':''}
-              </div>
-              <div class="compact-bottom">
-                <span class="compact-time">${timeStr}</span>
-                ${displayResponse?`<span class="compact-badge ${badgeClass}">${displayResponse}</span>`:''}
-                <span class="reviewed-mini">✓ ${fmtTime(r.reviewed_at)}</span>
-              </div>
-            </div>
-            <button class="expand-sm" onclick="toggleFull('${r.id}')"><span id="expandIcon_${r.id}">+</span></button>
-          </div>
-          <div class="full-section" id="full_${r.id}">
-            ${aiSummaryBlock}
-            <div style="padding:14px 16px">${buildFullSection(r)}</div>
-          </div>
-        </div>`;
+      const aiBlock=r.ai_summary?'<div style="padding:12px 16px;border-top:1px solid #f0f0f0"><div class="ai-label"><span class="ai-dot"></span> AI Summary</div>'+Object.entries(r.ai_summary).map(([sec,val])=>'<div class="summary-block"><div class="summary-section-lbl">'+sec+'</div><div class="summary-text">'+val+'</div></div>').join('')+(r.ai_summary_generated_at?'<div class="gen-stamp">&#9201; Generated '+fmtTime(r.ai_summary_generated_at)+(isEdited?' \u00b7 edited report':'')+'</div>':'')+ '</div>':'';
+      return '<div class="report-card" id="card_'+r.id+'"><div class="compact-row"><div class="compact-left"><div class="compact-top"><span class="report-site-badge badge-'+r.site.toLowerCase()+'">'+r.site+'</span><span class="compact-name">'+r.staff_name+'</span>'+(isEdited?'<span class="badge-edited-sm">Edited</span>':'')+'</div><div class="compact-bottom"><span class="compact-time">'+timeStr+'</span>'+(displayResponse?'<span class="compact-badge '+badgeClass+'">'+displayResponse+'</span>':'')+ '<span class="reviewed-mini">&#10003; '+fmtTime(r.reviewed_at)+'</span></div></div><button class="expand-sm" onclick="toggleFull(\'''+r.id+'\')"><span id="expandIcon_'+r.id+'">+</span></button></div><div class="full-section" id="full_'+r.id+'">'+(aiBlock)+'<div style="padding:14px 16px">'+buildFullSection(r)+'</div></div></div>';
     }
-
-    const aiContent=r.ai_summary
-      ?Object.entries(r.ai_summary).map(([sec,val])=>`
-          <div class="summary-block">
-            <div class="summary-section-lbl">${sec}</div>
-            <div class="summary-text">${val}</div>
-          </div>`).join('')
-      :`<div id="aiload_${r.id}"><button class="gen-summary-btn" onclick="generateSummary('${r.id}')">Generate AI summary</button></div>`;
-
-    const responseClass=response==='Acknowledged'?'selected-noted':response==='Follow up required'?'selected-followup':'';
-
-    return `
-      <div class="report-card" id="card_${r.id}">
-        <div class="report-card-header">
-          <div class="report-meta">
-            <span class="report-site-badge badge-${r.site.toLowerCase()}">${r.site}</span>
-            <span class="report-staff">${r.staff_name}</span>
-            <span class="report-time">${timeStr}</span>
-          </div>
-          <div class="report-flags">
-            ${hasRecurring?'<div class="flag-dot flag-recurring" title="Recurring issues"></div>':''}
-          </div>
-        </div>
-        <div class="ai-body">
-          <div class="ai-label"><span class="ai-dot"></span> AI Summary</div>
-          ${aiContent}
-        </div>
-        <div class="card-footer">
-          <div class="mgr-btns">
-            ${['Acknowledged','Follow up required'].map(a=>`
-              <button class="mgr-btn ${response===a?responseClass:''}" onclick="setResponse('${r.id}','${a}')">${a}</button>
-            `).join('')}
-          </div>
-          <button class="expand-btn" onclick="toggleFull('${r.id}')">
-            <span id="expandIcon_${r.id}">+</span> Full report
-          </button>
-        </div>
-        <div class="full-section" id="full_${r.id}">
-          <div style="padding:14px 16px">${buildFullSection(r)}</div>
-        </div>
-      </div>`;
+    const aiContent=r.ai_summary?Object.entries(r.ai_summary).map(([sec,val])=>'<div class="summary-block"><div class="summary-section-lbl">'+sec+'</div><div class="summary-text">'+val+'</div></div>').join('')+(r.ai_summary_generated_at?'<div class="gen-stamp">&#9201; Generated '+fmtTime(r.ai_summary_generated_at)+(isEdited?' \u00b7 edited report':'')+'</div>':''):'<div id="aiload_'+r.id+'"><button class="gen-summary-btn" onclick="generateSummary(\'''+r.id+'\')">Generate AI summary</button></div>';
+    const responseClass=response==='Acknowledged'||response==='Noted'?'selected-noted':response==='Follow up required'?'selected-followup':'';
+    return '<div class="report-card" id="card_'+r.id+'"><div class="report-card-header"><div class="report-meta"><span class="report-site-badge badge-'+r.site.toLowerCase()+'">'+r.site+'</span><span class="report-staff">'+r.staff_name+'</span><span class="report-time">'+timeStr+'</span></div><div class="report-flags">'+(hasRecurring?'<div class="flag-dot flag-recurring" title="Recurring issues"></div>':'')+( isEdited?'<span class="badge-edited-sm">Edited</span>':'')+ '</div></div><div class="ai-body"><div class="ai-label"><span class="ai-dot"></span> AI Summary</div>'+aiContent+'</div><div class="card-footer"><div class="mgr-btns">'+ ['Acknowledged','Follow up required'].map(a=>'<button class="mgr-btn '+(response===a||( a==='Acknowledged'&&(response==='Noted'||response==='Resolved'))?responseClass:'')+'" onclick="setResponse(\'''+r.id+'\',\'''+a+'\')">'+ a+'</button>').join('')+ '</div><button class="expand-btn" onclick="toggleFull(\'''+r.id+'\')"><span id="expandIcon_'+r.id+'">+</span> Full report</button></div><div class="full-section" id="full_'+r.id+'"><div style="padding:14px 16px">'+buildFullSection(r)+'</div></div></div>';
   }
-
-  window.toggleFull=function(id){
-    const section=document.getElementById('full_'+id);
-    const icon=document.getElementById('expandIcon_'+id);
-    const isOpen=section.style.display==='block';
-    section.style.display=isOpen?'none':'block';
-    icon.textContent=isOpen?'+':'−';
-  };
-
+  window.toggleFull=function(id){const s=document.getElementById('full_'+id),ic=document.getElementById('expandIcon_'+id),o=s.style.display==='block';s.style.display=o?'none':'block';ic.textContent=o?'+':'\u2212';};
   window.setResponse=async function(id,response){
     const reviewedAt=new Date().toISOString();
-    try {
-      await updateDoc(doc(db,'reports',id),{manager_response:response,reviewed:true,reviewed_at:reviewedAt});
-      const report=allReports.find(r=>r.id===id);
-      if(report){ report.manager_response=response; report.reviewed=true; report.reviewed_at=reviewedAt; }
-      renderReports();
-    } catch(e){ alert('Failed to save response.'); }
+    try{await updateDoc(doc(db,'reports',id),{manager_response:response,reviewed:true,reviewed_at:reviewedAt});const report=allReports.find(r=>r.id===id);if(report){report.manager_response=response;report.reviewed=true;report.reviewed_at=reviewedAt;}renderReports();}catch(e){alert('Failed to save response.');}
   };
-
   window.deleteReport=async function(id){
-    const report=allReports.find(r=>r.id===id);
-    const label=report?`${report.site} report by ${report.staff_name} on ${report.date}`:'this report';
-    if(!confirm(`Delete ${label}?\n\nThis cannot be undone.`)) return;
-    try {
-      await deleteDoc(doc(db,'reports',id));
-      allReports=allReports.filter(r=>r.id!==id);
-      const today=new Date().toISOString().split('T')[0];
-      setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test));
-      setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test));
-      renderReports();
-    } catch(e){ alert('Failed to delete report.'); }
+    const report=allReports.find(r=>r.id===id);const label=report?report.site+' report by '+report.staff_name+' on '+report.date:'this report';
+    if(!confirm('Delete '+label+'?\n\nThis cannot be undone.'))return;
+    try{await deleteDoc(doc(db,'reports',id));allReports=allReports.filter(r=>r.id!==id);const today=new Date().toISOString().split('T')[0];setCompliance('tsc',allReports.find(r=>r.site==='TSC'&&r.date===today&&!r.is_test),allNoOps['TSC']);setCompliance('sas',allReports.find(r=>r.site==='SAS'&&r.date===today&&!r.is_test),allNoOps['SAS']);renderReports();}catch(e){alert('Failed to delete report.');}
   };
-
   window.generateSummary=async function(id){
-    const report=allReports.find(r=>r.id===id);
-    if(!report) return;
-    const ailoadEl=document.getElementById('aiload_'+id);
-    if(!ailoadEl) return;
+    const report=allReports.find(r=>r.id===id);if(!report)return;
+    const ailoadEl=document.getElementById('aiload_'+id);if(!ailoadEl)return;
     ailoadEl.innerHTML='<span class="ai-loading">Generating summary...</span>';
+    let originalReport=null;
+    if((report.version||1)>1&&report.base_id){try{const os=await getDoc(doc(db,'reports',report.base_id+'_v1'));if(os.exists())originalReport=os.data();}catch(e){}}
     const isSAS=report.site==='SAS';
-    const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>
-      `Incident ${idx+1}: ${inc.category} at ${inc.location}\n  Severity: ${inc.severity}\n  Details: ${inc.details}\n  Action taken: ${inc.action}\n  Recurring: ${inc.recurring}`
-    ).join('\n\n')||'No incidents reported this shift.';
-    const prompt=`You are an operations analyst for Surgo Asset Partners, Singapore.
-
-Daily shift report submitted. Generate a structured summary with exactly these five elements. Write like a briefing note to a senior manager. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.
-
---- SHIFT DATA ---
-Site: ${isSAS?'SAS Healthcare Dormitory (SAS)':'Tee Side Chalet (TSC)'}
-Date: ${report.date}
-Staff: ${report.staff_name}
-${!isSAS?`Units occupied: ${report.units_occupied}\nCheck-ins: ${report.check_ins} / Check-outs: ${report.check_outs}`:`Areas covered: ${report.areas_covered}\nActivities completed: ${report.activities_completed}\nGetz present: ${report.getz_present} | Rating: ${report.getz_rating}/5`}
-Positive observations: ${report.positive_observations||'None'}
-
-${incidents}
-
-7-day risk: ${report.seven_day_risk||'None flagged'}
-${!isSAS?`Cost / opportunity spotted: ${report.cost_opportunity||'None'}`:''}
-Handover notes: ${report.handover_notes||'None'}
-Welfare / staff concerns: ${report.welfare_concern||'None'}
---- END ---
-
-Return exactly this structure. No markdown. No asterisks. Plain text only.
-
-SHIFT SNAPSHOT
-[One sentence: site, who submitted, key operational number]
-
-INCIDENTS
-[Each incident on its own line, preceded by a dash. If none: "No incidents this shift."]
-
-FORWARD FLAG
-[From 7-day risk field. If empty: "None flagged."]
-
-PATTERN ALERT
-[Each recurring issue: "- [Category] at [Location] — recurring. Needs review." If none: "No recurring issues."]
-
-RECOMMENDED ACTION
-[One specific action tied to actual report content. If nothing: "No action required."]`;
-    try {
+    const incidents=report.incidents&&report.incidents.filter(i=>i.category).map((inc,idx)=>'Incident '+(idx+1)+': '+inc.category+' at '+inc.location+'\n  Severity: '+inc.severity+'\n  Details: '+inc.details+'\n  Action taken: '+inc.action+'\n  Recurring: '+inc.recurring).join('\n\n')||'No incidents reported this shift.';
+    const ic=!!originalReport;
+    let os2='';
+    if(originalReport){const oi=(originalReport.incidents||[]).filter(i=>i.category).map(i=>i.category+' at '+(i.location||'?')+' ['+i.severity+']').join(', ')||'None';os2='\n\nThis is an EDITED report.\n--- ORIGINAL ---\n'+(isSAS?'Areas: '+(originalReport.areas_covered||'\u2014')+' | Getz: '+(originalReport.getz_present||'\u2014')+' '+(originalReport.getz_rating||0)+'/5':'Units: '+(originalReport.units_occupied||'\u2014')+' | Check-ins: '+(originalReport.check_ins||'\u2014')+' | Check-outs: '+(originalReport.check_outs||'\u2014'))+'\nObservations: '+(originalReport.positive_observations||'None')+'\nIncidents: '+oi+'\n7-day risk: '+(originalReport.seven_day_risk||'None')+'\nHandover: '+(originalReport.handover_notes||'None')+'\n--- END ORIGINAL ---';}
+    const sections=['SHIFT SNAPSHOT',...(ic?['WHAT CHANGED']:[]),'INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
+    const prompt='You are an operations analyst for Surgo Asset Partners, Singapore. Generate a structured briefing note. Concise. No preamble. No sign-off. No markdown. No asterisks. Plain text only.\n\n--- SHIFT DATA ---\nSite: '+(isSAS?'SAS Healthcare Dormitory':'Tee Side Chalet (TSC)')+'\nDate: '+report.date+' | Staff: '+report.staff_name+'\n'+(isSAS?'Areas covered: '+(report.areas_covered||'')+'\nActivities: '+(report.activities_completed||'')+'\nGetz: '+(report.getz_present||'')+' | Rating: '+(report.getz_rating||0)+'/5':'Units occupied: '+( report.units_occupied||'')+'\nCheck-ins: '+(report.check_ins||'')+' / Check-outs: '+(report.check_outs||''  ))+'\nPositive observations: '+(report.positive_observations||'None')+'\n'+incidents+'\n7-day risk: '+(report.seven_day_risk||'None flagged')+'\n'+(isSAS?'':' Cost / opportunity: '+(report.cost_opportunity||'None')+'\n')+'Handover notes: '+(report.handover_notes||'None')+'\nWelfare / staff concerns: '+(report.welfare_concern||'None')+'\n--- END ---'+os2+'\n\nReturn exactly this structure. Plain text only.\n\nSHIFT SNAPSHOT\n[One sentence: site, who submitted, key operational number]\n'+(ic?'\nWHAT CHANGED\n[List specific fields or values that changed from the original. If nothing meaningful changed: "Minor corrections only."]\n':'')+'\nINCIDENTS\n[Each incident preceded by a dash. If none: "No incidents this shift."]\n\nFORWARD FLAG\n[From 7-day risk. If empty: "None flagged."]\n\nPATTERN ALERT\n[Recurring issues or "No recurring issues."]\n\nRECOMMENDED ACTION\n[One specific action or "No action required."]';
+    try{
       const res=await fetch('https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
-      const data=await res.json();
-      const text=data.text||'';
-      const sections=['SHIFT SNAPSHOT','INCIDENTS','FORWARD FLAG','PATTERN ALERT','RECOMMENDED ACTION'];
-      const summary={};
-      sections.forEach((sec,i)=>{
-        const next=sections[i+1];
-        const start=text.indexOf(sec);
-        if(start===-1) return;
-        const end=next?text.indexOf(next):text.length;
-        summary[sec]=text.slice(start+sec.length,end).trim();
-      });
-      await updateDoc(doc(db,'reports',id),{ai_summary:summary});
-      report.ai_summary=summary;
-      const summaryHtml=Object.entries(summary).map(([sec,val])=>`
-        <div class="summary-block">
-          <div class="summary-section-lbl">${sec}</div>
-          <div class="summary-text">${val}</div>
-        </div>`).join('');
+      const data=await res.json();const text=data.text||'';
+      const summary={};sections.forEach((sec,i)=>{const next=sections[i+1];const start=text.indexOf(sec);if(start===-1)return;const end=next?text.indexOf(next):text.length;summary[sec]=text.slice(start+sec.length,end).trim();});
+      const generatedAt=new Date().toISOString();
+      await updateDoc(doc(db,'reports',id),{ai_summary:summary,ai_summary_generated_at:generatedAt});
+      report.ai_summary=summary;report.ai_summary_generated_at=generatedAt;
+      const stamp='<div class="gen-stamp">&#9201; Generated '+fmtTime(generatedAt)+(ic?' \u00b7 edited report':'')+'</div>';
+      const summaryHtml=Object.entries(summary).map(([sec,val])=>'<div class="summary-block"><div class="summary-section-lbl">'+sec+'</div><div class="summary-text">'+val+'</div></div>').join('')+stamp;
       document.getElementById('aiload_'+id).outerHTML=summaryHtml;
-    } catch(e){
-      const el=document.getElementById('aiload_'+id);
-      if(el) el.innerHTML='<span style="font-size:12px;color:#e74c3c">Summary failed. Try again.</span>';
-    }
+    }catch(e){const el=document.getElementById('aiload_'+id);if(el)el.innerHTML='<span style="font-size:12px;color:#e74c3c">Summary failed. Try again.</span>';}
   };
 </script>
 </body>

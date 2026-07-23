@@ -64,22 +64,30 @@
   .getz-score{font-size:11px;color:#111;font-weight:500;width:24px;text-align:right;flex-shrink:0}
   .narrative-box{background:#f9f9f9;border-radius:8px;padding:14px;font-size:12px;color:#111;line-height:1.8;min-height:80px;margin-bottom:10px;white-space:pre-wrap}
   .narrative-box.loading{color:#999;font-style:italic}
-  .narrative-box.empty{color:#bbb;display:flex;align-items:center;justify-content:center;min-height:60px}
-  .regen-btn{padding:6px 14px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit}
+  .narrative-box.empty{color:#bbb;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80px;gap:12px;text-align:center}
+  .narrative-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .gen-stamp{font-size:10px;color:#bbb;display:flex;align-items:center;gap:4px}
+  .regen-btn{padding:5px 12px;font-size:11px;border:1px solid #ddd;border-radius:5px;background:#fff;cursor:pointer;color:#888;font-family:inherit}
+  .regen-btn:hover{border-color:#000;color:#111}
+  .gen-btn{padding:7px 16px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit}
   .empty-state{text-align:center;padding:20px;color:#bbb;font-size:12px}
+  .backup-section{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px;margin-bottom:14px}
+  .backup-desc{font-size:12px;color:#666;margin-bottom:14px;line-height:1.6}
+  .backup-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .backup-btn-primary{padding:7px 14px;font-size:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:500}
+  .backup-label{padding:7px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#111;font-family:inherit}
+  #backupStatus{font-size:11px;color:#999}
   @media(max-width:600px){.stat-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <header>
   <div class="hdr-left">
-    <a href="dashboard.html" class="hdr-back">← Dashboard</a>
+    <a href="dashboard.html" class="hdr-back">&#8592; Dashboard</a>
     <span class="hdr-brand">Surgo Asset Partners</span>
   </div>
   <span class="hdr-tag">ANALYTICS</span>
 </header>
-
 <div id="pinScreen">
   <div class="pin-title">Manager access</div>
   <p class="pin-sub">Enter your PIN to continue</p>
@@ -88,514 +96,145 @@
     <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
   </div>
   <div class="pin-pad">
-    <button class="pin-key" onclick="pinPress('1')">1</button>
-    <button class="pin-key" onclick="pinPress('2')">2</button>
-    <button class="pin-key" onclick="pinPress('3')">3</button>
-    <button class="pin-key" onclick="pinPress('4')">4</button>
-    <button class="pin-key" onclick="pinPress('5')">5</button>
-    <button class="pin-key" onclick="pinPress('6')">6</button>
-    <button class="pin-key" onclick="pinPress('7')">7</button>
-    <button class="pin-key" onclick="pinPress('8')">8</button>
-    <button class="pin-key" onclick="pinPress('9')">9</button>
-    <button class="pin-key" style="font-size:14px;color:#999" onclick="pinDel()">⌫</button>
+    <button class="pin-key" onclick="pinPress('1')">1</button><button class="pin-key" onclick="pinPress('2')">2</button><button class="pin-key" onclick="pinPress('3')">3</button>
+    <button class="pin-key" onclick="pinPress('4')">4</button><button class="pin-key" onclick="pinPress('5')">5</button><button class="pin-key" onclick="pinPress('6')">6</button>
+    <button class="pin-key" onclick="pinPress('7')">7</button><button class="pin-key" onclick="pinPress('8')">8</button><button class="pin-key" onclick="pinPress('9')">9</button>
+    <button class="pin-key" style="font-size:14px;color:#999" onclick="pinDel()">&#9003;</button>
     <button class="pin-key" onclick="pinPress('0')">0</button>
     <button class="pin-key" onclick="pinClear()" style="font-size:12px;color:#ccc">C</button>
   </div>
   <div class="pin-error" id="pinError"></div>
 </div>
-
 <div id="analyticsScreen">
   <div class="abody">
-    <div class="page-head">
-      <div class="page-title">Operations analytics</div>
-      <div class="page-date" id="pageDate"></div>
-    </div>
+    <div class="page-head"><div class="page-title">Operations analytics</div><div class="page-date" id="pageDate"></div></div>
     <div class="controls">
       <div class="range-row">
         <button class="range-btn" onclick="setRange('week',this)">This week</button>
         <button class="range-btn active" onclick="setRange('month',this)">This month</button>
         <button class="range-btn" onclick="setRange('30',this)">Last 30 days</button>
       </div>
-      <button class="export-btn" onclick="exportCSV()">↓ Export CSV</button>
+      <button class="export-btn" onclick="exportCSV()">&#8595; Export CSV</button>
     </div>
-
     <div class="sec-label">Compliance</div>
     <div class="stat-grid" id="complianceGrid">
-      <div class="stat-card"><div class="stat-lbl">TSC submission rate</div><div class="stat-val">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">SAS submission rate</div><div class="stat-val">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Total submissions</div><div class="stat-val">—</div></div>
-      <div class="stat-card"><div class="stat-lbl">Follow-ups pending</div><div class="stat-val">—</div></div>
+      <div class="stat-card"><div class="stat-lbl">TSC submission rate</div><div class="stat-val">&#8212;</div></div>
+      <div class="stat-card"><div class="stat-lbl">SAS submission rate</div><div class="stat-val">&#8212;</div></div>
+      <div class="stat-card"><div class="stat-lbl">Total submissions</div><div class="stat-val">&#8212;</div></div>
+      <div class="stat-card"><div class="stat-lbl">Follow-ups pending</div><div class="stat-val">&#8212;</div></div>
     </div>
-
     <div class="sec-label">Incident breakdown</div>
     <div class="two-col">
-      <div class="card">
-        <span class="site-badge badge-tsc">TSC</span>
-        <div id="tscChartWrap" style="position:relative;width:100%;height:200px">
-          <canvas id="tscChart" role="img" aria-label="TSC incidents by category"></canvas>
-        </div>
-      </div>
-      <div class="card">
-        <span class="site-badge badge-sas">SAS</span>
-        <div id="sasChartWrap" style="position:relative;width:100%;height:200px">
-          <canvas id="sasChart" role="img" aria-label="SAS incidents by category"></canvas>
-        </div>
-      </div>
+      <div class="card"><span class="site-badge badge-tsc">TSC</span><div id="tscChartWrap" style="position:relative;width:100%;height:200px"><canvas id="tscChart" role="img" aria-label="TSC incidents by category"></canvas></div></div>
+      <div class="card"><span class="site-badge badge-sas">SAS</span><div id="sasChartWrap" style="position:relative;width:100%;height:200px"><canvas id="sasChart" role="img" aria-label="SAS incidents by category"></canvas></div></div>
     </div>
-
     <div class="sec-label">Recurring issues</div>
     <div class="card" id="recurringList"><div class="empty-state">Loading...</div></div>
-
     <div class="two-col">
-      <div>
-        <div class="sec-label">Getz rating trend <span style="font-weight:400;letter-spacing:0;text-transform:none;font-size:9px">(SAS only)</span></div>
-        <div class="card" id="getzSection"><div class="empty-state">Loading...</div></div>
-      </div>
-      <div>
-        <div class="sec-label">Follow-up tracker</div>
-        <div class="card" id="followupSection"><div class="empty-state">Loading...</div></div>
-      </div>
+      <div><div class="sec-label">Getz rating trend <span style="font-weight:400;letter-spacing:0;text-transform:none;font-size:9px">(SAS only)</span></div><div class="card" id="getzSection"><div class="empty-state">Loading...</div></div></div>
+      <div><div class="sec-label">Follow-up tracker</div><div class="card" id="followupSection"><div class="empty-state">Loading...</div></div></div>
     </div>
-
     <div class="sec-label">AI narrative summary</div>
     <div class="two-col">
       <div class="card">
         <span class="site-badge badge-tsc">TSC</span>
-        <div class="narrative-box loading" id="tscNarrativeBox">Generating summary...</div>
-        <button class="regen-btn" onclick="regenerate('TSC')">↺ Regenerate</button>
+        <div id="tscNarrativeBox" class="narrative-box empty"><span style="color:#bbb;font-size:12px">No summary generated for this period yet.</span><button class="gen-btn" onclick="generateNarrative('TSC')">Generate summary</button></div>
+        <div class="narrative-footer" id="tscNarrativeFooter"></div>
       </div>
       <div class="card">
         <span class="site-badge badge-sas">SAS</span>
-        <div class="narrative-box loading" id="sasNarrativeBox">Generating summary...</div>
-        <button class="regen-btn" onclick="regenerate('SAS')">↺ Regenerate</button>
+        <div id="sasNarrativeBox" class="narrative-box empty"><span style="color:#bbb;font-size:12px">No summary generated for this period yet.</span><button class="gen-btn" onclick="generateNarrative('SAS')">Generate summary</button></div>
+        <div class="narrative-footer" id="sasNarrativeFooter"></div>
       </div>
     </div>
-  <div class="sec-label" style="margin-top:10px">Data backup & restore</div>
-    <div class="card" style="margin-bottom:14px">
-      <div style="font-size:12px;color:#666;margin-bottom:14px;line-height:1.6">
-        Use these tools when migrating to a new Firebase account. Download a full backup before migration, then restore it into the new project.
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <button class="export-btn" onclick="downloadBackup()" id="backupBtn" style="background:#000;color:#fff;border-color:#000;font-weight:500">↓ Download full backup (JSON)</button>
-        <label style="padding:7px 14px;font-size:12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#111;font-family:inherit">
-          ↑ Restore from backup
-          <input type="file" accept=".json" onchange="restoreBackup(this)" style="display:none"/>
-        </label>
-        <span id="backupStatus" style="font-size:11px;color:#999"></span>
+    <div class="sec-label" style="margin-top:10px">Data backup &amp; restore</div>
+    <div class="backup-section">
+      <div class="backup-desc">Use these tools when migrating to a new Firebase account. Download a full backup before migration, then restore it into the new project.</div>
+      <div class="backup-btns">
+        <button class="backup-btn-primary" onclick="downloadBackup()" id="backupBtn">&#8595; Download full backup (JSON)</button>
+        <label class="backup-label">&#8593; Restore from backup<input type="file" accept=".json" onchange="restoreBackup(this)" style="display:none"/></label>
+        <span id="backupStatus"></span>
       </div>
     </div>
-
   </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
   const CORRECT_PIN='9999';
   const CLOUD_FN='https://asia-southeast1-surgo-ops.cloudfunctions.net/generateSummary';
-  let pinInput='';
-  let allReports=[];
-  let allNoOps=[];
-  let currentRange='month';
-  let tscChart=null;
-  let sasChart=null;
-
-  window.pinPress=function(d){ if(pinInput.length>=4) return; pinInput+=d; updateDots(); if(pinInput.length===4) setTimeout(checkPin,150); };
-  window.pinDel=function(){ pinInput=pinInput.slice(0,-1); updateDots(); document.getElementById('pinError').textContent=''; };
-  window.pinClear=function(){ pinInput=''; updateDots(); document.getElementById('pinError').textContent=''; };
-
-  function updateDots(){ for(let i=0;i<4;i++) document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':''); }
-
-  function checkPin(){
-    if(pinInput===CORRECT_PIN){
-      document.getElementById('pinScreen').style.display='none';
-      const s=document.getElementById('analyticsScreen');
-      s.style.display='flex'; s.style.flexDirection='column';
-      document.getElementById('pageDate').textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-      window.__loadData&&window.__loadData();
-    } else {
-      document.getElementById('pinError').textContent='Incorrect PIN. Try again.';
-      pinInput=''; updateDots();
-    }
-  }
-
-  function localDateStr(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-
-  function getDateRange(range){
-    const now=new Date();
-    const end=localDateStr(now);
-    let start;
-    if(range==='week'){
-      const dow=now.getDay();
-      const mon=new Date(now);
-      mon.setDate(now.getDate()-(dow===0?6:dow-1));
-      start=localDateStr(mon);
-    } else if(range==='month'){
-      start=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
-    } else {
-      const d=new Date(now); d.setDate(d.getDate()-30);
-      start=localDateStr(d);
-    }
-    return {start,end};
-  }
-
-  function filterReports(start,end){ return allReports.filter(r=>r.date>=start&&r.date<=end&&!r.is_test); }
-  function filterNoOps(start,end){ return allNoOps.filter(n=>n.date>=start&&n.date<=end); }
-
-  function calcCompliance(reports,noOps,site,start,end){
-    const subDates=new Set(reports.filter(r=>r.site===site).map(r=>r.date));
-    const noOpsDates=new Set(noOps.filter(n=>n.site===site).map(n=>n.date));
-    let total=0,submitted=0,noOpsCount=0;
-    const s=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');
-    for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)){
-      const ds=localDateStr(d);
-      if(noOpsDates.has(ds)&&!subDates.has(ds)) noOpsCount++;
-      else { total++; if(subDates.has(ds)) submitted++; }
-    }
-    return {submitted,total,noOps:noOpsCount,rate:total>0?Math.round((submitted/total)*100):0};
-  }
-
-  function calcIncidents(reports,site){
-    const cats={};
-    reports.filter(r=>r.site===site).forEach(r=>{
-      (r.incidents||[]).filter(i=>i.category).forEach(i=>{ cats[i.category]=(cats[i.category]||0)+1; });
-    });
-    const sorted=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
-    return {labels:sorted.map(x=>x[0]),data:sorted.map(x=>x[1])};
-  }
-
-  function calcRecurring(reports){
-    const map={};
-    reports.forEach(r=>{
-      (r.incidents||[]).filter(i=>i.category&&i.recurring==='Yes').forEach(i=>{
-        const key=`${i.category}|||${i.location||''}|||${r.site}`;
-        if(!map[key]) map[key]={category:i.category,location:i.location||'',site:r.site,count:0};
-        map[key].count++;
-      });
-    });
-    return Object.values(map).sort((a,b)=>b.count-a.count);
-  }
-
-  function calcGetz(reports){
-    const byDate={};
-    reports.filter(r=>r.site==='SAS'&&Number(r.getz_rating)>0).forEach(r=>{
-      if(!byDate[r.date]) byDate[r.date]=[];
-      byDate[r.date].push(Number(r.getz_rating));
-    });
-    return Object.entries(byDate)
-      .sort((a,b)=>b[0].localeCompare(a[0])).slice(0,7)
-      .map(([date,vals])=>({date,avg:Math.round((vals.reduce((a,b)=>a+b,0)/vals.length)*10)/10}));
-  }
-
-  function calcFollowups(reports){
-    return reports.filter(r=>r.manager_response==='Follow up required')
-      .sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
-  }
-
-  window.setRange=function(range,btn){
-    currentRange=range;
-    document.querySelectorAll('.range-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    renderAll();
-    generateAllNarratives();
-  };
-
-  function renderAll(){
-    const {start,end}=getDateRange(currentRange);
-    const reports=filterReports(start,end);
-    const noOps=filterNoOps(start,end);
-    renderCompliance(reports,noOps,start,end);
-    renderIncidentCharts(reports);
-    renderRecurring(reports);
-    renderGetz(reports);
-    renderFollowups(reports);
-  }
-
-  function renderCompliance(reports,noOps,start,end){
-    const tsc=calcCompliance(reports,noOps,'TSC',start,end);
-    const sas=calcCompliance(reports,noOps,'SAS',start,end);
-    const pending=calcFollowups(reports).length;
-    const rc=r=>r>=80?'g':r>=50?'a':'r';
-    document.getElementById('complianceGrid').innerHTML=`
-      <div class="stat-card">
-        <div class="stat-lbl">TSC submission rate</div>
-        <div class="stat-val ${rc(tsc.rate)}">${tsc.rate}%</div>
-        <div class="stat-sub">${tsc.submitted}/${tsc.total} days${tsc.noOps>0?` · ${tsc.noOps} no-ops`:''}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-lbl">SAS submission rate</div>
-        <div class="stat-val ${rc(sas.rate)}">${sas.rate}%</div>
-        <div class="stat-sub">${sas.submitted}/${sas.total} days${sas.noOps>0?` · ${sas.noOps} no-ops`:''}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-lbl">Total submissions</div>
-        <div class="stat-val">${reports.length}</div>
-        <div class="stat-sub">Both sites combined</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-lbl">Follow-ups pending</div>
-        <div class="stat-val ${pending>0?'a':''}">${pending}</div>
-        <div class="stat-sub">${pending===0?'All clear':'Needs attention'}</div>
-      </div>`;
-  }
-
-  function renderIncidentCharts(reports){
-    const tscData=calcIncidents(reports,'TSC');
-    const sasData=calcIncidents(reports,'SAS');
-    if(tscChart){tscChart.destroy();tscChart=null;}
-    if(sasChart){sasChart.destroy();sasChart=null;}
-    const chartOpts=(color)=>({
-      type:'bar',
-      options:{responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false}},
-        scales:{
-          x:{grid:{display:false},ticks:{color:'#555',font:{size:9},maxRotation:45,autoSkip:false}},
-          y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{color:'#aaa',font:{size:10},stepSize:1},beginAtZero:true}
-        }}
-    });
-    if(tscData.labels.length===0){
-      document.getElementById('tscChartWrap').innerHTML='<div class="empty-state">No incidents this period</div>';
-    } else {
-      document.getElementById('tscChartWrap').innerHTML='<canvas id="tscChart" role="img" aria-label="TSC incidents by category"></canvas>';
-      const o=chartOpts('#111'); o.data={labels:tscData.labels,datasets:[{data:tscData.data,backgroundColor:'#111',borderRadius:3}]};
-      tscChart=new Chart(document.getElementById('tscChart'),o);
-    }
-    if(sasData.labels.length===0){
-      document.getElementById('sasChartWrap').innerHTML='<div class="empty-state">No incidents this period</div>';
-    } else {
-      document.getElementById('sasChartWrap').innerHTML='<canvas id="sasChart" role="img" aria-label="SAS incidents by category"></canvas>';
-      const o=chartOpts('#444'); o.data={labels:sasData.labels,datasets:[{data:sasData.data,backgroundColor:'#444',borderRadius:3}]};
-      sasChart=new Chart(document.getElementById('sasChart'),o);
-    }
-  }
-
-  function renderRecurring(reports){
-    const items=calcRecurring(reports);
-    if(items.length===0){ document.getElementById('recurringList').innerHTML='<div class="empty-state">No recurring issues flagged this period</div>'; return; }
-    document.getElementById('recurringList').innerHTML=items.map(item=>`
-      <div class="data-row">
-        <div>
-          <div class="data-main">${item.category}</div>
-          <div class="data-sub"><span style="background:${item.site==='TSC'?'#111':'#444'};color:#fff;font-size:9px;padding:1px 5px;border-radius:3px">${item.site}</span>  ${item.location||'—'}</div>
-        </div>
-        <span class="pill ${item.count>=3?'pill-r':'pill-a'}">${item.count}× this period</span>
-      </div>`).join('');
-  }
-
-  function renderGetz(reports){
-    const data=calcGetz(reports);
-    if(data.length===0){ document.getElementById('getzSection').innerHTML='<div class="empty-state">No Getz data this period</div>'; return; }
-    document.getElementById('getzSection').innerHTML=data.map(d=>{
-      const pct=Math.round((d.avg/5)*100);
-      const lbl=new Date(d.date+'T12:00:00').toLocaleDateString('en-SG',{day:'numeric',month:'short'});
-      return `<div class="getz-row">
-        <span class="getz-lbl">${lbl}</span>
-        <div class="getz-track"><div class="getz-fill" style="width:${pct}%"></div></div>
-        <span class="getz-score">${d.avg.toFixed(1)}</span>
-      </div>`;
-    }).join('');
-  }
-
-  function renderFollowups(reports){
-    const items=calcFollowups(reports);
-    if(items.length===0){ document.getElementById('followupSection').innerHTML='<div class="empty-state">No pending follow-ups</div>'; return; }
-    document.getElementById('followupSection').innerHTML=items.map(r=>{
-      const t=new Date(r.submitted_at);
-      const timeStr=t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' · '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-      const firstInc=r.incidents&&r.incidents.find(i=>i.category);
-      return `<div class="data-row">
-        <div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
-            <span style="background:${r.site==='TSC'?'#111':'#444'};color:#fff;font-size:9px;padding:1px 6px;border-radius:3px">${r.site}</span>
-            <span class="data-main">${r.staff_name}</span>
-          </div>
-          <div class="data-sub">${timeStr}${firstInc?' · '+firstInc.category:''}</div>
-        </div>
-        <span class="pill pill-a">Pending</span>
-      </div>`;
-    }).join('');
-  }
-
-  async function generateNarrative(site){
+  let pinInput='',allReports=[],allNoOps=[],allNarratives={},currentRange='month';
+  let tscChart=null,sasChart=null;
+  window.pinPress=function(d){if(pinInput.length>=4)return;pinInput+=d;updateDots();if(pinInput.length===4)setTimeout(checkPin,150);};
+  window.pinDel=function(){pinInput=pinInput.slice(0,-1);updateDots();document.getElementById('pinError').textContent='';};
+  window.pinClear=function(){pinInput='';updateDots();document.getElementById('pinError').textContent='';};
+  function updateDots(){for(let i=0;i<4;i++)document.getElementById('d'+i).className='pin-dot'+(i<pinInput.length?' filled':'');}
+  function checkPin(){if(pinInput===CORRECT_PIN){document.getElementById('pinScreen').style.display='none';const s=document.getElementById('analyticsScreen');s.style.display='flex';s.style.flexDirection='column';document.getElementById('pageDate').textContent=new Date().toLocaleDateString('en-SG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});window.__loadData&&window.__loadData();}else{document.getElementById('pinError').textContent='Incorrect PIN. Try again.';pinInput='';updateDots();}}
+  function localDateStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function getDateRange(range){const now=new Date(),end=localDateStr(now);let start;if(range==='week'){const dow=now.getDay();const mon=new Date(now);mon.setDate(now.getDate()-(dow===0?6:dow-1));start=localDateStr(mon);}else if(range==='month'){start=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-01';}else{const d=new Date(now);d.setDate(d.getDate()-30);start=localDateStr(d);}return{start,end};}
+  function filterReports(start,end){return allReports.filter(r=>r.date>=start&&r.date<=end&&r.is_latest!==false&&!r.is_test);}
+  function filterNoOps(start,end){return allNoOps.filter(n=>n.date>=start&&n.date<=end);}
+  function calcCompliance(reports,noOps,site,start,end){const sd=new Set(reports.filter(r=>r.site===site).map(r=>r.date));const nd=new Set(noOps.filter(n=>n.site===site).map(n=>n.date));let total=0,submitted=0,noOpsC=0;const s=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)){const ds=localDateStr(d);if(nd.has(ds)&&!sd.has(ds))noOpsC++;else{total++;if(sd.has(ds))submitted++;}}return{submitted,total,noOps:noOpsC,rate:total>0?Math.round((submitted/total)*100):0};}
+  function calcIncidents(reports,site){const cats={};reports.filter(r=>r.site===site).forEach(r=>{(r.incidents||[]).filter(i=>i.category).forEach(i=>{cats[i.category]=(cats[i.category]||0)+1;});});const sorted=Object.entries(cats).sort((a,b)=>b[1]-a[1]);return{labels:sorted.map(x=>x[0]),data:sorted.map(x=>x[1])};}
+  function calcRecurring(reports){const map={};reports.forEach(r=>{(r.incidents||[]).filter(i=>i.category&&i.recurring==='Yes').forEach(i=>{const key=i.category+'|||'+(i.location||'')+'|||'+r.site;if(!map[key])map[key]={category:i.category,location:i.location||'',site:r.site,count:0};map[key].count++;});});return Object.values(map).sort((a,b)=>b.count-a.count);}
+  function calcGetz(reports){const byDate={};reports.filter(r=>r.site==='SAS'&&Number(r.getz_rating)>0).forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(Number(r.getz_rating));});return Object.entries(byDate).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,7).map(([date,vals])=>({date,avg:Math.round((vals.reduce((a,b)=>a+b,0)/vals.length)*10)/10}));}
+  function calcFollowups(reports){return reports.filter(r=>r.manager_response==='Follow up required').sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));}
+  function fmtTime(iso){const t=new Date(iso);return t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' \u00b7 '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});}
+  window.setRange=function(range,btn){currentRange=range;document.querySelectorAll('.range-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderAll();renderNarratives();};
+  function renderAll(){const{start,end}=getDateRange(currentRange);const reports=filterReports(start,end);const noOps=filterNoOps(start,end);renderCompliance(reports,noOps,start,end);renderIncidentCharts(reports);renderRecurring(reports);renderGetz(reports);renderFollowups(reports);}
+  function renderCompliance(reports,noOps,start,end){const tsc=calcCompliance(reports,noOps,'TSC',start,end);const sas=calcCompliance(reports,noOps,'SAS',start,end);const pending=calcFollowups(reports).length;const rc=r=>r>=80?'g':r>=50?'a':'r';document.getElementById('complianceGrid').innerHTML='<div class="stat-card"><div class="stat-lbl">TSC submission rate</div><div class="stat-val '+rc(tsc.rate)+'">'+tsc.rate+'%</div><div class="stat-sub">'+tsc.submitted+'/'+tsc.total+' days'+(tsc.noOps>0?' \u00b7 '+tsc.noOps+' no-ops':'')+' </div></div><div class="stat-card"><div class="stat-lbl">SAS submission rate</div><div class="stat-val '+rc(sas.rate)+'">'+sas.rate+'%</div><div class="stat-sub">'+sas.submitted+'/'+sas.total+' days'+(sas.noOps>0?' \u00b7 '+sas.noOps+' no-ops':'')+' </div></div><div class="stat-card"><div class="stat-lbl">Total submissions</div><div class="stat-val">'+reports.length+'</div><div class="stat-sub">Both sites combined</div></div><div class="stat-card"><div class="stat-lbl">Follow-ups pending</div><div class="stat-val '+(pending>0?'a':'')+'">'+pending+'</div><div class="stat-sub">'+(pending===0?'All clear':'Needs attention')+'</div></div>';}
+  function renderIncidentCharts(reports){const td=calcIncidents(reports,'TSC');const sd=calcIncidents(reports,'SAS');if(tscChart){tscChart.destroy();tscChart=null;}if(sasChart){sasChart.destroy();sasChart=null;}const co={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:9},maxRotation:45,autoSkip:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{color:'#aaa',font:{size:10},stepSize:1},beginAtZero:true}}};if(td.labels.length===0){document.getElementById('tscChartWrap').innerHTML='<div class="empty-state">No incidents this period</div>';}else{document.getElementById('tscChartWrap').innerHTML='<canvas id="tscChart" role="img" aria-label="TSC incidents"></canvas>';tscChart=new Chart(document.getElementById('tscChart'),{type:'bar',data:{labels:td.labels,datasets:[{data:td.data,backgroundColor:'#111',borderRadius:3}]},options:co});}if(sd.labels.length===0){document.getElementById('sasChartWrap').innerHTML='<div class="empty-state">No incidents this period</div>';}else{document.getElementById('sasChartWrap').innerHTML='<canvas id="sasChart" role="img" aria-label="SAS incidents"></canvas>';sasChart=new Chart(document.getElementById('sasChart'),{type:'bar',data:{labels:sd.labels,datasets:[{data:sd.data,backgroundColor:'#444',borderRadius:3}]},options:co});}}
+  function renderRecurring(reports){const items=calcRecurring(reports);if(items.length===0){document.getElementById('recurringList').innerHTML='<div class="empty-state">No recurring issues flagged this period</div>';return;}document.getElementById('recurringList').innerHTML=items.map(item=>'<div class="data-row"><div><div class="data-main">'+item.category+'</div><div class="data-sub"><span style="background:'+(item.site==='TSC'?'#111':'#444')+';color:#fff;font-size:9px;padding:1px 6px;border-radius:3px">'+item.site+'</span>  '+item.location+'</div></div><span class="pill '+(item.count>=3?'pill-r':'pill-a')+'">'+item.count+'\u00d7 this period</span></div>').join('');}
+  function renderGetz(reports){const data=calcGetz(reports);if(data.length===0){document.getElementById('getzSection').innerHTML='<div class="empty-state">No Getz data this period</div>';return;}document.getElementById('getzSection').innerHTML=data.map(d=>{const pct=Math.round((d.avg/5)*100);const lbl=new Date(d.date+'T12:00:00').toLocaleDateString('en-SG',{day:'numeric',month:'short'});return '<div class="getz-row"><span class="getz-lbl">'+lbl+'</span><div class="getz-track"><div class="getz-fill" style="width:'+pct+'%"></div></div><span class="getz-score">'+d.avg.toFixed(1)+'</span></div>';}).join('');}
+  function renderFollowups(reports){const items=calcFollowups(reports);if(items.length===0){document.getElementById('followupSection').innerHTML='<div class="empty-state">No pending follow-ups</div>';return;}document.getElementById('followupSection').innerHTML=items.map(r=>{const t=new Date(r.submitted_at);const ts=t.toLocaleDateString('en-SG',{day:'numeric',month:'short'})+' \u00b7 '+t.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});const fi=r.incidents&&r.incidents.find(i=>i.category);return '<div class="data-row"><div><div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="background:'+(r.site==='TSC'?'#111':'#444')+';color:#fff;font-size:9px;padding:1px 6px;border-radius:3px">'+r.site+'</span><span class="data-main">'+r.staff_name+'</span></div><div class="data-sub">'+ts+(fi?' \u00b7 '+fi.category:'')+' </div></div><span class="pill pill-a">Pending</span></div>';}).join('');}
+  function getNarrativeKey(site){const{start}=getDateRange(currentRange);return site+'_'+currentRange+'_'+start;}
+  function renderNarratives(){['TSC','SAS'].forEach(site=>{const key=getNarrativeKey(site);const cached=allNarratives[key];const box=document.getElementById(site.toLowerCase()+'NarrativeBox');const footer=document.getElementById(site.toLowerCase()+'NarrativeFooter');if(cached){box.className='narrative-box';box.textContent=cached.text;footer.innerHTML='<div class="gen-stamp">\u23f1 Generated '+fmtTime(cached.generated_at)+' \u00b7 cached</div><button class="regen-btn" onclick="generateNarrative(\''+site+'\')">&#8635; Regenerate</button>';}else{box.className='narrative-box empty';box.innerHTML='<span style="color:#bbb;font-size:12px">No summary generated for this period yet.</span><button class="gen-btn" onclick="generateNarrative(\''+site+'\')">Generate summary</button>';footer.innerHTML='';}});}
+  window.generateNarrative=async function(site){
     const box=document.getElementById(site.toLowerCase()+'NarrativeBox');
-    box.className='narrative-box loading';
-    box.textContent='Generating summary...';
-    const {start,end}=getDateRange(currentRange);
+    const footer=document.getElementById(site.toLowerCase()+'NarrativeFooter');
+    box.className='narrative-box loading';box.textContent='Generating summary...';footer.innerHTML='';
+    const{start,end}=getDateRange(currentRange);
     const reports=filterReports(start,end).filter(r=>r.site===site);
     const noOps=filterNoOps(start,end);
-    if(reports.length===0){
-      box.className='narrative-box empty';
-      box.textContent='No submissions in this period to summarise.';
-      return;
-    }
+    if(reports.length===0){box.className='narrative-box empty';box.innerHTML='<span style="color:#bbb;font-size:12px">No submissions in this period to summarise.</span><button class="gen-btn" onclick="generateNarrative(\''+site+'\')">Generate summary</button>';return;}
     const compliance=calcCompliance(filterReports(start,end),noOps,site,start,end);
     const incidents=reports.flatMap(r=>(r.incidents||[]).filter(i=>i.category));
-    const catCounts={};
-    incidents.forEach(i=>{ catCounts[i.category]=(catCounts[i.category]||0)+1; });
-    const catStr=Object.entries(catCounts).map(([k,v])=>`${k}: ${v}`).join(', ')||'None';
+    const catCounts={};incidents.forEach(i=>{catCounts[i.category]=(catCounts[i.category]||0)+1;});
+    const catStr=Object.entries(catCounts).map(([k,v])=>k+': '+v).join(', ')||'None';
     const recurring=calcRecurring(reports);
-    const recurStr=recurring.length>0?recurring.map(r=>`${r.category} at ${r.location} (${r.count}×)`).join(', '):'None';
+    const recurStr=recurring.length>0?recurring.map(r=>r.category+' at '+r.location+' ('+r.count+'\u00d7)').join(', '):'None';
     const getzData=site==='SAS'?calcGetz(reports):null;
-    const getzStr=getzData&&getzData.length>0?`${(getzData.reduce((a,b)=>a+b.avg,0)/getzData.length).toFixed(1)}/5`:'N/A';
+    const getzStr=getzData&&getzData.length>0?((getzData.reduce((a,b)=>a+b.avg,0)/getzData.length).toFixed(1)+'/5'):'N/A';
     const observations=reports.map(r=>r.positive_observations).filter(Boolean).slice(0,3).join('; ')||'None noted';
     const risks=reports.map(r=>r.seven_day_risk).filter(Boolean).slice(0,3).join('; ')||'None flagged';
     const pending=calcFollowups(reports).length;
     const siteName=site==='TSC'?'Tee Side Chalet':'SAS Healthcare Dormitory';
-    const prompt=`You are the operations manager for Surgo Asset Partners, Singapore.
-
-Write a concise management narrative for ${siteName} covering the period ${start} to ${end}. Write in third person. 2-3 short paragraphs. Plain text only. No markdown. No asterisks. No bullet points. No preamble. No sign-off.
-
-OPERATIONAL DATA:
-Compliance: ${compliance.submitted} of ${compliance.total} operational days reported (${compliance.rate}%). Non-operational days marked: ${compliance.noOps}.
-Total incidents logged: ${incidents.length}. By category: ${catStr}.
-Recurring issues: ${recurStr}.
-${site==='SAS'?`Getz cleaning average rating: ${getzStr}.`:''}
-Sample positive observations: ${observations}.
-7-day risks flagged: ${risks}.
-Follow-ups still pending: ${pending}.
-
-Write the narrative now. Cover compliance health, incident patterns, and any operational risks. Close with one specific recommended management action for the coming period.`;
-
-    try {
+    const prompt='You are the operations manager for Surgo Asset Partners, Singapore.\n\nWrite a concise management narrative for '+siteName+' covering the period '+start+' to '+end+'. Write in third person. 2-3 short paragraphs. Plain text only. No markdown. No asterisks. No bullet points. No preamble. No sign-off.\n\nOPERATIONAL DATA:\nCompliance: '+compliance.submitted+' of '+compliance.total+' operational days reported ('+compliance.rate+'%). Non-operational days marked: '+compliance.noOps+'.\nTotal incidents logged: '+incidents.length+'. By category: '+catStr+'.\nRecurring issues: '+recurStr+'.\n'+(site==='SAS'?'Getz cleaning average rating: '+getzStr+'.\n':'')+'Sample positive observations: '+observations+'.\n7-day risks flagged: '+risks+'.\nFollow-ups still pending: '+pending+'.\n\nWrite the narrative now. Cover compliance health, incident patterns, and any operational risks. Close with one specific recommended management action for the coming period.';
+    try{
       const res=await fetch(CLOUD_FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
       const data=await res.json();
-      box.className='narrative-box';
-      box.textContent=(data.text||'').trim()||'Summary unavailable.';
-    } catch(e){
-      box.className='narrative-box empty';
-      box.textContent='Failed to generate. Try regenerate.';
-    }
-  }
-
-  function generateAllNarratives(){ generateNarrative('TSC'); generateNarrative('SAS'); }
-  window.regenerate=function(site){ generateNarrative(site); };
-
-  window.exportCSV=function(){
-    const {start,end}=getDateRange(currentRange);
-    const reports=filterReports(start,end);
-    if(reports.length===0){ alert('No data for this period.'); return; }
-    const headers=['Date','Site','Staff','Units Occupied','Check-ins','Check-outs','Areas Covered','Activities','Positive Observations','Incident Count','Incidents','7-day Risk','Handover Notes','Welfare Concern','Manager Response','Reviewed','No-ops Day'];
-    const noOpsSet=new Set(filterNoOps(start,end).map(n=>`${n.site}_${n.date}`));
-    const rows=reports.map(r=>{
-      const incs=(r.incidents||[]).filter(i=>i.category);
-      const incStr=incs.map(i=>`${i.category} at ${i.location||'?'} [${i.severity}${i.recurring==='Yes'?' recurring':''}]`).join(' | ')||'None';
-      return [r.date,r.site,r.staff_name,r.units_occupied||'',r.check_ins||'',r.check_outs||'',r.areas_covered||'',r.activities_completed||'',r.positive_observations||'',incs.length,incStr,r.seven_day_risk||'',r.handover_notes||'',r.welfare_concern||'',r.manager_response||'',r.reviewed?'Yes':'No',noOpsSet.has(`${r.site}_${r.date}`)?'Yes':'No'].map(v=>'"'+String(v).replace(/"/g,'""')+'"');
-    });
-    const csv=[headers.join(','),...rows.map(r=>r.join(','))].join('\n');
-    const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=`surgo-ops-${start}-to-${end}.csv`; a.click();
-    URL.revokeObjectURL(url);
+      const text=(data.text||'').trim();
+      const generatedAt=new Date().toISOString();
+      const key=getNarrativeKey(site);
+      const narrativeObj={site,range:currentRange,start,end,text,generated_at:generatedAt};
+      allNarratives[key]=narrativeObj;
+      await window.__saveNarrative(key,narrativeObj);
+      box.className='narrative-box';box.textContent=text;
+      footer.innerHTML='<div class="gen-stamp">\u23f1 Generated '+fmtTime(generatedAt)+'</div><button class="regen-btn" onclick="generateNarrative(\''+site+'\')">&#8635; Regenerate</button>';
+    }catch(e){box.className='narrative-box empty';box.innerHTML='<span style="color:#bbb;font-size:12px">Failed to generate. Try again.</span><button class="gen-btn" onclick="generateNarrative(\''+site+'\')">Generate summary</button>';}
   };
-
-  window.downloadBackup=async function(){
-    const btn=document.getElementById('backupBtn');
-    const status=document.getElementById('backupStatus');
-    btn.textContent='Preparing...'; btn.disabled=true;
-    try {
-      const backup={
-        exported_at: new Date().toISOString(),
-        version: '1.0',
-        reports: allReports,
-        no_ops: allNoOps
-      };
-      const json=JSON.stringify(backup,null,2);
-      const blob=new Blob([json],{type:'application/json'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      const dateStr=new Date().toISOString().split('T')[0];
-      a.href=url; a.download=`surgo-ops-backup-${dateStr}.json`; a.click();
-      URL.revokeObjectURL(url);
-      status.textContent=`✓ Backup downloaded — ${allReports.length} reports, ${allNoOps.length} no-ops records`;
-      status.style.color='#166534';
-    } catch(e){
-      status.textContent='Backup failed. Try again.';
-      status.style.color='#991b1b';
-    }
-    btn.textContent='↓ Download full backup (JSON)'; btn.disabled=false;
-  };
-
-  window.restoreBackup=async function(input){
-    const status=document.getElementById('backupStatus');
-    const file=input.files[0];
-    if(!file) return;
-    const reader=new FileReader();
-    reader.onload=async function(e){
-      try {
-        const backup=JSON.parse(e.target.result);
-        if(!backup.reports||!Array.isArray(backup.reports)){
-          status.textContent='Invalid backup file.'; status.style.color='#991b1b'; return;
-        }
-        const reportCount=backup.reports.length;
-        const noOpsCount=(backup.no_ops||[]).length;
-        if(!confirm(`Restore ${reportCount} reports and ${noOpsCount} no-ops records into this Firebase project?\n\nThis will overwrite any existing documents with the same IDs.`)) return;
-        status.textContent='Restoring...'; status.style.color='#92400e';
-        await window.__restoreData(backup);
-        status.textContent=`✓ Restored ${reportCount} reports and ${noOpsCount} no-ops records successfully`;
-        status.style.color='#166534';
-        window.__loadData();
-      } catch(err){
-        status.textContent='Restore failed — check file format.';
-        status.style.color='#991b1b';
-        console.error(err);
-      }
-    };
-    reader.readAsText(file);
-    input.value='';
-  };
-
-  window.initAnalytics=function(reports,noOps){
-    allReports=reports; allNoOps=noOps;
-    renderAll();
-    generateAllNarratives();
-  };
+  window.exportCSV=function(){const{start,end}=getDateRange(currentRange);const reports=filterReports(start,end);if(reports.length===0){alert('No data for this period.');return;}const headers=['Date','Site','Staff','Units Occupied','Check-ins','Check-outs','Areas Covered','Activities','Positive Observations','Incident Count','Incidents','7-day Risk','Handover Notes','Welfare Concern','Manager Response','Reviewed'];const rows=reports.map(r=>{const incs=(r.incidents||[]).filter(i=>i.category);const incStr=incs.map(i=>i.category+' at '+(i.location||'?')+' ['+i.severity+(i.recurring==='Yes'?' recurring':'')+']').join(' | ')||'None';return[r.date,r.site,r.staff_name,r.units_occupied||'',r.check_ins||'',r.check_outs||'',r.areas_covered||'',r.activities_completed||'',r.positive_observations||'',incs.length,incStr,r.seven_day_risk||'',r.handover_notes||'',r.welfare_concern||'',r.manager_response||'',r.reviewed?'Yes':'No'].map(v=>'"'+String(v).replace(/"/g,'""')+'"');});const csv=[headers.join(','),...rows.map(r=>r.join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='surgo-ops-'+start+'-to-'+end+'.csv';a.click();URL.revokeObjectURL(url);};
+  window.downloadBackup=async function(){const btn=document.getElementById('backupBtn');const status=document.getElementById('backupStatus');btn.textContent='Preparing...';btn.disabled=true;try{const backup={exported_at:new Date().toISOString(),version:'1.0',reports:allReports,no_ops:allNoOps};const json=JSON.stringify(backup,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='surgo-ops-backup-'+localDateStr(new Date())+'.json';a.click();URL.revokeObjectURL(url);status.textContent='\u2713 Backup downloaded \u2014 '+allReports.length+' reports, '+allNoOps.length+' no-ops records';status.style.color='#166534';}catch(e){status.textContent='Backup failed. Try again.';status.style.color='#991b1b';}btn.textContent='\u2193 Download full backup (JSON)';btn.disabled=false;};
+  window.restoreBackup=async function(input){const status=document.getElementById('backupStatus');const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=async function(e){try{const backup=JSON.parse(e.target.result);if(!backup.reports||!Array.isArray(backup.reports)){status.textContent='Invalid backup file.';status.style.color='#991b1b';return;}const rc=backup.reports.length,nc=(backup.no_ops||[]).length;if(!confirm('Restore '+rc+' reports and '+nc+' no-ops records into this Firebase project?\n\nThis will overwrite any existing documents with the same IDs.'))return;status.textContent='Restoring...';status.style.color='#92400e';await window.__restoreData(backup);status.textContent='\u2713 Restored '+rc+' reports and '+nc+' no-ops records successfully';status.style.color='#166534';window.__loadData();}catch(err){status.textContent='Restore failed \u2014 check file format.';status.style.color='#991b1b';}};reader.readAsText(file);input.value='';};
+  window.initAnalytics=function(reports,noOps,narratives){allReports=reports;allNoOps=noOps;allNarratives=narratives||{};renderAll();renderNarratives();};
 </script>
-
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-  const firebaseConfig={
-    apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",
-    authDomain:"surgo-ops.firebaseapp.com",
-    projectId:"surgo-ops",
-    storageBucket:"surgo-ops.firebasestorage.app",
-    messagingSenderId:"351122263344",
-    appId:"1:351122263344:web:0354a5f0f31db078788cf5"
-  };
-  const app=initializeApp(firebaseConfig);
-  const db=getFirestore(app);
-
-  import { doc, setDoc as fsSetDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-  window.__restoreData=async function(backup){
-    const reports=backup.reports||[];
-    const noOps=backup.no_ops||[];
-    const batchSize=10;
-    for(let i=0;i<reports.length;i+=batchSize){
-      await Promise.all(reports.slice(i,i+batchSize).map(r=>{
-        const {id,...data}=r;
-        return fsSetDoc(doc(db,'reports',id),data);
-      }));
-    }
-    for(let i=0;i<noOps.length;i+=batchSize){
-      await Promise.all(noOps.slice(i,i+batchSize).map(n=>{
-        const {id,...data}=n;
-        return fsSetDoc(doc(db,'no_ops',id),data);
-      }));
-    }
-  };
-
-  window.__loadData=async function(){
-    try {
-      const [reportsSnap,noOpsSnap]=await Promise.all([
-        getDocs(collection(db,'reports')),
-        getDocs(collection(db,'no_ops'))
-      ]);
-      const reports=[]; reportsSnap.forEach(d=>reports.push({id:d.id,...d.data()}));
-      const noOps=[]; noOpsSnap.forEach(d=>noOps.push({id:d.id,...d.data()}));
-      window.initAnalytics(reports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at)),noOps);
-    } catch(e){ console.error('Failed to load:',e); }
-  };
+  import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import{getFirestore,collection,getDocs,doc,setDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  const fc={apiKey:"AIzaSyCDjASMVrP6u4djHzefTFkrmlYsx13AaVE",authDomain:"surgo-ops.firebaseapp.com",projectId:"surgo-ops",storageBucket:"surgo-ops.firebasestorage.app",messagingSenderId:"351122263344",appId:"1:351122263344:web:0354a5f0f31db078788cf5"};
+  const app=initializeApp(fc),db=getFirestore(app);
+  window.__saveNarrative=async function(key,narrative){await setDoc(doc(db,'narratives',key),narrative);};
+  window.__restoreData=async function(backup){const reports=backup.reports||[];const noOps=backup.no_ops||[];const bs=10;for(let i=0;i<reports.length;i+=bs){await Promise.all(reports.slice(i,i+bs).map(r=>{const{id,...data}=r;return setDoc(doc(db,'reports',id),data);}));}for(let i=0;i<noOps.length;i+=bs){await Promise.all(noOps.slice(i,i+bs).map(n=>{const{id,...data}=n;return setDoc(doc(db,'no_ops',id),data);}));}};
+  window.__loadData=async function(){try{const[reportsSnap,noOpsSnap,narrativesSnap]=await Promise.all([getDocs(collection(db,'reports')),getDocs(collection(db,'no_ops')),getDocs(collection(db,'narratives'))]);const reports=[];reportsSnap.forEach(d=>reports.push({id:d.id,...d.data()}));const noOps=[];noOpsSnap.forEach(d=>noOps.push({id:d.id,...d.data()}));const narratives={};narrativesSnap.forEach(d=>{narratives[d.id]=d.data();});window.initAnalytics(reports.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at)),noOps,narratives);}catch(e){console.error('Failed to load:',e);}};
 </script>
 </body>
 </html>
